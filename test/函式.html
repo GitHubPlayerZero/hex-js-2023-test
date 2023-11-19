@@ -1,0 +1,121 @@
+<!-- CodePen：https://codepen.io/codepenplayer/pen/yLGdXvw -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>函式</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+	
+	<h1>函式</h1>
+	
+	
+	<script>
+		
+		/*
+		函式陳述式：
+		1. 寫在最外層去定義函式。
+		2. function 作為宣告使用，必須有一個名字。
+		3. 為具名函式（具名函式不一定是函式陳述式，但函式陳述式一定是具名函式）。
+		*/
+		console.log("********** 函式陳述式 **********");
+		
+		function testStatement() {
+			console.log("我是函式陳述式");
+		}
+		console.log(testStatement);
+		testStatement();
+		
+		console.log("");
+		console.log("");
+		
+		
+		/*
+		函式表達式：
+		function 在這邊的意義不是「宣告」，而是「建立一個函式」。
+		*/
+		console.log("********** 函式表達式 **********");
+		
+		console.log("====== 匿名函式 ======");
+		const exp1 = function() {console.log("我是匿名函式 exp1")};
+		console.log(exp1);
+		exp1();
+		
+		console.log("");
+		
+		console.log("====== 具名函式 ======");
+		const exp2 = function testExp2() {console.log("我是具名函式 exp2")};
+		console.log(exp2);
+		exp2();
+		
+		console.log("");
+		
+		console.log("====== 箭頭函式 ======");
+		const exp3 = () => {console.log("我是箭頭函式 exp3")};
+		console.log(exp3);
+		exp3();
+		
+		console.log("");
+		
+		
+		console.log("====== 立即執行函式 ======");
+		
+		console.log("---- 立即執行函式 (匿名) ----");
+		(function () {
+			console.log("我是匿名的立即執行函式");
+		})();
+		
+		console.log("");
+		
+		console.log("---- 立即執行函式 (具名) ----");
+		(function exe1() {
+			console.log("我是具名的立即執行函式 exe1");
+		})();
+		
+		console.log("");
+		
+		console.log("---- 立即執行函式 (回傳值) ----");
+		let result = (function () {
+			console.log("我是會回傳值的立即執行函式");
+			return "我回傳了 aaa";
+		})();
+		console.log(result);
+		
+		console.log("");
+		
+		console.log("---- 立即執行函式 (箭頭函式) ----");
+		(() => {
+			console.log("我是立即執行的箭頭函式");
+		})();
+		
+		console.log("");
+		
+		console.log("---- 立即執行函式 (箭頭函式) (回傳值) ----");
+		result = (() => {
+			console.log("我是會回傳值的立即執行的箭頭函式");
+			return "我回傳了 bbb";
+		})();
+		console.log(result);
+		
+		console.log("");
+		
+		
+		console.log("====== 閉包（高階函式） ======");
+		function getClosureFn(params) {
+			return function() {
+				console.log('我是閉包');
+			}
+		}
+		const closureFn = getClosureFn();
+		closureFn();
+		
+		console.log("");
+		console.log("");
+		
+	</script>
+	
+</body>
+</html>

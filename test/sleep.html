@@ -1,0 +1,54 @@
+<!-- CodePen：https://codepen.io/codepenplayer/pen/ExrXXmm -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>sleep</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+
+	<h1>sleep</h1>
+	
+	<form action="javascript:testSleep();" class="form">
+		停止秒數：<input type="number" value="4" id="sec" required>
+		<input type="submit" class="button" value="測試">
+	</form>
+	
+	
+
+	<script>
+		
+		function testSleep() {
+			console.clear();
+			const sec = document.querySelector("#sec").value;
+			sleep(sec);
+			console.log(`測試結束`);
+		}
+		
+		function sleep(waitSec)
+		{
+			waitSec = Math.abs(waitSec);
+			console.log(`等待 ${waitSec} 秒`);
+			
+			const waitMillisec = waitSec * 1000;
+			
+			let start = new Date().getTime();
+			console.log(`start...... ${new Date()}`);
+
+			while (new Date().getTime() - start <= waitMillisec) {
+				;
+			}
+
+			console.log(`end...... ${new Date()}`);
+		}
+		
+	</script>
+	
+</body>
+
+</html>

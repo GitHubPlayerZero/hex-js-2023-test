@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+
+	<h1>Basic Mathematical Operations (8kyu)</h1>
+	<p><a href="https://www.codewars.com/kata/57356c55867b9b7a60000bd7" target="_blank">題目</a></p>
+
+	<p>
+		Your task is to create a function that does four basic mathematical operations.<br>
+		The function should take three arguments - operation(string/char), value1(number), value2(number).<br>
+		The function should return result of numbers after applying the chosen operation.
+	</p>
+	
+	<p class="white-space-pre-line mb-7">
+		Examples(Operator, value1, value2) --> output
+		('+', 4, 7) --> 11
+		('-', 15, 18) --> -3
+		('*', 5, 5) --> 25
+		('/', 49, 7) --> 7
+	</p>
+	
+	<p class="mb-7">
+		<span class="highlight">注意！在實務上不建議使用 eval() 寫法，易產生資安弱點。</span><br>
+		請參考 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/eval" target="_blank">MDN</a> 說明（永远不要使用 eval！）
+	</p>
+
+	<input type="button" value="測試" onclick="test();">
+
+	
+	<script>
+		
+		// IF 寫法
+		/* function basicOp(operation, value1, value2)
+		{
+			if (operation === '+') {
+				return value1 + value2;
+			}
+			else if (operation === '-') {
+				return value1 - value2;
+			}
+			else if (operation === '*') {
+				return value1 * value2;
+			}
+			else if (operation === '/') {
+				return value1 / value2;
+			}
+			
+			return NaN;
+		} */
+		
+		
+		// Switch 寫法
+		/* function basicOp(operation, value1, value2)
+		{
+			switch (operation) {
+				case '+':
+					return value1 + value2;
+				case '-':
+					return value1 - value2;
+				case '*':
+					return value1 * value2;
+				case '/':
+					return value1 / value2;
+				default:
+					return NaN;
+			}
+		} */
+		
+		
+		// eval 寫法
+		// 注意！在實務上不建議使用 eval()，易產生資安弱點。
+		// 若碰到非運算子測試會拋錯：Uncaught SyntaxError: Invalid or unexpected token
+		/* function basicOp(operation, value1, value2) {
+			return eval(value1 + operation + value2);
+		} */
+		
+		
+		// 物件寫法
+		// 有人反應：it is a good sulution but the computer do the 4 operations and you only use one result so it will use more memory and more operation so it is best to use switch case.
+		// 有人反應：If you used a method ('+': (a, b) => a + b), instead of directly computing it ('+': value1 + value2) It would've saved 3 useless computations.
+		/* function basicOp(operation, value1, value2)
+		{
+			const cases = {
+				'+': value1 + value2,
+				'-': value1 - value2,
+				'*': value1 * value2,
+				'/': value1 / value2,
+			};
+			
+			// 若碰到預期外的運算子測試，沒有 match 時一律回傳 undefined
+			return cases[operation];
+		} */
+		
+		// 物件寫法 v2
+		// 避免預先算好佔用不必要的空間 (但我懷疑難道 function 不佔空間？)
+		/* function basicOp(operation, value1, value2)
+		{
+			const cases = {
+				'+': (value1, value2) => value1 + value2,
+				'-': (value1, value2) => value1 - value2,
+				'*': (value1, value2) => value1 * value2,
+				'/': (value1, value2) => value1 / value2,
+			};
+			
+			// 遇到預期外的運算子會拋錯 (因為沒有 function 可以執行)：Uncaught TypeError: cases[operation] is not a function
+			// return cases[operation](value1, value2);
+			
+			const fn = cases[operation];
+			if (fn) {
+				return fn(value1, value2);
+			} else {
+				return NaN;
+			}
+		} */
+		
+		
+		// 三元表達示寫法
+		function basicOp(operation, value1, value2) {
+			return operation === '+' ? value1 + value2 : 
+				operation === '-' ? value1 - value2 : 
+				operation === '*' ? value1 * value2 : 
+				operation === '/' ? value1 / value2 : 
+				NaN;
+		}
+		
+		
+		function test()
+		{
+			let testCases = [
+				`basicOp('+', 4, 7)`,
+				`basicOp('-', 15, 18)`,
+				`basicOp('*', 5, 5)`,
+				`basicOp('/', 49, 7)`,
+				`basicOp('x', 49, 7)`,
+			];
+			
+			testCases.forEach(function (item) {
+				console.log(`${item} ==> ${eval(item)}`);
+			});
+		}
+		
+	</script>
+	
+</body>
+
+</html>

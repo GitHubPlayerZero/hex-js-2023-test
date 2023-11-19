@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<h1>核心篇第一堂：變數的宣告與提升</h1>
+	
+	
+	<script>
+		
+		/* // var a = '小明';
+		
+		// function fn() {
+		// 	var b = '杰倫';
+		// 	console.log(a, b);
+		// 	debugger;
+			
+		// 	function fn2() {
+		// 		console.log(a, b);
+		// 		debugger;
+		// 	}
+			
+		// 	fn2();
+		// }
+		
+		// fn();
+		
+		
+		// function fn1() {
+		// 	b = '杰倫';
+		// }
+		
+		// function fn2() {
+		// 	var c = '小王';
+		// 	console.log(`b = ${b}`);
+		// }
+		
+		// fn1();
+		// fn2();
+		
+		// console.log(`window.a = ${window.a}`);
+		// console.log(`window.b = ${window.b}`);
+		// delete window.a;
+		// delete window.b;
+		// console.log(`window.a = ${window.a}`);
+		// console.log(`window.b = ${window.b}`);
+		
+		
+		let a1 = '小明';
+		var a2 = '小天';
+		const a3 = "阿華";
+		a4 = "小倩";
+		
+		function fn() {
+			let b = '杰倫';
+			let a1 = 'aaa';
+			console.log(`fn a1 = ${a1}`);
+			var a2 = "bbb";
+			console.log(`fn a2 = ${a2}`);
+			// debugger;
+			a4 = "ccc";
+			a5 = "ddd";
+			// debugger;
+		}
+		
+		console.log(`a1 #1 = ${a1}`);
+		console.log(`a2 #1 = ${a2}`);
+		console.log(`a4 #1 = ${a4}`);
+		fn();
+		console.log(`a1 #2 = ${a1}`);
+		console.log(`a2 #2 = ${a2}`);
+		console.log(`a4 #2 = ${a4}`);
+		console.log(`a5 #2 = ${a5}`);
+		
+		
+		// block 寫法
+		{
+			let c1 = "比爾";
+			const c2 = "卡登";
+			var c3 = "皮卡丘";
+			console.log(`block c1 = ${c1}`);
+			console.log(`block c2 = ${c2}`);
+			console.log(`block c3 = ${c3}`);
+			// debugger;
+		}
+		// console.log(`c1 = ${c1}`);	// is not defined
+		// console.log(`c2 = ${c2}`);	// is not defined
+		console.log(`c3 = ${c3}`);
+		
+		// delete window.a2;
+		// delete window.a4;	// 為屬性被刪除
+		// delete window.a5;	// 為屬性被刪除
+		// delete window.c3;
+		
+		// var 不受 block 限制，滲透到全域 window，變成了全域變數，所以最後都只會顯示 10。
+		for (var index = 0; index < 10; index++) {
+			setTimeout(function() {
+				console.log(`index = ${index}`);
+			}, 10);
+		}
+		console.log(`window.index = ${window.index}`);
+		
+		for (let index2 = 0; index2 < 10; index2++) {
+			setTimeout(function() {
+				console.log(`index2 = ${index2}`);
+			}, 10);
+		}
+		
+		// delete window.index;
+		// console.log(`window.index = ${window.index}`); */
+		
+		/* var myName = '小明';
+		
+		function fn1() {
+			console.log(`fn1 myName = ${myName}`);
+			// console.log(`fn1 myName2 = ${myName2}`);	// Uncaught ReferenceError: myName2 is not defined
+		}
+		
+		function fn2() {
+			var myName = '杰倫';
+			var myName2 = '杰倫2';
+			fn1();
+			console.log(`fn2 myName = ${myName}`);
+		}
+		
+		fn2(); */
+		
+		
+		/* // eat();	//Cannot access 'eat' before initialization
+		const eat = () => {
+			console.log("吃飯");
+		}
+		eat();
+		
+		console.log(`${sleep()}`);
+		function sleep() {
+			return "sleep";
+		} */
+		
+		
+		/* console.log(b);
+		var b = 2;
+		console.log(b);
+		
+		// 1. 創造階段 (建立記憶體空間)
+		var b;	// undefined
+		
+		// 2. 執行階段
+		console.log(b);	// undefined
+		b = 2;
+		console.log(b);	// 2 */
+		
+		
+		/* console.log(a);	// 顯示 function
+		var a = 1;
+		function a() {
+			console.log(`123`);
+		}
+		console.log(a);	// 顯示 1 */
+		
+		
+		/* // console.log(fn1);
+		// const fn1 = () => {console.log("fn1");};
+		console.log(a);
+		const a = 1; */
+		
+		
+	</script>
+	
+</body>
+</html>

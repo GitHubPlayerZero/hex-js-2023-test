@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Validate.js</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+	
+	<h1>Validate.js</h1>
+	
+	
+	<script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.13.1/validate.min.js"></script>
+	
+	<script>
+		
+		// const rule = {
+		// 	// 欄位名稱: {規則們}
+		// 	column1: {
+		// 		presence: true,
+		// 		length: {
+		// 			minimum: 3,
+		// 		},
+		// 	}
+		// };
+		
+		// console.log(validate({column1: "abc"}, rule));
+		
+		const constraints = {
+			username: {
+				presence: true,
+				exclusion: {
+					within: ["nicklas"],
+					message: "'%{value}' is not allowed"
+				}
+			},
+			password: {
+				presence: true,
+				length: {
+					minimum: 6,
+					message: "must be at least 6 characters"
+				}
+			}
+		};
+		
+		const data = {
+			// username: "nicklas",
+			password: "123",
+		};
+		
+		console.log(validate(data, constraints));
+		
+	</script>
+	
+</body>
+</html>

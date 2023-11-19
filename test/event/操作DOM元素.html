@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>操作DOM元素</title>
+	<link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+
+	<h1>操作DOM元素</h1>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="增加元素在最後" onclick="addElmtLast();">
+		<input type="button" value="增加元素在最前" onclick="addElmtFirst();">
+		<input type="button" value="增加元素在 p1 之後" onclick="addElmtAfterP1();">
+		<input type="button" value="刪除 p2" onclick="removeP2();">
+		<input type="button" value="複製元素" onclick="copyElmt();">
+		<input type="button" value="append()" onclick="testAppend();">
+	</div>
+	
+	<div class="box">
+		<p id="p1">我是 p1</p>
+		<p id="p2">我是 p2</p>
+		<p id="p3">我是 p3</p>
+	</div>
+	
+
+	<script src="./操作DOM元素.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+<!-- CodePen：https://codepen.io/codepenplayer/pen/wvNvvro -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>字串</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+	
+	<h1>字串</h1>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="計算字串長度" onclick="countLength();">
+		<input type="button" value="查找字串 (indexOf、lastIndexOf、search)" onclick="findIndex();">
+		<input type="button" value="截取單一字元 (charAt)" onclick="testCharAt();">
+		<input type="button" value="截取字串 (slice、substring、substr)" onclick="testSlice();">
+		<input type="button" value="替換字串" onclick="testReplace();">
+		<input type="button" value="轉換大小寫" onclick="convertCase();">
+		<input type="button" value="concat (串接)" onclick="testConcat();">
+		<input type="button" value="trim (去除兩端空白)" onclick="testTrim();">
+		<input type="button" value="split (切割)" onclick="testSplit();">
+	</div>
+	
+	
+	<script>
+		
+		function testSplit()
+		{
+			console.clear();
+			
+			const str = "a,b,c d,e,f--g,h,i";
+			console.log(str);
+			
+			console.log("");
+			
+			console.log(`str.split() ==>`, str.split());
+			// ['a,b,c d,e,f--g,h,i']
+			
+			console.log(`str.split("") ==>`, str.split(""));
+			// (18) ['a', ',', 'b', ',', 'c', ' ', 'd', ',', 'e', ',', 'f', '-', '-', 'g', ',', 'h', ',', 'i']
+			
+			console.log(`str.split(" ") ==>`, str.split(" "));
+			// (2) ['a,b,c', 'd,e,f--g,h,i']
+			
+			console.log(`str.split(",") ==>`, str.split(","));
+			// (7) ['a', 'b', 'c d', 'e', 'f--g', 'h', 'i']
+			
+			console.log(`str.split("--") ==>`, str.split("--"));
+			// (2) ['a,b,c d,e,f', 'g,h,i']
+			
+			console.log("");
+			
+			
+			// 特殊字
+			const str2 = "一𠮷 𠮾";
+			console.log(str2.split());	// ['一𠮷 𠮾']
+			console.log(str2.split(" "));	// (2) ['一𠮷', '𠮾']
+			
+			// 若按每個字都切開，特殊字會變成 unicode
+			console.log(str2.split(""));
+			// (6) ['一', '\uD842', '\uDFB7', ' ', '\uD842', '\uDFBE']
+		}
+		
+		
+		function testTrim()
+		{
+			console.clear();
+			
+			const str = "       Hello World!        ";
+			console.log(`字串 = '${str}'`);
+			console.log(`trim() ==> '${str.trim()}'`);	// 'Hello World!'
+		}
+		
+		
+		// MDN：對於字串的串接，強烈建議直接使用運算子來達成， 像是 + 及 +=，而不是使用 concat() 方法。
+		function testConcat()
+		{
+			console.clear();
+			
+			const str1 = "Hello";
+			const str2 = "World";
+			const str3 = "!!";
+			console.log(str1.concat(" ", str2, str3));	// Hello World!!
+		}
+		
+		
+		// 轉換大小寫
+		function convertCase()
+		{
+			console.clear();
+			
+			const str = "Hello World!";
+			console.log(str);
+			console.log("");
+			
+			console.log(`str.toUpperCase() ==>`, str.toUpperCase());	// HELLO WORLD!
+			console.log(`str.toLowerCase() ==>`, str.toLowerCase());	// hello world!
+		}
+		
+		
+		// 替換字串
+		function testReplace()
+		{
+			console.clear();
+			
+			const str = "Please visit Microsoft and Microsoft!";
+			console.log(str);
+			console.log("");
+			
+			// 只會替換首個匹配
+			console.log(`str.replace("Microsoft", "Google") ==>`, str.replace("Microsoft", "Google"));
+			// Please visit Google and Microsoft!
+			
+			// 使用正則全局匹配
+			console.log(`str.replace(/Microsoft/g, "Google") ==>`, str.replace(/Microsoft/g, "Google"));
+			// Please visit Google and Google!
+			
+			// 替換所有匹配
+			console.log(`str.replaceAll("Microsoft", "Google") ==>`, str.replaceAll("Microsoft", "Google"));
+			// Please visit Google and Google!
+			
+			console.log("");
+			
+			// 大小寫敏感
+			console.log(`str.replace("microsoft", "Google") ==>`, str.replace("microsoft", "Google"));
+			// Please visit Microsoft and Microsoft!
+			
+			console.log(`str.replaceAll("microsoft", "Google") ==>`, str.replaceAll("microsoft", "Google"));
+			// Please visit Microsoft and Microsoft!
+			
+			console.log("");
+			
+			// 使用正則使大小寫不敏感
+			console.log(`str.replace(/microsoft/i, "Google") ==> `, str.replace(/microsoft/i, "Google"));
+			// Please visit Google and Microsoft!
+			
+			// replaceAll 使用正則時必須設置全局標誌 (g)
+			console.log(`str.replaceAll(/microsoft/ig, "Google") ==> `, str.replaceAll(/microsoft/ig, "Google"));
+			
+			console.log("");
+			
+			// 特殊字可以正常替換
+			console.log(`"一𠮷𠮾".replace("𠮷", "𠮾哈") ==>`, "一𠮷𠮾".replace("𠮷", "𠮾哈"));
+			console.log(`"一𠮷𠮾".replace("𠮾", "哈𠮷") ==>`, "一𠮷𠮾".replace("𠮾", "哈𠮷"));
+			console.log(`"一𠮷𠮾𠮷".replaceAll("𠮷", "AA") ==>`, "一𠮷𠮾𠮷".replaceAll("𠮷", "AA"));
+		}
+		
+		
+		// 截取單一字元
+		function testCharAt()
+		{
+			console.clear();
+			
+			const str = "Hello world!";
+			console.log(str);
+			console.log(`str.charAt(0) ==>`, str.charAt(0));
+			console.log(`str.charAt(1) ==>`, str.charAt(1));
+			console.log(`str.charAt(-1) ==>`, str.charAt(-1));
+			console.log(`str.charAt(2) ==>`, str.charAt(2));
+			console.log(`str.charAt(100) ==>`, str.charAt(100));
+			
+			console.log("");
+			
+			// 注意：index 會受到特殊字影响
+			const str2 = "一𠮷𠮾";
+			console.log(str2);
+			console.log(`str2.charAt(0) ==>`, str2.charAt(0));
+			console.log(`str2.charAt(1) ==>`, str2.charAt(1));
+			console.log(`str2.charAt(2) ==>`, str2.charAt(2));
+		}
+		
+		
+		// 截取字串
+		function testSlice()
+		{
+			console.clear();
+			
+			const str = "Apple, Banana, Mango";
+			console.log(str);
+			console.log("");
+			
+			// 從中間截取 Banana
+			console.log(`str.slice(7, 13) ==>`, str.slice(7, 13));	// 截取的字串包含 startIndex，不包含 endIndex。
+			console.log(`str.substring(7, 13) ==>`, str.substring(7, 13));	// 截取的字串包含 startIndex，不包含 endIndex。
+			console.log(`str.substr(7, 6) ==>`, str.substr(7, 6));	// 截取的字串包含 startIndex，截取長度為 6 個。
+			
+			console.log("");
+			
+			// 從後面截取 Banana
+			// 若為負數則從後面開始算，index 由 -1 開始。
+			console.log(`str.slice(-13, -7) ==>`, str.slice(-13, -7));
+			console.log(`str.substr(-13, 6) ==>`, str.substr(-13, 6));
+			
+			console.log("");
+			
+			// 截取剩餘字串
+			// 由 startIndex 開始到最後
+			console.log(`str.slice(-1) ==>`, str.slice(-1));	// Mango
+			console.log(`str.substr(-5) ==>`, str.substr(-5));	// Mango
+			console.log(`str.slice(7) ==>`, str.slice(7));	// Banana, Mango
+			console.log(`str.substring(7) ==>`, str.substring(7));	// Banana, Mango
+			console.log(`str.substr(7) ==>`, str.substr(7));	// Banana, Mango
+			
+			console.log("");
+			
+			// 注意：index 會受到特殊字影响
+			console.log(`"一𠮷𠮾".substring(1,2) ==>`, "一𠮷𠮾".substring(1,2));
+			console.log(`"一𠮷𠮾".substring(1,3) ==>`, "一𠮷𠮾".substring(1,3));
+			console.log(`"一𠮷𠮾".substr(-1) ==>`, "一𠮷𠮾".substr(-1));
+			console.log(`"一𠮷𠮾".substr(-2) ==>`, "一𠮷𠮾".substr(-2));
+		}
+		
+		
+		// 查找字串
+		function findIndex()
+		{
+			console.clear();
+			
+			// 查找字串 index
+			const str = "The full name of China is the People's Republic of China.";
+			console.log(str);
+			console.log("");
+			
+			// 找首次出現的 "China"
+			console.log(`str.indexOf("China") ==>`, str.indexOf("China"));	// 17
+			console.log(`str.search("China") ==>`, str.search("China"));	// 17
+			
+			console.log("");
+			
+			// 找首次出現的 "China"，並指定從某個 index 開始往後找
+			console.log(`str.indexOf("China", 17) ==>`, str.indexOf("China", 17));	// 17
+			console.log(`str.indexOf("China", 18) ==>`, str.indexOf("China", 18));	// 51
+			
+			console.log("");
+			
+			// 找最後出現的 "China"
+			console.log(`str.lastIndexOf("China") ==>`, str.lastIndexOf("China"));	// 51
+			
+			// 找最後出現的 "China"，並指定從某個 index 開始往前找
+			console.log(`str.lastIndexOf("China", 51) ==>`, str.lastIndexOf("China", 51));	// 51
+			console.log(`str.lastIndexOf("China", 50) ==>`, str.lastIndexOf("China", 50));	// 17
+			
+			console.log("");
+			
+			// 找不到字
+			console.log(`str.indexOf("USA") ==>`, str.indexOf("USA"));	// -1
+			console.log(`str.search("USA") ==>`, str.search("USA"));	// -1
+			
+			console.log("");
+			
+			// 注意：index 會受到特殊字影响
+			console.log(`"一𠮷𠮾".indexOf("𠮾") ==>`, "一𠮷𠮾".indexOf("𠮾"));	// 3
+			console.log(`"一𠮷𠮾".search("𠮾") ==>`, "一𠮷𠮾".search("𠮾"));	// 3
+		}
+		
+		
+		// 計算字串長度
+		function countLength()
+		{
+			console.clear();
+			
+			const str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			console.log(str, `==>`, str.length);
+			
+			// 如果是特殊字會佔兩個碼元，length 計算的是碼元，與我們想要的字元數會不同
+			const str2 = "𠮷一𠮾";
+			console.log(str2, '==>', str2.length);
+			
+			// 正確計算特殊字的字元數 - 轉成陣列
+			const str2Ary = Array.from(str2);
+			console.log(str2Ary, `==>`, str2Ary.length);
+			
+			// 正確計算特殊字的字元數 - 用 for 迴圈
+			let wordCount = 0;
+			for (let item of str2) {
+				wordCount ++;
+			}
+			console.log(`wordCount = ${wordCount}`);
+		}
+		
+	</script>
+	
+</body>
+</html>

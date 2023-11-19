@@ -1,0 +1,53 @@
+<!-- CodePen：https://codepen.io/codepenplayer/pen/oNmLyER -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Event 偵測滑鼠</title>
+	<link rel="stylesheet" href="../../css/common.css">
+	
+	<style>
+		
+		.mouseoever-area {
+			border: 3px dashed blue;
+			width: 300px;
+			height: 300px;
+			padding: 15px;
+			cursor: pointer;
+			background: rgb(220, 191, 128);
+		}
+		
+		.mouseoever-area:hover {
+			opacity: 0.5;
+		}
+		
+	</style>
+	
+</head>
+
+<body>
+
+	<h1>Event 偵測滑鼠</h1>
+
+	<input type="button" value="沒有綁觸發" style="margin-right: 15px;">
+	<input type="button" value="單擊滑鼠左鍵觸發" id="btnClick" style="margin-right: 15px;">
+	<input type="button" value="雙擊滑鼠左鍵觸發" id="btnDoubleClick">
+	
+	<br><br><br>
+	
+	<div class="d-flex justify-center">
+		<div class="mouseoever-area">滑鼠經過會觸發 mouse oever</div>
+	
+		<ul>
+			<li>X：<span id="coordinateX"></span></li>
+			<li>Y：<span id="coordinateY"></span></li>
+		</ul>
+	</div>
+	
+	<script src="./event_偵測滑鼠.js"></script>
+</body>
+
+</html>

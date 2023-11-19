@@ -1,0 +1,50 @@
+<!-- CodePen：https://codepen.io/codepenplayer/pen/NWorKxR -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>效能測試</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+
+	<h1>效能測試</h1>
+	
+	<input type="button" value="開始" onclick="test();">
+	
+	<hr>
+	<div id="test"></div>
+
+
+	<script>
+		
+		const genTestHtml = num => `<p>test ${num}</p>`;
+		
+		function test()
+		{
+			console.clear();
+
+			const elmtTestDiv = document.querySelector("#test");
+			elmtTestDiv.innerHTML = "";
+
+			let str = "";
+
+			for (let i = 1; i <= 30000; i++) {
+				console.log(i);
+				str += `<p>test ${i}</p>`;	// 呼叫 function 和直接寫效能感覺差不多
+				// str += genTestHtml(i);
+				
+				// elmtTestDiv.innerHTML = str; // 每一次都渲染效能會很差 (大概 3000 就 GG)
+			}
+			elmtTestDiv.innerHTML = str;	// 應將字串組好後再渲染，才不會拖垮效能。
+		}
+
+	</script>
+
+</body>
+
+</html>

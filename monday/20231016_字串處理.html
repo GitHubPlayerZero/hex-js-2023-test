@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>週一刷題 - 字串處理</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+	<h1>字串處理</h1>
+	<p><a href="https://hackmd.io/dXjTVTrtRJST2wVif7Sc1A" target="_blank">題目</a></p>
+
+	<div class="flex-btn-group">
+		<input type="button" value="題目一：字串取長度" onclick="test1();">
+		<input type="button" value="題目二：字串大小寫互換" onclick="test2();">
+		<input type="button" value="題目三：字串去左右空白" onclick="test3();">
+		<input type="button" value="題目四：字串去任何空白" onclick="test4();">
+		<input type="button" value="題目五：字串陣列互換" onclick="test5();">
+		<input type="button" value="題目六：字串切割" onclick="test6();">
+		<input type="button" value="題目七：字串黏合" onclick="test7();">
+		<input type="button" value="題目八：顯示字串" onclick="test8();">
+		<input type="button" value="題目九：擷取字串內容" onclick="test9();">
+		<input type="button" value="題目十：反轉字串" onclick="test10();">
+	</div>
+
+
+	<script>
+		
+		// 題目一：字串取長度
+		/* function checkStringLength(str) {
+			return str.length;
+		} */
+		const checkStringLength = str => str.length;
+		
+		function test1() {
+			console.clear();
+			console.log(checkStringLength("Hello"));
+			console.log(checkStringLength("my name is Tom！"));
+		}
+		
+		
+		// 題目二：字串大小寫互換
+		/* function lowerCase(str) {
+			return str.toLowerCase();
+		} */
+		const lowerCase = str => str.toLowerCase();
+		
+		/* function upperCase(str) {
+			return str.toUpperCase();
+		} */
+		const upperCase = str => str.toUpperCase();
+		
+		function test2() {
+			console.clear();
+			console.log(lowerCase("FOKFF@gmail.com"));
+			console.log(upperCase("hello, world"));
+		}
+		
+		
+		// 題目三：字串去左右空白
+		/* function trimString(str) {
+			return str.trim();
+		} */
+		const trimString = str => str.trim();
+		
+		function test3() {
+			console.clear();
+			console.log(trimString("    hi, mom!  "));
+			console.log(trimString(" aa@gmail.com  "));
+		}
+		
+		
+		// 題目四：字串去任何空白
+		// const removeAllSpaceString = str => str.replace(/\s/g, "");	// 方式一
+		const removeAllSpaceString = str => str.replaceAll(" ", "");	// 方式二
+		
+		function test4() {
+			console.clear();
+			console.log(removeAllSpaceString("Hello World"));
+			console.log(removeAllSpaceString("你好     美麗的     世界"));
+		}
+		
+		
+		// 題目五：字串陣列互換
+		function stringArraySwitcher(val)
+		{
+			// MDN 說 Array.isArray() 能夠跨領域工作，因此優於 instanceof Array。
+			// if (val instanceof Array) {
+			if (Array.isArray(val)) {
+				return val.toString();
+			}
+			else {
+				return val.split(",").map(item => +item);
+			}
+		}
+		
+		function test5() {
+			console.clear();
+			console.log(stringArraySwitcher(['A', 'B', 'C']));
+			console.log(stringArraySwitcher('1,2,3'));
+		}
+		
+		
+		// 題目六：字串切割
+		function getArea(address)
+		{
+			const cityIndex = address.indexOf("市");
+			const areaIndex = address.indexOf("區");
+			return address.substring(cityIndex + 1, areaIndex + 1);
+		}
+		
+		function test6() {
+			console.clear();
+			console.log(getArea("高雄市前鎮區一心二路33號"));
+			console.log(getArea("高雄市新興區新興路66號"));
+		}
+		
+		
+		// 題目七：字串黏合
+		// 方式一
+		/* function concatString(...args) {
+			let str = "";
+			// args.forEach(item => str = str.concat(item));	// 基於效能考量，MDN 強烈建議使用運算子代替 concat
+			args.forEach(item => str += item);
+			return str;
+		} */
+		
+		// 方式二
+		let concatString = (...args) => args.join("");
+		
+		function test7() {
+			console.clear();
+			console.log(concatString("我今天想來點", "六角冰咖啡"));
+			console.log(concatString("我今天想來點", "六角冰咖啡", "和", "八腳銅鑼燒"));
+		}
+		
+		
+		// 題目八：顯示字串
+		function test8() {
+			console.clear();
+			console.log(`'字串'是 JavaScript 中一種基礎且重要的"型別"，必須好好學習。`);
+		}
+		
+		
+		// 題目九：擷取字串內容
+		function getCharacter(str, nth) {
+			// return (nth > str.length) ? false : str.substring(nth - 1, nth);	// 方式一
+			// return (nth > str.length) ? false : str.charAt(nth - 1);	// 方式二
+			// return (nth > str.length) ? false : str[nth - 1];	// 方式三
+			return str[nth - 1] || false;	// 方式四
+		}
+		
+		function test9() {
+			console.clear();
+			const input = "Hello"
+			console.log(getCharacter(input, 1));
+			console.log(getCharacter(input, 3));
+			console.log(getCharacter(input, 10));
+		}
+		
+		
+		// 題目十：反轉字串
+		function stringReverser(str)
+		{
+			// 方式一
+			// return str.split("").reverse().join("");
+			
+			// 方式二
+			let reverseStr = "";
+			for (let item of str) {
+				reverseStr = item + reverseStr;
+			}
+			return reverseStr;
+		}
+		
+		function test10() {
+			console.clear();
+			console.log(stringReverser("hello"));
+		}
+		
+	</script>
+	
+</body>
+
+</html>

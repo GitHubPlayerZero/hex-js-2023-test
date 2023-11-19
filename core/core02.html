@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	
+	<h1>核心篇第二堂：表達式、陳述式</h1>
+	
+	
+	<script>
+		
+		// 玩玩看 1
+		/* let myName = '大明';
+		
+		const person = {
+			myName: '小明',
+			fn() {
+				return this.myName;
+			}
+		};
+		
+		console.log(person.fn());
+		console.log((person.fn = person.fn)());
+		console.log((person.fn || person.fn)()); */
+		
+		
+		// 玩玩看 2
+		/* console.log(1 > 2 > 3);
+		console.log(3 < 2 < 1); */
+		
+		
+		// 表達式
+		/* console.log('aa' || 'bb');
+		console.log(a = 3);
+		
+		function fn() {}
+		console.log(fn());	// undefined
+		
+		if (fn()) {
+			console.log("YES!");
+		} else {
+			console.log("NO!");
+		}
+		
+		if (function test() {}) {
+			console.log("成立!");
+		}
+		else {
+			console.log("不成立!");
+		}
+		
+		if (() => 1+2) {
+			console.log("成立!");
+		}
+		else {
+			console.log("不成立!");
+		} */
+		
+		
+		// 函式陳述式
+		/* function test() {}
+		console.log(test); */
+		
+		// 函式表達式
+		/* const test = function() {}
+		console.log(test);
+		
+		const test2 = function fn2() {
+			console.log('具名函式');
+		}
+		console.log(test2);
+		test2(); */
+		
+		
+		// 立即函式
+		/* (function() {
+			console.log('我是立即執行的函式');
+		})();
+		
+		(function test1() {
+			console.log('我是立即執行的函式');
+			console.log(test1);
+		})(); */
+		
+		
+		// 箭頭函式
+		/* const test = () => {
+			console.log("我是箭頭函式");
+		}
+		test();
+		
+		(() => {
+			console.log("我是立即執行的箭頭函式");
+		})();
+		
+		let test2 = (() => {
+			return 'aaa';
+		})();
+		console.log(test2); */
+		
+		
+		// 閉包（高階函式）
+		/* function callFunction(params) {
+			return function() {
+				console.log('我是閉包');
+			}
+		}
+		
+		const call = callFunction();
+		call(); */
+		
+		
+		/* (function test1() {
+			console.log("aaa");
+		})();
+		
+		(function () {
+			console.log("bbb");
+		})();
+		
+		(() => {
+			console.log("ccc");
+		})();
+		
+		let result = (() => {
+			console.log("ddd");
+			return "eee";
+		})();
+		console.log(result);
+		
+		(function () {
+			console.log("fff");
+		})();
+		
+		result = (function () {
+			console.log("ggg");
+			return "hhh";
+		})();
+		console.log(result); */
+		
+		
+		/* let hungry = true;
+		
+		if (hungry) {
+			console.log("吃飯");
+		} else {
+			console.log("跑步");
+		}
+		
+		hungry? console.log("吃飯") : console.log("跑步"); */
+		
+		
+		/* const obj = {
+			value: 1,
+			value2: 1,
+		};
+		// 宣告為 const 的物件其屬性仍可以修改
+		console.log(`#1 ==> ${obj.value}, ${obj.value2}`);	// #1 ==> 1, 1
+		obj.value = 2;
+		obj.value2 = 2;
+		console.log(`#2 ==> ${obj.value}, ${obj.value2}`);	// #2 ==> 2, 2
+		
+		// 將物件的屬性鎖住
+		Object.defineProperty(obj, 'value', {
+			writable: false
+		});
+		// 鎖住的屬性無法修改
+		obj.value = 3;
+		obj.value2 = 3;
+		console.log(`#3 ==> ${obj.value}, ${obj.value2}`);	// #3 ==> 2, 3
+		
+		let b = obj.value = 4;
+		console.log(b, obj.value);	// 4 2 */
+		
+		
+		
+		(() => {
+			const a = b = 1;
+			// b = 1;
+			// const a = 1;
+		})();
+		console.log(b);
+		console.log(a);
+		
+		
+		
+	</script>
+	
+</body>
+</html>

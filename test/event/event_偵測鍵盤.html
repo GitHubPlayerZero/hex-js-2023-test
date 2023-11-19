@@ -1,0 +1,44 @@
+<!-- CodePen：https://codepen.io/codepenplayer/pen/jOdrZxL -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Event 偵測鍵盤</title>
+	<link rel="stylesheet" href="../../css/common.css">
+	
+	<style>
+		
+		.btnButtom {
+			position: fixed;
+			bottom: 10px;
+			right: 10px;
+		}
+		
+	</style>
+	
+</head>
+
+<body>
+
+	<h1>Event 偵測鍵盤</h1>
+	
+	<p>
+		請按下任意按鍵。<br>
+		清除結果熱鍵：Ctrl + Shift + L
+	</p>
+	
+	
+	<input type="button" class="btnButtom" value="清除結果" onclick="clearResult();">
+	
+	<hr>
+	
+	<p id="result" class="white-space-pre-line"></p>
+	
+	
+	<script src="./event_偵測鍵盤.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,208 @@
+<!-- CodePen：https://codepen.io/codepenplayer/pen/RwEjYyV -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>物件</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+
+	<h1>物件</h1>
+
+
+	<script>
+
+		console.log("====== 物件宣告 ======");
+
+		// 屬性: 值
+		let home = {
+			myName: "Jack",
+			mother: {
+				name: "Mary",
+				year: 35
+			},
+			father: {
+				name: "Tom",
+				year: 37
+			},
+			sister: [
+				{
+					name: "Cherry",
+					year: 8
+				},
+				{
+					name: "Zoe",
+					year: 3
+				}
+			],
+			dog: ["Peter", "Emily", "Bill"]
+		};
+
+		console.log(`home =`);
+		console.log(home);
+		console.log("");
+
+		console.log("====== 取值 (方式一) ======");
+		// 物件.屬性
+		console.log(`我的名字是 ${home.myName}`);
+		console.log(`我媽媽的名字是 ${home.mother.name}，今年 ${home.mother.year} 歲`);
+		console.log(`我爸爸的名字是 ${home.father.name}，今年 ${home.father.year} 歲`);
+		console.log(`我家有 ${home.dog.length} 隻狗狗，分別叫`);
+
+		/* home.dog.forEach(
+		  function (item) {
+			console.log(item);
+		  }
+		); */
+		home.dog.forEach(
+			item => console.log(item)
+		);
+
+		console.log("");
+
+
+		// 當取出的值非物件型態時, 為傳值, 不會彼此影响
+		console.log("====== 改變物件裡的值 (myName) ======");
+		let myName = home.myName;
+		console.log(`home.myName = ${home.myName}, myName = ${myName}`);
+
+		console.log("====== change home.myName ======");
+		home.myName = "JJ";
+		console.log(`home.myName = ${home.myName}, myName = ${myName}`);
+
+		console.log("====== change myName ======");
+		myName = "JK";
+		console.log(`home.myName = ${home.myName}, myName = ${myName}`);
+
+		console.log("");
+
+		// 當取出的值為物件型態時, 為傳參, 會彼此影响
+		console.log("====== 改變物件裡的值 (dog) ======");
+		let myDog = home.dog;
+		console.log(`myDog = ${myDog}, length = ${myDog.length}`);
+
+		console.log("====== home.dog.pop() ======");
+		home.dog.pop();
+		console.log(`home.dog = ${home.dog}, length = ${home.dog.length}`);
+		console.log(`myDog = ${myDog}, length = ${myDog.length}`);
+
+		console.log("====== home.dog.shift() ======");
+		home.dog.shift();
+		console.log(`home.dog = ${home.dog}, length = ${home.dog.length}`);
+		console.log(`myDog = ${myDog}, length = ${myDog.length}`);
+
+		console.log("====== myDog.push() ======");
+		myDog.push("Rack");
+		console.log(`home.dog = ${home.dog}, length = ${home.dog.length}`);
+		console.log(`myDog = ${myDog}, length = ${myDog.length}`);
+
+		console.log("");
+
+
+		console.log("====== 加入新屬性 (isStudent, myYear) ======");
+		home.isStudent = true;
+		home["myYear"] = 12;
+		console.log(`home.isStudent = ${home.isStudent}, home.myYear = ${home.myYear}`);
+		
+		/* // 物件沒有 push()
+		console.log("---- 使用 push() ----");
+		home.push({
+			生日: "2 月 30 日",
+			喜歡的顏色: ["紅", "綠", "藍"],
+		});
+		console.log(`生日 = ${home.生日}, 喜歡的顏色 = ${home.喜歡的顏色}`);
+		console.log(home); */
+
+		console.log("");
+
+
+		console.log("====== 取值 (方式二) ======");
+		// 物件["屬性"]
+		console.log(`我的名字是 ${home["myName"]}，我今年 ${home['myYear']} 歲`);
+		let dogAttName = "dog";
+		console.log(`我家的狗狗：${home[dogAttName]}`);
+
+
+		console.log("");
+
+		console.log("====== 刪除屬性 (isStudent) ======");
+		console.log(`home.isStudent = ${home.isStudent}`);
+		delete home.isStudent;
+		console.log(`home.isStudent = ${home.isStudent}`);
+		console.log(home);
+
+
+		console.log("");
+
+		console.log("====== 注意屬性名稱 ======");
+		let test1 = {
+  			001: "hello", // 實際物件中 key 名稱會變成 1
+			"002": "world",
+			"name": "Jack"
+		};
+		console.log("test1 =");
+		console.log(test1);
+
+		// console.log(test1.001); // compile 錯誤
+		console.log(`test1['001'] = ${test1['001']}`);
+		console.log(`test1['1'] = ${test1['1']}`);
+		console.log(`test1["002"] = ${test1["002"]}`);
+		console.log(`test1["2"] = ${test1["2"]}`);
+
+		console.log(`test1.name = ${test1.name}, test1["name"] = ${test1["name"]}`);
+
+		console.log("");
+
+
+		console.log("====== 取得所有鍵項 ======");
+		console.log("====== home ======");
+		const homeKey = Object.keys(home);
+		console.log(`home 的鍵項：${homeKey}`);
+		homeKey.forEach(function (key) {
+			console.log(`key = ${key} (${typeof key}), value = ${home[key]}`);
+		});
+
+		console.log("====== test1 ======");
+		const test1Key = Object.keys(test1);
+		console.log(`test1 的鍵項：${test1Key}`);
+		test1Key.forEach(function (key) {
+			console.log(`key = ${key} (${typeof key}), value = ${test1[key]}`);
+		});
+
+		console.log("");
+
+
+		console.log("====== 陣列包物件 ======");
+		let market = [
+			{
+				boss: "Tom",
+				banana: 6,
+				apple: 5,
+				isClose: false
+			},
+			{
+				boss: "John",
+				banana: 9,
+				apple: 8,
+				isClose: true
+			}
+		];
+
+		console.log(`market =`);
+		console.log(market);
+		console.log(`有 ${market.length} 間店`);
+		console.log(`第一間店老闆叫 ${market[0].boss}，賣蘋果 ${market[0]["apple"]} 顆`);
+		console.log(`第一間店關門了嗎？${market[0].isClose ? "是" : "否"}`);
+		console.log(`第二間店關門了嗎？${market[1].isClose ? "是" : "否"}`);
+
+
+	</script>
+
+</body>
+
+</html>

@@ -1,0 +1,910 @@
+<!-- CodePen：https://codepen.io/codepenplayer/pen/vYbGmOB -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>型別與轉型</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+
+	<h1>型別與轉型</h1>
+	
+	<div class="flex-btn-group border mb-7">
+		<input type="button" value="原始型別 (Primitive Type)" onclick="testPrimitiveType();">
+		<input type="button" value="物件型別 (Object Type)" onclick="tesObjectType();">
+		<input type="button" value="物件結構 (可塞屬性)" onclick="testObj();">
+	</div>
+	
+	<div class="flex-btn-group border mb-7">
+		<input type="button" value="顯性轉換：原始型別包裏物件" onclick="testExplicit1();">
+		<input type="button" value="顯性轉換：原型方法 (toString)" onclick="testExplicit2();">
+		<input type="button" value="顯性轉換：數值型別方法 (Number、parseInt)" onclick="testExplicit3();">
+		<input type="button" value="顯性轉換：正負一元運算子 (轉型為數值)" onclick="testExplicit4();">
+		<input type="button" value="顯性轉換：邏輯 NOT 運算子 (轉型為布林)" onclick="testExplicit5();">
+	</div>
+	
+	<div class="flex-btn-group border mb-7">
+		<input type="button" value="隱性轉換：+ 運算子 (二元運算子)" onclick="testImplicit1();">
+		<input type="button" value="隱性轉換：算術運算子 (-、*、/) (轉型為數值)" onclick="testImplicit2();">
+		<input type="button" value="隱性轉換：寬鬆、嚴格相等" onclick="testImplicit3();">
+		<input type="button" value="隱性轉換：條件判斷、邏輯運算子 (轉型為布林)" onclick="testImplicit4();">
+	</div>
+	
+	<div class="flex-btn-group border">
+		<input type="button" value="注意：BigInt、陣列、Symbol" onclick="testBigintAndArray();">
+	</div>
+	
+	<hr>
+	
+	<p>測試範例撰寫參考：<a href="https://hackmd.io/@hexschool/BkaoMAhmi" target="_blank">六角學院核心篇第三堂：型別轉換</a></p>
+	
+	<p>其它參考：</p>
+	<ul>
+		<li><a href="https://ithelp.ithome.com.tw/articles/10201512" target="_blank">你懂 JavaScript 嗎？#8 強制轉型（Coercion）</a></li>
+		<li><a href="https://titangene.github.io/article/javascript-bigint.html" target="_blank">JavaScript 之旅 (22)：BigInt</a></li>
+	</ul>
+	
+	<hr>
+	
+	<p class="highlight note">注意！此範例為方便測試而使用 eval()，但在實務上不建議使用，因其易造成資安弱點，請參考 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/eval" target="_blank">MDN</a> 說明。</p>
+	
+	
+	
+	<script>
+		// 注意！此範例為方便測試而使用 eval()，但在實務上不建議使用，因其易造成資安弱點。
+		
+		function testBigintAndArray()
+		{
+			console.clear();
+			
+			// 陣列轉數值運作過程：會先被轉成字串，再轉成數值。
+			console.log(`====== 陣列轉數值 ======`);
+			console.log(`Number([2]) ==>`, Number([2]));	// 2
+			console.log(`    等同於 Number([2].toString()) ==>`, Number([2].toString()));	// 2
+			console.log(`Number([2, 3]) ==>`, Number([2, 3]));	// NaN
+			console.log(`    等同於 Number([2, 3].toString()) ==>`, Number([2, 3].toString()));	// NaN
+			
+			console.log(``);
+			
+			
+			/*
+				BigInt 與 Number 型別無法直接混合運算，會發生錯誤。
+				若要混合運算，必須先將 BigInt 以原始型別物件函式轉為 Number 型別。
+			*/
+			console.log(`====== BigInt 與 Number 型別混合計算 ======`);
+			console.log(`Number(100n) * 1 ==>`, Number(100n) * 1);	// 100
+			
+			// Error: Cannot mix BigInt and other types, use explicit conversions
+			console.log(`100n * 1 ==>`);
+			try {console.log(100n * 1);}
+			catch (e) {console.log(e);}
+			
+			console.log(``);
+			
+			
+			/*
+				Symbol 轉型
+				1. 轉字串：可以明確式轉型，禁止隱含式轉型。
+				2. 轉數字：明確式及隱含式轉型都禁止。
+				3. 轉布林：明確式及隱含式轉型都可以，但結果都會是 true。
+			*/
+			console.log(`====== Symbol 轉型 ======`);
+			
+			console.log(`---- 轉字串 ----`);
+			let sym = Symbol('a');
+			console.log(`sym =`, sym);
+			console.log(`    String(sym) ==>`, String(sym));	// 'Symbol(a)'
+			
+			// Error: Cannot convert a Symbol value to a string
+			console.log(`    sym + '' ==>`);
+			try {console.log(sym + '');}
+			catch (e) {console.log(e);}
+			
+			console.log(``);
+			
+			console.log(`---- 轉數字 ----`);
+			sym = Symbol(3);
+			console.log(`sym =`, sym);
+			
+			// Error: Cannot convert a Symbol value to a number
+			console.log(`    Number(sym) ==>`);
+			try {console.log(Number(sym));}
+			catch (e) {console.log(e);}
+			
+			// Error: Cannot convert a Symbol value to a number
+			console.log(`    +sym ==>`);
+			try {console.log(+sym);}
+			catch (e) {console.log(e);}
+			
+			console.log(``);
+			
+			console.log(`---- 轉布林 ----`);
+			sym = Symbol(false);
+			console.log(`sym =`, sym);
+			console.log(`    Boolean(sym) ==>`, Boolean(sym));	// true
+			console.log(`    sym || 1 ==>`, sym || 1);	// Symbol(false) (隱含式轉型)
+			console.log(`    sym ? "真" : "假" ==>`, sym ? "真" : "假");	// 真 (隱含式轉型)
+		}
+		
+		
+		/*
+			隱性轉換：條件判斷、邏輯運算子 (轉型為布林)
+			各型別內容轉成布林的詳細測試請見：https://codepen.io/codepenplayer/pen/NWeXQPd
+		*/
+		function testImplicit4()
+		{
+			console.clear();
+			
+			const testCases = {
+				"0": 0,
+				"123": 123,
+				"true": true,
+				"false": false,
+				"'aa'": 'aa',
+				"''": '',
+				"null": null,
+				"undefined": undefined,
+				"NaN": NaN,
+				"[false]": [false],
+				"{}": {},
+			};
+			
+			const keys = Object.keys(testCases);
+			
+			keys.forEach(function(item) {
+				// console.log(`${item} ? "true" : "false" ==>`, testCases[item] ? "true" : "false");
+				const val = testCases[item];
+				console.log(item);
+				console.log(`    三元表達式判斷 ==>`, val ? "true" : "false");
+				console.log(`    ${item} || 1 ==>`, val || 1);
+				console.log(``);
+			});
+		}
+		
+		
+		/*
+			隱性轉換：寬鬆相等、嚴格相等
+		*/
+		function testImplicit3()
+		{
+			console.clear();
+			
+			console.log(`寬鬆相比：1 == '1' ==>`, 1 == '1');	// true
+			console.log(`嚴格相比：1 === '1' ==>`, 1 === '1');	// false
+			
+			console.log(``);
+			
+			
+			/*
+				Number、String、Boolean 寬鬆相比：
+				通通轉 Number 比對
+			*/
+			console.log(`====== Number、String、Boolean 寬鬆相比 ======`);
+			console.log(`1 == '1' ==>`, 1 == '1');	// true
+			console.log(`1 == true ==>`, 1 == true);	// true
+			console.log(`'0' == false ==>`, '0' == false);	// true
+			
+			console.log(``);
+			
+			
+			/*
+				null、undefined 寬鬆相比：
+				1. 不轉型
+				2. null 與 undefined 相比會是 true。
+			*/
+			console.log(`====== null、undefined 相比 ======`);
+			console.log(`---- 與任何型別相比都不會轉型 ----`);
+			console.log(`null == 0 ==>`, null == 0);	// false
+			console.log(`null == '' ==>`, null == '');	// false
+			console.log(`null == false ==>`, null == false);	// false
+			console.log(`undefined == 0 ==>`, undefined == 0);	// false
+			console.log(`undefined == '' ==>`, undefined == '');	// false
+			console.log(`undefined == false ==>`, undefined == false);	// false
+			console.log(`---- 但彼此相比會相等 ----`);
+			console.log(`undefined == null ==>`, undefined == null);	// true
+			console.log(`---- 嚴格比較不會相等 ----`);
+			console.log(`undefined === null ==>`, undefined === null);	// false (嚴格相比)
+			
+			console.log(``);
+			
+			
+			/*
+				BigInt
+				1. 不是轉型為 Number，而是轉型為一個「數學值」。
+				2. 它是一個整數 (沒有小數點)，可正可負。
+				3. 沒有最大值限制，因此可以突破 Number 的最大安全值。
+			*/
+			console.log(`====== BigInt ======`);
+			console.log(`1n == 1 ==>`, 1n == 1);	// true
+			console.log(`1n == 2 ==>`, 1n == 2);	// false
+			console.log(`1n == '1' ==>`, 1n == '1');	// true
+			console.log(`2n == '1' ==>`, 2n == '1');	// false
+			console.log(`1n == true ==>`, 1n == true);	// true
+			
+			console.log(``);
+			
+			// Number 的最大安全值。
+			console.log(`====== Number 的最大安全值 ======`);
+			console.log(`Number.MAX_SAFE_INTEGER = ${Number.MAX_SAFE_INTEGER}`);
+			console.log(`9007199254740991 == '9007199254740991' ==>`, 9007199254740991 == '9007199254740991');	// true
+			console.log(`9007199254740992 == '9007199254740991' ==>`, 9007199254740992 == '9007199254740991');	// false
+			console.log(`9007199254740993 == '9007199254740991' ==>`, 9007199254740993 == '9007199254740991');	// false
+			console.log(`---- 兩者均超過安全數值時發生判斷錯誤 ----`);
+			console.log(`9007199254740993 == '9007199254740992' ==>`, 9007199254740993 == '9007199254740992');	// true (兩者均超過安全數值時發生判斷錯誤)
+			
+			// 換用 BigInt 就可以正確判斷
+			console.log(`---- 換用 BigInt ----`);
+			console.log(`9007199254740993n == '9007199254740992' ==>`, 9007199254740993n == '9007199254740992');	// false
+			console.log(`9007199254740993n == '9007199254740993' ==>`, 9007199254740993n == '9007199254740993');	// true
+			
+			console.log(``);
+			
+			
+			/*
+				物件與物件比對：
+				物件有記憶體特性，不管是寬鬆還是嚴格都不會相等
+			*/
+			console.log(`====== 物件相比 ======`);
+			console.log(`{} == {} ==>`, {} == {});	// false
+			console.log(`{} === {} ==>`, {} === {});	// false
+			console.log(`[] == [] ==>`, [] == []);	// false
+			console.log(`[] === [] ==>`, [] === []);	// false
+			console.log(`new Number(0) == new Number(0) ==>`, new Number(0) == new Number(0));	// false
+			console.log(`new Number(0) === new Number(0) ==>`, new Number(0) === new Number(0));	// false
+			
+			console.log(``);
+			
+			
+			/*
+				物件與非物件比對：
+				物件與其它型別比較時，會透過「原始型別包裹物件」將物件轉為相同型別。
+				
+				例外：
+				1. 布林採用 Number 轉型
+				2. 陣列轉數值，會先 toString 再套用 Number
+			*/
+			console.log(`====== 物件與數值、字串相比 ======`);
+			console.log(`[0] == 0 ==>`, [0] == 0);	// true ( Number([0]) )
+			console.log(`{} == '[object Object]' ==>`, {} == '[object Object]');	// true ( String({}) )
+			console.log(`['a'] == 'a' ==>`, ['a'] == 'a');	// true ( String(['a']) )
+			console.log(`[] == "0" ==>`, [] == "0");	// false ( String([]) )
+			console.log(`[] == "" ==>`, [] == "");	// true ( String([]) )
+			
+			// 與布林相比時兩者均使用 Number 轉型再比對
+			console.log(`---- 與布林相比 ----`);
+			console.log(`[] == false ==>`, [] == false);	// true ( Number([]) )
+			console.log(`[1] == true ==>`, [1] == true);	// true ( Number([1]) )
+			console.log(`[1] == false ==>`, [1] == false);	// false ( Number([1]) )
+			console.log(`[2] == true ==>`, [2] == true);	// false ( Number([2]) )
+			
+			console.log(``);
+			
+			
+			// 0、-0
+			console.log(`====== 0、-0 相比 ======`);
+			console.log(`0 == -0 ==>`, 0 == -0);	// true
+			console.log(`0 === -0 ==>`, 0 === -0);	// true
+			
+			console.log(``);
+			
+			
+			// NaN 不等於任何東西，包括它自己
+			console.log(`====== NaN 不等於任何東西，包括它自己 ======`);
+			console.log(`NaN == 0 ==>`, NaN == 0);	// false
+			console.log(`NaN == '0' ==>`, NaN == '0');	// false
+			console.log(`NaN == false ==>`, NaN == false);	// false
+			console.log(`NaN == null ==>`, NaN == null);	// false
+			console.log(`NaN == undefined ==>`, NaN == undefined);	// false
+			console.log(`NaN == NaN ==>`, NaN == NaN);	// false
+			console.log(`NaN === NaN ==>`, NaN === NaN);	// false
+			
+			console.log(``);
+			
+			// Infinity
+			console.log(`====== Infinity ======`);
+			console.log(`Infinity == 0 ==>`, Infinity == 0);	// false
+			console.log(`Infinity == '0' ==>`, Infinity == '0');	// false
+			console.log(`Infinity == false ==>`, Infinity == false);	// false
+			console.log(`Infinity == null ==>`, Infinity == null);	// false
+			console.log(`Infinity == undefined ==>`, Infinity == undefined);	// false
+			console.log(`Infinity == Infinity ==>`, Infinity == Infinity);	// true
+			console.log(`Infinity === Infinity ==>`, Infinity === Infinity);	// true
+			
+			console.log(``);
+			
+			
+			/*
+				例外狀況 (冷門)：Symbol
+			*/
+			console.log(`====== 例外狀況：Symbol ======`);
+			let sym1 = Symbol(1);
+			let sym2 = Symbol(1);
+			console.log(`sym1 =`, sym1, `, sym2 =`, sym2);
+			console.log(`sym1 == sym2 ==>`, sym1 == sym2);	// false
+			
+			sym2 = sym1;
+			console.log(`After set sym1 = sym2 ==>`, sym1 == sym2);	// true
+		}
+		
+		
+		/*
+			隱性轉換：算術運算子 (-、*、/)
+			一律套用 Number 轉型。
+		*/
+		function testImplicit2()
+		{
+			console.clear();
+			
+			console.log(`====== 字串與字串 ======`);
+			console.log(`---- 數字字串 ----`);
+			console.log(`'100' + '2' ==>`, '100' + '2', `(字串運算子)`);	// 1002 (字串運算子)
+			console.log(`'100' - '2' ==>`, '100' - '2', `(算數運算子)`);	// 98 (算數運算子)
+			console.log(`'100' * '2' ==>`, '100' * '2', `(算數運算子)`);	// 200 (算數運算子)
+			console.log(`'100' / '2' ==>`, '100' / '2', `(算數運算子)`);	// 50 (算數運算子)
+			
+			console.log(``);
+			
+			console.log(`---- 數字字串與空字串 ----`);
+			console.log(`'' + '100' ==>`, '' + '100', `(字串運算子)`);	// 100 (字串運算子)
+			console.log(`'' - '100' ==>`, '' - '100');	// -100
+			console.log(`'100' * '' ==>`, '100' * '');	// 0
+			console.log(`'100' / '' ==>`, '100' / '');	// Infinity
+			
+			console.log(``);
+			
+			console.log(`---- 數字字串與文字字串 ----`);
+			console.log(`'100' + 'a' ==>`, '100' + 'a', `(字串運算子)`);	// 100a (字串運算子)
+			console.log(`'100' - 'a' ==>`, '100' - 'a');	// NaN
+			
+			console.log(``);
+			
+			console.log(`====== 字串與數值 ======`);
+			console.log(`2 + '2' ==>`, 2 + '2', `(字串運算子)`);	// 22 (字串運算子)
+			console.log(`2 - '2' ==>`, 2 - '2');	// 0
+			console.log(`2 * '2' ==>`, 2 * '2');	// 4
+			console.log(`2 / '2' ==>`, 2 / '2');	// 1
+			
+			console.log(``);
+			
+			console.log(`====== 字串與布林 ======`);
+			console.log(`'100' + true ==>`, '100' + true, `(字串運算子)`);	// 100true (字串運算子)
+			console.log(`'100' - true ==>`, '100' - true);	// 99
+			console.log(`'100' * false ==>`, '100' * false);	// 0
+			console.log(`'100' / true ==>`, '100' / true);	// 100
+			
+			console.log(``);
+			
+			console.log(`====== 字串與 null ======`);
+			console.log(`null + '100' ==>`, null + '100', `(字串運算子)`);	// null100 (字串運算子)
+			console.log(`null - '100' ==>`, null - '100');	// -100
+			console.log(`null * '100' ==>`, null * '100');	// 0
+			console.log(`null / '100' ==>`, null / '100');	// 0
+			
+			console.log(``);
+			
+			console.log(`====== 物件與數值 ======`);
+			console.log(`100 + {} ==>`, 100 + {}, `(字串運算子)`);	// 100[object Object] (字串運算子)
+			console.log(`100 - {} ==>`, 100 - {});	// NaN
+			
+			console.log(``);
+			
+			console.log(`====== 陣列物件與數值 ======`);
+			console.log(`100 + [2] ==>`, 100 + [2], `(字串運算子)`);	// 1002 (字串運算子)
+			console.log(`100 - [2] ==>`, 100 - [2]);	// 98
+			console.log(`100 * [2] ==>`, 100 * [2]);	// 200
+			console.log(`100 / [2] ==>`, 100 / [2]);	// 50
+			console.log(`100 / [2, 3] ==>`, 100 / [2, 3]);	// NaN
+			console.log(`100 - ['a'] ==>`, 100 - ['a']);	// NaN
+			
+			console.log(``);
+			
+			console.log(`====== 物件與物件 ======`);
+			console.log(`[20] + {} ==>`, [20] + {}, `(字串運算子)`);	// 20[object Object] (字串運算子)
+			console.log(`[20] - {} ==>`, [20] - {});	// NaN
+			console.log(`[20] + [2] ==>`, [20] + [2], `(字串運算子)`);	// 202 (字串運算子)
+			console.log(`[20] - [2] ==>`, [20] - [2]);	// 18
+			console.log(`[20] * [2] ==>`, [20] * [2]);	// 40
+			console.log(`[20] / [2] ==>`, [20] / [2]);	// 10
+			console.log(`[20] / [2, 3] ==>`, [20] / [2, 3]);	// NaN
+		}
+		
+		
+		/*
+			隱性轉換：+ 運算子 (二元運算子)
+			1. 前後運算元如果其中之一為 "字串" 型別，+ 視為字串運算子。
+			2. 前後運算元如果其中之一無法轉型為原始型別（即指物件型別），+ 視為字串運算子。
+			3. 上述情況以外，+ 視為算數運算子。
+		*/
+		function testImplicit1()
+		{
+			console.clear();
+			
+			// console.log(100 + 100);	// 200 (算數運算子)
+			// console.log('I am ' + '小明');	// I am 小明 (字串運算子)
+			
+			
+			/*
+				可以用 Symbol 求證。
+				Symbol 無法被 "隱性" 轉換為數字或字串（但可以用原始型別包裏物件的方式轉為字串），因此對其做隱性轉換時會發生錯誤，錯誤內容會指明是轉型為數字或字串。
+				觀察錯誤訊息，當另一方為字串或物件時，Symbol 會被嘗試轉型為什麼？
+			*/
+			// console.log(1 + Symbol(1));	// Cannot convert a Symbol value to a number
+			// console.log(true + Symbol(1));	// Cannot convert a Symbol value to a number
+			// console.log('1' + Symbol(1));	// Cannot convert a Symbol value to a string
+			// console.log({} + Symbol(1));	// Cannot convert a Symbol value to a string
+			// console.log([] + Symbol(1));	// Cannot convert a Symbol value to a string
+			
+			// console.log(NaN + Symbol(1));	// Cannot convert a Symbol value to a number
+			// console.log(Infinity + Symbol(1));	// Cannot convert a Symbol value to a number
+			// console.log(undefined + Symbol(1));	// Cannot convert a Symbol value to a number
+			// console.log(null + Symbol(1));	// Cannot convert a Symbol value to a number
+			
+			// 原始型別物件不會被當作物件
+			// console.log(new String('a') + Symbol(1));	// Cannot convert a Symbol value to a string
+			// console.log(new Boolean(true) + Symbol(1));	// Cannot convert a Symbol value to a number
+			// console.log(new Number(1) + Symbol(1));	// Cannot convert a Symbol value to a number
+			
+			
+			const testCases = {
+				"'1' + 2": '1' + 2,	// 12 (string)
+				"1 + '2'": 1 + '2',	// 12 (string)
+				"3 + true": 3 + true,	// 4 (number)
+				"true + true": true + true,	// 2 (number)
+				"true + false": true + false,	// 1 (number)
+				"{} + {}": {} + {},	// [object Object][object Object] (string)
+				"1 + {}": 1 + {},	// 1[object Object] (string)
+				"1 + {a:1}": 1 + {a:1},	// 1[object Object] (string)
+				"['a'] + []": ['a'] + [],	// a (string)
+				"2 + []": 2 + [],	// 2 (string)
+				"2 + ['a', 3, true]": 2 + ['a', 3, true],	// 2a,3,true (string)
+				"1 + NaN": 1 + NaN,	// NaN (number)
+				"'1' + NaN": '1' + NaN,	// 1NaN (string)
+				"1 + Infinity": 1 + Infinity,	// Infinity (number)
+				"'1' + Infinity": '1' + Infinity,	// 1Infinity (string)
+				"1 + undefined": 1 + undefined,	// NaN (number)
+				"'1' + undefined": '1' + undefined,	// 1undefined (string)
+				"1 + null": 1 + null,	// 1 (number)
+				"'1' + null": '1' + null,	// 1null (string)
+			};
+			
+			const keys = Object.keys(testCases);
+			
+			keys.forEach(function (item) {
+				console.log(item);
+				console.log(`   `, testCases[item], `(${typeof testCases[item]})`);
+				console.log("");
+			});
+			
+			
+			console.log(`====== 原始型別物件不會被當作物件轉換 ======`);
+			console.log(`true + true ==>`, true + true);	// 布林相加結果：2
+			console.log(`true + [true] ==>`, true + [true]);	// 布林與物件相加結果：truetrue
+			console.log(`true + new Boolean(true) ==>`, true + new Boolean(true));	// 2
+			console.log(`3 + 5 ==>`, 3 + 5);	// 數字相加結果：8
+			console.log(`3 + [5] ==>`, 3 + [5]);	// 數字與數字相加結果：35
+			console.log(`3 + new Number(5) ==>`, 3 + new Number(5));	// 8
+		}
+		
+		
+		/*
+			顯性轉換：邏輯 NOT 運算子 (轉型為布林)
+			運作原理為會先用 Boolean 做轉型，再運算 NOT，所以使用 Boolean 轉型和使用兩個 NOT（!!）轉型效果是一樣的。
+			但是要注意 Boolean 轉型的雷點：'0' 轉型為 boolean 會是 true。
+			有關 Boolean 轉型的詳細測試可參考：https://codepen.io/codepenplayer/pen/NWeXQPd
+		*/
+		function testExplicit5()
+		{
+			console.clear();
+			
+			const testCases = {
+				"0": 0,	// ftf
+				"1": 1,	// tft
+				"false": false,	// ftf
+				"true": true,	// tft
+				"''": '',	// ftf
+				"' '": ' ',	// tft
+				"'0'": '0',	// tft
+				"'abc'": 'abc',	// tft
+				"{}": {},	// tft
+				"[]": [],	// tft
+				"[2]": [2],	// tft
+				"[false]": [false],	// tft
+				"undefined": undefined,	// ftf
+				"null": null,	// ftf
+				"NaN": NaN,	// ftf
+				"Infinity": Infinity,	// tft
+				"function(){}": function(){},	// tft
+				"Symbol('a')": Symbol('a'),	// tft
+			};
+			
+			const keys = Object.keys(testCases);
+			
+			keys.forEach(function (item)
+			{
+				let val = testCases[item];
+				let booleanConversion = Boolean(val);
+				let notConversion = !val;
+				let notNotConversion = !!val;
+				
+				console.log(`${item} (${typeof val}) ==>`, val);
+				console.log(`    Boolean(${item}) ==>`, booleanConversion);
+				console.log(`    !${item} ==>`, notConversion);
+				console.log(`    !!${item} ==>`, notNotConversion);
+				console.log("");
+			});
+		}
+		
+		
+		/*
+			顯性轉換：正負一元運算子 (轉型為數值)
+		*/
+		function testExplicit4()
+		{
+			console.clear();
+			
+			// 此為二元運算子：+ 為運算子，運算子前後為運算元，故 1、'1' 為運算元。
+			// 1 + '1'
+			
+			const testCases = {
+				"13": 13,	// 13, -13
+				"-10": -10,	// -10, 10
+				"new Number(20)": new Number(20),	// 20, -20
+				"''": '',	// 0, -0
+				"' '": ' ',	// 0, -0
+				"'4'": '4',	// 4, -4
+				"'-14'": '-14',	//-14, 14
+				"'50元'": '50元',	// NaN
+				"new String('25')": new String('25'),	// 25, -25
+				"true": true,	// 1, -1
+				"false": false,	// 0, -0
+				"new Boolean(true)": new Boolean(true),	// 1, -1
+				"{}": {},	// NaN
+				"[]": [],	// 0, -0
+				"[2]": [2],	// 2, -2
+				"[2,5]": [2,5],	// NaN
+				"['3']": ['3'],	// 3, -3
+				"['a']": ['a'],	// NaN
+				"undefined": undefined,	// NaN
+				"null": null,	// 0, -0
+				"NaN": NaN,	// NaN
+				"Infinity": Infinity,	// Infinity, -Infinity
+				"function(){}": function(){},	// NaN
+				
+				// "Symbol('a')": Symbol('a'),
+				// Symbol 無法使用正負一元運算子，會發生錯誤：Cannot convert a Symbol value to a number
+			};
+			
+			const keys = Object.keys(testCases);
+			
+			keys.forEach(function(item)
+			{
+				let val = testCases[item];
+				let positiveConversion = +val;
+				let negativeConversion = -val;
+				
+				console.log(`${item} (${typeof val}) ==>`, val);
+				console.log(`    +${item} ==>`, positiveConversion, `, typeof = ${typeof positiveConversion}`);
+				console.log(`    -${item} ==>`, negativeConversion, `, typeof = ${typeof negativeConversion}`);
+				console.log("");
+			});
+		}
+		
+		
+		/*
+			顯性轉換：數值型別方法 (Number、parseInt)
+			1. 原始型別包裏物件的方式只能轉換全數字的字串，若夾雜文字會轉為 NaN。
+			2. Number.parseInt() 可以轉換夾雜文字的數字字串，但僅限於開頭為數字的字串，碰到文字即停止，若開頭非數字會轉為 NaN。
+			3. 全域 window 也有一個 parseInt()，兩者是一樣的，所以也可以直接使用 parseInt()。
+		*/
+		function testExplicit3()
+		{
+			console.clear();
+			
+			console.dir(Number);
+			
+			let test = '100';
+			console.log(test, typeof test);
+			console.log(`    Number.parseInt(test) ==>`, Number.parseInt(test));	// 100
+			console.log(`    parseInt(test) ==>`, parseInt(test));	// 100
+			console.log(`    Number(test) ==>`, Number(test));	// 100
+			
+			console.log("");
+			
+			
+			test = '100元又10塊';
+			console.log(test, typeof test);
+			console.log(`    Number.parseInt(test) ==>`, Number.parseInt(test));	// 100
+			console.log(`    parseInt(test) ==>`, parseInt(test));	// 100
+			console.log(`    Number(test) ==>`, Number(test));	// NaN
+			
+			console.log("");
+			
+			
+			test = '我有100元';
+			console.log(test, typeof test);
+			console.log(`    Number.parseInt(test) ==>`, Number.parseInt(test));	// NaN
+			console.log(`    parseInt(test) ==>`, parseInt(test));	// NaN
+			console.log(`    Number(test) ==>`, Number(test));	// NaN
+			
+			console.log("");
+			
+			
+			// 全域 window 與 Number 的 parseInt()
+			console.log(`window.parseInt ==>`);
+			console.dir(window.parseInt);
+			console.log(`Number.parseInt ==>`);
+			console.dir(Number.parseInt);
+			console.log(`window.parseInt === Number.parseInt ==>`, window.parseInt === Number.parseInt);	// true
+		}
+		
+		
+		/*
+			顯性轉換：原型方法 (toString)
+			要注意原型鏈中有沒有此方法（有沒有原始型別包裏物件），比如 undefined、null 等都沒有。
+		*/
+		function testExplicit2()
+		{
+			console.clear();
+			
+			/* 數字轉字串 */
+			let test = 100;
+			console.log(test, typeof test);
+			
+			// 在 Number 的原型鏈中有 toString() 方法
+			console.dir(Number);
+			let result = test.toString();
+			console.log(`    test.toString() =`, result, `, typeof ==> ${typeof result}`);
+			
+			console.log("");
+			
+			
+			/* undefined */
+			test = undefined;
+			console.log(test, typeof test);
+			
+			// test.toString();
+			// 會出錯：Cannot read properties of undefined (reading 'toString')
+			
+			// console.dir(Undefined);
+			// 會出錯：Undefined is not defined
+			// 因為沒有 Undefined 物件
+			
+			console.log("");
+			
+			
+			/* null */
+			test = null;
+			console.log(test, typeof test);
+			
+			// test.toString();
+			// 會出錯：Cannot read properties of null (reading 'toString')
+			
+			// console.dir(Null);
+			// 會出錯：Null is not defined
+			// 因為沒有 Null 物件
+		}
+		
+		
+		/*
+			顯性轉換：原始型別包裏物件
+		*/
+		function testExplicit1()
+		{
+			console.clear();
+			
+			console.log("====== 數字轉其它型別 ======");
+			let test = 100;
+			console.log(test, typeof test);
+			
+			let testCases = {
+				"String(test)": String(test),	// 100, string
+				"BigInt(test)": BigInt(test),	// 100n, bigint
+				"Boolean(test)": Boolean(test),	// true, boolean
+				"Symbol(test)": Symbol(test),	// Symbol(100), symbol
+			};
+			
+			let keys = Object.keys(testCases);
+			
+			keys.forEach(function(item) {
+				console.log(`    ${item} =`, testCases[item], `, typeof ==> ${typeof testCases[item]}`);
+			});
+			
+			console.log("");
+			
+			
+			console.log("====== 字串轉數字 ======");
+			test = '21';
+			let result = Number(test);
+			console.log(test, typeof test);
+			console.log(`    Number() ==>`, result, `, typeof ==> ${typeof result}`);	// 21, number
+			
+			console.log("");
+			
+			
+			console.log("====== 物件轉字串 ======");
+			testCases = {
+				"{}": {},	// [object Object]
+				"{a:1}": {a:1},	// [object Object]
+				"{a:1, b:2}": {a:1, b:2},	// [object Object]
+				"[]": [],	// 空字串
+				"[1]": [1],	// 1
+				"[1, 'a', true]": [1, 'a', true],	// 1,a,true
+			};
+			
+			keys = Object.keys(testCases);
+			
+			keys.forEach(function(item) {
+				console.log(item, testCases[item]);
+				console.log(`    String(${item}) ==>`, String(testCases[item]));
+				console.log("");
+			});
+		}
+		
+		
+		/*
+			物件結構 (可塞屬性)
+		*/
+		function testObj()
+		{
+			console.clear();
+			
+			// 物件結構
+			const obj = {
+				// 屬性 (property)
+				// key: value
+				name: '小明'
+			}
+			
+			// 物件塞屬性
+			obj.age = 18;
+			console.log(obj);
+			console.dir(obj);
+			
+			console.log("");
+			
+			
+			// 陣列塞屬性 (實務中不要這樣做)
+			const ary = [];
+			
+			ary.name = '我是陣列';	// 實務中不要這樣做！
+			console.log(ary);
+			ary.age = 18;	// 實務中不要這樣做！
+			console.log(ary);
+			
+			ary.push("aaa");
+			ary.push("bbb");
+			console.log(ary);
+			console.log(`ary.name ==>`, ary.name);
+			console.dir(ary);
+			
+			console.log("");
+			
+			
+			// function 塞屬性 (在實務中可能會用到)
+			function fn() {}
+			fn.myName = '我是函式';
+			console.log(fn);
+			console.log(`fn.myName ==>`, fn.myName);
+			console.dir(fn);	// 使用 dir() 才能看到 function 結構
+		}
+		
+		
+		/*
+			物件型別 (Object Type)
+		*/
+		function tesObjectType()
+		{
+			console.clear();
+			
+			// 物件
+			console.log({});
+			console.log(`    typeof {} ==> ${typeof {}}`);	// object
+			
+			console.log("");
+			
+			
+			// 陣列
+			console.log([]);
+			console.log(`    typeof [] ==> ${typeof []}`);	// object
+			
+			console.log("");
+			
+			
+			// 函式
+			// 雖然 typeof 為 'function'，但實際上為 Object
+			console.log(function() {});
+			console.log(`    typeof function() {} ==> ${typeof function() {}}`);	// function
+			
+			console.log("");
+			
+			
+			// 正則表達示
+			console.log(/12345/);
+			console.log(`    typeof /12345/ ==> ${typeof /12345/}`);	// object
+			
+			console.log("");
+			
+			
+			/*
+				原始型別構造函數 (constructor) (使用 new)
+				1. typeof 為 object。
+				2. 有物件的記憶體特性。
+				3. 但在做隱性型別轉換時，卻又不具有物件的特性，而是根據其內容的原始型別做轉換。
+				4. 實務中不建議這樣的寫法。
+			*/
+			let strObj1 = new String(1);
+			console.log(`strObj1 =`, strObj1);
+			console.log(`    typeof strObj1 ==> ${typeof strObj1}`);	// object
+			
+			let numObj1 = new Number("20");
+			console.log(`numObj1 =`, numObj1);
+			console.log(`    typeof numObj1 ==> ${typeof numObj1}`);	// object
+			
+			let booObj1 = new Boolean(0);
+			console.log(`booObj1 =`, booObj1);
+			console.log(`    typeof booObj1 ==> ${typeof booObj1}`);	// object
+			
+			console.log("");
+			
+			// 物件有記憶體特性，即使內容完全一樣的物件也會被判斷為不同的東西
+			let strObj2 = new String(1);
+			console.log(`strObj2 =`, strObj2);
+			console.log(`    typeof strObj2 ==> ${typeof strObj2}`);	// object
+			console.log(`    strObj1 == strObj2 ==> ${strObj1 == strObj2}`);	// false
+		}
+		
+		
+		/*
+			原始型別 (Primitive Type)
+		*/
+		function testPrimitiveType()
+		{
+			console.clear();
+			
+			const testCases = [
+				`true`, `'aaa'`, `"aaa"`, `undefined`, `null`, 
+				`NaN`, `Infinity`, `100`, `100n`, 
+				`Symbol`, `Symbol()`, `Symbol(1)`, `Symbol("aaa")`, `Symbol(true)`, 
+			];
+			
+			testCases.forEach(function(item) {
+				const val = eval(item);
+				console.log(`${item} ==>`, val);
+				console.log(`    typeof ${item} ==> ${typeof val}`);
+				console.log("");
+			});
+			
+			
+			/*
+				null 進階測試
+				null 雖然 typeof 為 'object'，但它並不是物件，它實際上為獨立的 null 型別，這是早期 JS 的一個錯誤。
+			*/
+			console.log("");
+			console.log(`null instanceof Object ==> ${null instanceof Object}`);	// false
+			
+			// 發生錯誤：Right-hand side of 'instanceof' is not an object
+			// 因為 null 不為物件
+			// console.log(`null instanceof null ==> ${null instanceof null}`);
+			
+			console.log("");
+			
+			
+			/*
+				Symbol 進階測試
+				Symbol 雖然繼承了 Object，但被歸類為原始型別。
+				在後續對物件的測試中，Symbol 無法像物件那樣被賦予屬性，證實其的確屬於原始型別。
+			*/
+			console.log(`Symbol instanceof Function ==> ${Symbol instanceof Function}`);	// true
+			console.log(`Symbol instanceof Object ==> ${Symbol instanceof Object}`);	// true
+		}
+		
+	</script>
+
+</body>
+
+</html>

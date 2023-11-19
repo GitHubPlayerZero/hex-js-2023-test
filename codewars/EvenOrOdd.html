@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+
+	<h1>Even or Odd (8kyu)</h1>
+	<p><a href="https://www.codewars.com/kata/53da3dbb4a5168369a0000fe" target="_blank">題目</a></p>
+
+	<p>Create a function that takes an integer as an argument and returns "Even" for even numbers or "Odd" for odd numbers.</p>
+
+	<input type="button" value="測試" onclick="test();">
+
+	<hr>
+
+	<p>註：此解法運用到布林判斷的概念，可以參考<a href="https://codepen.io/codepenplayer/pen/NWeXQPd" target="_blank">此篇測試</a>。</p>
+
+	<p>邏輯說明：</p>
+	<ol>
+		<li>只要能被 2 整除就是偶數，整除的結果會是 0。</li>
+		<li>0 在判斷上為 false，其它任何數值都會為 true。</li>
+	</ol>
+	
+	
+	<script>
+
+		// function evenOrOdd(number) {
+		// 	const result = number % 2;
+		// 	console.log(`${number} % 2 = ${result}`);
+		// 	return number % 2 ? "Odd" : "Even";
+		// }
+
+		// 箭頭函式寫法
+		const evenOrOdd = number => number % 2 ? "Odd" : "Even";
+
+		function test() {
+			console.log(`2 ==> ${evenOrOdd(2)}`);
+			console.log(`7 ==> ${evenOrOdd(7)}`);
+			console.log(`-42 ==> ${evenOrOdd(-42)}`);
+			console.log(`-7 ==> ${evenOrOdd(-7)}`);
+			console.log(`0 ==> ${evenOrOdd(0)}`);
+		}
+
+	</script>
+	
+</body>
+
+</html>
