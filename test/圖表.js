@@ -84,11 +84,29 @@
 				['data1', 30],
 				['data2', 60],
 				['data3', 10],
+				['data4', 20],
 			],
-			colors: {
-				data1: '#ff0',
-				data3: 'gray',
-			},
+			
+			// 如果同時設定了 color.pattern，使用此種方式時，沒設定顏色的部份會按順序使用 color.pattern
+			// colors: {
+			// 	// data1: '#ff0',
+			// 	data2: 'blue',
+			// 	// data3: 'gray',
+			// },
+			
+			// 如果同時設定了 color.pattern，使用此種方式時，color 會傳入 color.pattern (按順序)，否則就是傳入 c3 預設的顏色
+			// color: function (color, item) {
+			// 	console.log(`color ====>`, color, item, item.id);
+			// 	switch (item) {
+			// 		case 'data1':
+			// 			return '#26BFC7';
+			// 		case 'data3':
+			// 			return '#E68619';
+			// 		default:
+			// 			return color;
+			// 	}
+			// },
+			
 			type: 'donut',
 			// onclick: function (d, i) { console.log("onclick", d, i); },
 			// onmouseover: function (d, i) { console.log("onmouseover", d, i); },
@@ -99,12 +117,15 @@
 			width: 10,	// 甜甜圈本身的寬度
 			label: { show: false },
 		},
+		
+		// 如果有設定 color.pattern，則顏色會以 color.pattern 的設定做循環
 		// 如果同時設定了 data.colors，則會以 data.colors 為優先，沒有設定的部份會按順序使用此設定
-		color: {
-			pattern: ['red', '#00ff00', '#00f']
-		},
+		// color: {
+		// 	pattern: ['red', '#00ff00', '#00f']
+		// },
+		
 		size: {
-			width: 500,
+			width: 300,
 			// height: 160
 		}
 	});

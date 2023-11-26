@@ -27,44 +27,44 @@ console.log(`elmtP1.textContent ==>`, elmtP1.textContent);
 console.log(`elmtP1.innerText ==>`, elmtP1.innerText); */
 
 
-/* 修改 H1 文字內容 */
-const elmtH1 = document.querySelector("h1");
-console.log(`H1 before ==>`, elmtH1.textContent);
-elmtH1.textContent = "變更 H1";
-console.log(`H1 after ==>`, elmtH1.textContent);
+// /* 修改 H1 文字內容 */
+// const elmtH1 = document.querySelector("h1");
+// console.log(`H1 before ==>`, elmtH1.textContent);
+// elmtH1.textContent = "變更 H1";
+// console.log(`H1 after ==>`, elmtH1.textContent);
 
 
-/* 修改 list 內容 */
-const userName = "小明";
-const list = document.querySelector(".list");
+// /* 修改 list 內容 */
+// const userName = "小明";
+// const list = document.querySelector(".list");
 
-// 直接把內容全替換掉
-list.innerHTML = `
-	<li>比爾</li>
-	<li>${userName}</li>`;
+// // 直接把內容全替換掉
+// list.innerHTML = `
+// 	<li>比爾</li>
+// 	<li>${userName}</li>`;
 
-// 接續原內容
-list.innerHTML += `<li>阿杰</li>`;
+// // 接續原內容
+// list.innerHTML += `<li>阿杰</li>`;
 
-console.log(`list.innerHTML ==>`, list.innerHTML);
-console.log(`list.outerHTML ==>`, list.outerHTML);
+// console.log(`list.innerHTML ==>`, list.innerHTML);
+// console.log(`list.outerHTML ==>`, list.outerHTML);
 
 
-/* 增加 list2、list3 */
-const elmtLi = document.createElement("li");
-elmtLi.appendChild(document.createTextNode("aaa"));
+// /* 增加 list2、list3 */
+// const elmtLi = document.createElement("li");
+// elmtLi.appendChild(document.createTextNode("aaa"));
 
-const list2 = list.cloneNode();	// 預設不會複製節點內容
-list2.setAttribute("class", "list2");
-list2.appendChild(elmtLi);
+// const list2 = list.cloneNode();	// 預設不會複製節點內容
+// list2.setAttribute("class", "list2");
+// list2.appendChild(elmtLi);
 
-const list3 = list.cloneNode(true);	// 給入參數 true 會複製節點內容
-list3.setAttribute("class", "list3");
-// list3.appendChild(elmtLi);	// 如果直接 append 元素，會將元素由 list2 移轉過來
-list3.appendChild(elmtLi.cloneNode(true));
+// const list3 = list.cloneNode(true);	// 給入參數 true 會複製節點內容
+// list3.setAttribute("class", "list3");
+// // list3.appendChild(elmtLi);	// 如果直接 append 元素，會將元素由 list2 移轉過來
+// list3.appendChild(elmtLi.cloneNode(true));
 
-document.body.appendChild(list2);
-document.body.appendChild(list3);
+// document.body.appendChild(list2);
+// document.body.appendChild(list3);
 
 
 /* const elmtTestDiv = document.querySelector("#test");
@@ -95,7 +95,7 @@ if (dataObj.aaa) {
 } */
 
 
-function sleep(waitSec)
+/* function sleep(waitSec)
 {
 	const waitMillisec = waitSec * 1000;
 	let start = new Date().getTime();
@@ -106,7 +106,35 @@ function sleep(waitSec)
 	}
 	
 	console.log(`end...... ${new Date()}`);
-}
+} */
 
 
+
+
+// console.log(document.querySelector(".list"));
+// console.log(document.querySelector(".list").tagName);
+// console.log(document.querySelector(".list").getAttribute("class"));
+// console.log(document.querySelector(".list").classList);
+
+// console.log(document.querySelector("[data-num]"));
+// console.log(document.querySelectorAll("[data-num]"));
+console.log(document.querySelector("[data-num]").tagName);
+console.log(document.querySelector("[data-num]").type);
+console.log(document.querySelector("[data-num]").value);
+console.log(document.querySelector("[data-num]").getAttribute("value"));
+console.log(document.querySelector("[data-num]").getAttribute("data-num"));
+console.log(document.querySelector("[data-num]").dataset.num);
+
+document.querySelector(".list").addEventListener("click", function (e) {
+	const elmt = e.target;
+	const num = elmt.getAttribute("data-num");
+	console.log(elmt);
+	console.log(num);
+	if (num) {
+		console.log(`yes!`);
+	}
+	else {
+		console.log(`no!!`);
+	}
+});
 

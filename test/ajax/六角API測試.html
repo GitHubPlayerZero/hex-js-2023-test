@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>六角 API 測試</title>
+
+	<link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+	
+	<h1>六角 API 測試</h1>
+	
+	<ul class="mb-7">
+		<li><a href="https://hackmd.io/A-HyP0roQZaDt88ZD59x5A" target="_blank">第八週講義</a></li>
+		<li><a href="https://chalk-freedom-ec6.notion.site/API-8b5b74eb052b451faf28013d76811fac#500b709e3f7a41749e69287312f9c808" target="_blank">API 簡易串接教學</a></li>
+		<li><a href="https://hexschool.github.io/hexschoolliveswagger/#/%E8%B3%BC%E7%89%A9%E8%BB%8A%E7%9B%B8%E9%97%9C(%E5%AE%A2%E6%88%B6)/post_api_livejs_v1_customer__api_path__carts" target="_blank">API Swagger</a></li>
+	</ul>
+	
+	<div>
+		<input type="text" id="token" placeholder="請輸入 token" size="35">
+	</div>
+	
+	<hr>
+	
+	<h2>產品相關 (客戶)</h2>
+	<div class="flex-btn-group border mb-9">
+		<input type="button" value="取得產品列表" id="btnGetProducts">
+	</div>
+	
+	<h2>購物車相關 (客戶)</h2>
+	<div class="flex-btn-group border mb-9">
+		<input type="button" value="取得購物車列表" id="btnGetCarts">
+		<input type="button" value="加入購物車" id="btnPostCart">
+		<input type="button" value="編輯購物車產品數量" id="btnPatchQuantity">
+		<input type="button" value="刪除購物車內特定產品" id="btnDeleteCart">
+		<input type="button" value="清除購物車內全部產品" id="btnDeleteCartAll">
+		
+	</div>
+	
+	<h2>訂單相關 (客戶)</h2>
+	<div class="flex-btn-group border mb-9">
+		<input type="button" value="送出購買訂單" id="btnPostOrder">
+	</div>
+	
+	<h2>訂單相關 (管理者)</h2>
+	<div class="flex-btn-group border mb-9">
+		<input type="button" value="取得訂單列表" id="btnGetOrders">
+		<input type="button" value="修改訂單狀態" id="btnPutPaid">
+		<input type="button" value="刪除特定訂單" id="btnDeleteOrder">
+		<input type="button" value="刪除全部訂單" id="btnDeleteOrderAll">
+	</div>
+	
+	
+	
+	<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+	<script src="./六角API測試.js"></script>
+</body>
+
+</html>

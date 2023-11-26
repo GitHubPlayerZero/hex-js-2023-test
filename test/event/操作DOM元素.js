@@ -136,3 +136,31 @@ function removeP2()
 }
 
 removeP2();
+
+
+// console.log(document.querySelector(".list"));
+// console.log(document.querySelector(".list").tagName);
+// console.log(document.querySelector(".list").getAttribute("class"));
+// console.log(document.querySelector(".list").classList);
+
+// console.log(document.querySelector("[data-num]"));
+// console.log(document.querySelectorAll("[data-num]"));
+console.log(document.querySelector("[data-num]").tagName);
+console.log(document.querySelector("[data-num]").type);
+console.log(document.querySelector("[data-num]").value);
+console.log(document.querySelector("[data-num]").getAttribute("value"));
+console.log(document.querySelector("[data-num]").getAttribute("data-num"));
+console.log(document.querySelector("[data-num]").dataset.num);
+
+document.querySelector(".list").addEventListener("click", function (e) {
+	const elmt = e.target;
+	const num = elmt.getAttribute("data-num");
+	console.log(elmt);
+	console.log(num);
+	if (num) {
+		console.log(`yes!`);
+	}
+	else {
+		console.log(`no!!`);
+	}
+});

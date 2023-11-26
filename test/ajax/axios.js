@@ -177,6 +177,41 @@ function test()
 			console.log(`data4 ==>`, data4);
 		});
 }
+// test();
 
-test()
+
+// function testAsync()
+async function testAsync()
+{
+	const url = "https://iheritage.gov.taipei/data/api/designation/data";
+	
+	try {
+		// axios.get(url)
+		await axios.get(url)
+		.then (function (res) {
+			console.log(`url1 ==>`, res);
+			data1 = res.data;
+			console.log(`data1 ==>`, data1);
+			console.log(``);
+		})
+		// 1. 非同步的 ajax 錯誤只能在這邊 catch
+		// 2. 同步的 ajax 若有自己 catch，就不會跑到 try catch
+		.catch (function (error) {
+			console.log(`axios error ==>`);
+			console.log(error);
+		})
+		.finally (function () {
+			console.log(`====== Finally ======`);
+		});
+	}
+	// 1. 無法 catch 非同步的 ajax 錯誤
+	// 2. 同步的 ajax 若自己沒有 catch，這邊才會 catch 到
+	catch (err) {
+		console.log(`try catch error ==>`);
+		console.log(err);
+	}
+	
+	console.log(`test2 finish!`);
+}
+testAsync();
 

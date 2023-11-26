@@ -73,17 +73,20 @@ function renderChart()
 	const chart = c3.generate({
 		bindto: "#chart",
 		data: {
-			columns: [
-				['台北', 70],
-				['台中', 20],
-				['高雄', 10],
-			],
-			colors: {
-				台北: '#26BFC7',
-				台中: '#5151D3',
-				高雄: '#E68619',
-			},
+			columns: getChartData(),
 			type: 'donut',
+			color: function (color, item) {
+				switch (item) {
+					case '台北':
+						return '#26BFC7';
+					case '台中':
+						return '#5151D3';
+					case '高雄':
+						return '#E68619';
+					default:
+						return color;
+				}
+			},
 		},
 		donut: {
 			title: "套票地區比重",
@@ -95,6 +98,43 @@ function renderChart()
 			height: 183,
 		},
 	});
+}
+
+function getChartData()
+{
+	// 統計地區數量
+	const countData = {};
+	
+	datas.forEach(function (item) {
+		if (countData[item.area]) {
+			countData[item.area] ++;
+		}
+		else {
+			countData[item.area] = 1;
+		}
+	});
+	// console.log(`countData ==>`, countData);
+	
+	
+	// 轉成圖表資料
+	const chartDatas = Object.entries(countData);
+	
+	
+	// 排序
+	const areaWeightData = {
+		台北: 1,
+		台中: 2,
+		高雄: 3,
+		'': 999,
+	};
+	
+	chartDatas.sort(function (a, b) {
+		return areaWeightData[a[0]] - areaWeightData[b[0]];
+	});
+	// console.log(chartDatas);
+	
+	
+	return chartDatas;
 }
 
 
@@ -121,7 +161,6 @@ function search(region)
 	}
 	
 	getElement("#resultCount").textContent = filterDatas.length;
-	renderChart();
 	renderCardArea(filterDatas);
 }
 
@@ -143,6 +182,9 @@ function add()
 	
 	// 清空表單
 	getElement(".addTicket-form").reset();
+	
+	// 重新產出圖表
+	renderChart();
 	
 	// 重新搜尋
 	getElement(".regionSearch").value = "";
