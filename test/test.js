@@ -118,23 +118,44 @@ if (dataObj.aaa) {
 
 // console.log(document.querySelector("[data-num]"));
 // console.log(document.querySelectorAll("[data-num]"));
-console.log(document.querySelector("[data-num]").tagName);
-console.log(document.querySelector("[data-num]").type);
-console.log(document.querySelector("[data-num]").value);
-console.log(document.querySelector("[data-num]").getAttribute("value"));
-console.log(document.querySelector("[data-num]").getAttribute("data-num"));
-console.log(document.querySelector("[data-num]").dataset.num);
+// console.log(document.querySelector("[data-num]").tagName);
+// console.log(document.querySelector("[data-num]").type);
+// console.log(document.querySelector("[data-num]").value);
+// console.log(document.querySelector("[data-num]").getAttribute("value"));
+// console.log(document.querySelector("[data-num]").getAttribute("data-num"));
+// console.log(document.querySelector("[data-num]").dataset.num);
 
-document.querySelector(".list").addEventListener("click", function (e) {
-	const elmt = e.target;
-	const num = elmt.getAttribute("data-num");
-	console.log(elmt);
-	console.log(num);
-	if (num) {
-		console.log(`yes!`);
-	}
-	else {
-		console.log(`no!!`);
-	}
-});
+// document.querySelector(".list").addEventListener("click", function (e) {
+// 	const elmt = e.target;
+// 	const num = elmt.getAttribute("data-num");
+// 	console.log(elmt);
+// 	console.log(num);
+// 	if (num) {
+// 		console.log(`yes!`);
+// 	}
+// 	else {
+// 		console.log(`no!!`);
+// 	}
+// });
+
+
+let dropdown;
+
+function expandDropdown()
+{
+	// 获取下拉菜单元素
+	dropdown = document.getElementById('myDropdown');
+	console.dir(dropdown);
+	
+	// 沒用
+	/* // 创建一个鼠标事件
+	const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+	// 触发下拉菜单的点击事件
+	dropdown.dispatchEvent(event); */
+	
+	// dropdown.click();
+	
+	
+}
+
 

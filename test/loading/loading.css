@@ -5,7 +5,7 @@
 	border-radius: 50%;
 	border: 16px solid #f3f3f3;
 	border-top: 16px solid #3498db;
-	animation: spin 2s linear infinite;
+	animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
@@ -19,6 +19,7 @@
 }
 
 
+/* 方式一：預設開啟 loading，藉由加入 d-none 關閉 loading。
 .loading-mask {
 	position: fixed;
 	top: 0;
@@ -27,16 +28,38 @@
 	height: 100%;
 	background-color: rgb(198, 194, 194);
 	opacity: 0.5;
-	/* z-index: 9999; */
-	display: none;
-}
-
-.loading-mask.active {
+	
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
+.d-none {
+	display: none;
+}
+*/
+
+/* 方式二：預設關閉 loading，藉由加入 .active 開啟 loading。 */
+.loading-mask {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(198, 194, 194);
+	opacity: 0.5;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	display: none;	/* 會蓋掉 display: flex */
+}
+.loading-mask.active {
+	display: flex;	/* 會蓋掉 display: none */
+	/* justify-content: center;
+	align-items: center; */
+}
 
 .overflow-hidden {
-	overflow: hidden;
+	overflow: hidden;	/* 隱藏 scroll bar 並無法滑動 */
 }

@@ -107,8 +107,14 @@ hr {
 .justify-between {
 	justify-content: space-between;
 }
+.align-items-start {
+	align-items: flex-start;
+}
 .align-items-center {
 	align-items: center;
+}
+.align-items-end {
+	align-items: flex-end;
 }
 
 .bold {

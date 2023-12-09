@@ -1,4 +1,7 @@
-const apiPath = "zhu001";
+let apiCustomer = "https://livejs-api.hexschool.io/api/livejs/v1/customer/";
+let apiAdmin = "https://livejs-api.hexschool.io/api/livejs/v1/admin/";
+
+// const axiosConfig = {};
 
 const processFinally = () => console.log(`## Test finish!`);
 
@@ -10,13 +13,20 @@ const processError = error => {
 	console.log(`response message = ${error?.response?.data?.message}`);
 };
 
-const getAuthority = () => {
-	return {
-		headers: {
-			authorization: document.querySelector("#token").value
-		}
-	}
-};
+
+function setApi()
+{
+	const apiPath = document.querySelector("#apiPath").value;
+	console.log(`apiPath ==>`, apiPath);
+	apiCustomer += apiPath;
+	apiAdmin += apiPath;
+	
+	// axiosConfig.headers = {authorization: document.querySelector("#token").value};
+	// console.log(`axiosConfig ==>`, axiosConfig);
+	
+	axios.defaults.headers.common["authorization"] = document.querySelector("#token").value;
+	console.dir(axios);
+}
 
 
 // 取得產品列表
@@ -27,7 +37,7 @@ function getProducts(e)
 	console.clear();
 	console.log(`取得產品列表 ...`);
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/customer/${apiPath}/products`;
+	const url = `${apiCustomer}/products`;
 	console.log(`url ==> ${url}`);
 	
 	axios.get(url)
@@ -49,7 +59,7 @@ function getCarts(e)
 	console.clear();
 	console.log(`取得購物車列表 ...`);
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/customer/${apiPath}/carts`;
+	const url = `${apiCustomer}/carts`;
 	console.log(`url ==> ${url}`);
 	
 	axios.get(url)
@@ -71,7 +81,7 @@ function postCart(e)
 	console.clear();
 	console.log(`加入購物車 ...`);
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/customer/${apiPath}/carts`;
+	const url = `${apiCustomer}/carts`;
 	console.log(`url ==> ${url}`);
 	
 	const data = {
@@ -103,7 +113,7 @@ function patchQuantity(e)
 	console.clear();
 	console.log(`編輯購物車產品數量 ...`);
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/customer/${apiPath}/carts`;
+	const url = `${apiCustomer}/carts`;
 	console.log(`url ==> ${url}`);
 	
 	const data = {
@@ -135,7 +145,7 @@ function deleteCart(e)
 	console.log(`刪除購物車內特定產品 ...`);
 	
 	const orderId = "IDpFaGSBj95z0gX9fhMz";
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/customer/${apiPath}/carts/${orderId}`;
+	const url = `${apiCustomer}/carts/${orderId}`;
 	console.log(`url ==> ${url}`);
 	
 	axios.delete(url)
@@ -158,7 +168,7 @@ function deleteCartAll(e)
 	console.clear();
 	console.log(`清除購物車內全部產品 ...`);
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/customer/${apiPath}/carts`;
+	const url = `${apiCustomer}/carts`;
 	console.log(`url ==> ${url}`);
 	
 	axios.delete(url)
@@ -181,7 +191,7 @@ function postOrder(e)
 	console.clear();
 	console.log(`送出購買訂單 ...`);
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/customer/${apiPath}/orders`;
+	const url = `${apiCustomer}/orders`;
 	console.log(`url ==> ${url}`);
 	
 	const data = {
@@ -215,10 +225,11 @@ function getOrders(e)
 	console.clear();
 	console.log(`取得訂單列表 ...`);
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/admin/${apiPath}/orders`;
+	const url = `${apiAdmin}/orders`;
 	console.log(`url ==> ${url}`);
 	
-	axios.get(url, getAuthority())
+	// axios.get(url, axiosConfig)
+	axios.get(url)
 		.then (function (res) {
 			console.log(res);
 			console.log(`response data ==>`, res.data);
@@ -236,7 +247,7 @@ function putPaid(e)
 	console.clear();
 	console.log(`修改訂單狀態 ...`);
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/admin/${apiPath}/orders`;
+	const url = `${apiAdmin}/orders`;
 	console.log(`url ==> ${url}`);
 	
 	const data = {
@@ -247,7 +258,8 @@ function putPaid(e)
 	};
 	console.log(`data ==>`, data);
 	
-	axios.put(url, data, getAuthority())
+	// axios.put(url, data, axiosConfig)
+	axios.put(url, data)
 		.then (function (res) {
 			console.log(res);
 			console.log(`response data ==>`, res.data);
@@ -268,10 +280,11 @@ function deleteOrder(e)
 	// const orderId = "aaaa";	// 400 找不到該筆訂單，因此無法刪除 RRR ((((；゜Д゜)))
 	const orderId = "DyzrDCQsZTmUK9x2RvNj";
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/admin/${apiPath}/orders/${orderId}`;
+	const url = `${apiAdmin}/orders/${orderId}`;
 	console.log(`url ==> ${url}`);
 	
-	axios.delete(url, getAuthority())
+	// axios.delete(url, axiosConfig)
+	axios.delete(url)
 		.then (function (res) {
 			console.log(res);
 			console.log(`response data ==>`, res.data);
@@ -289,10 +302,11 @@ function deleteOrderAll(e)
 	console.clear();
 	console.log(`刪除全部訂單 ...`);
 	
-	const url = `https://livejs-api.hexschool.io/api/livejs/v1/admin/${apiPath}/orders`;
+	const url = `${apiAdmin}/orders`;
 	console.log(`url ==> ${url}`);
 	
-	axios.delete(url, getAuthority())
+	// axios.delete(url, axiosConfig)
+	axios.delete(url)
 		.then (function (res) {
 			console.log(res);
 			console.log(`response data ==>`, res.data);
@@ -303,6 +317,6 @@ function deleteOrderAll(e)
 
 
 function init() {
-	document.querySelector("#token").focus();
+	document.querySelector("#apiPath").focus();
 }
 init();

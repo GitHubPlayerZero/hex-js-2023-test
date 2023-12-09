@@ -1,3 +1,9 @@
+<!--
+	CodePen：
+	1. 普通寫法：https://codepen.io/codepenplayer/pen/YzBQzxO
+	2. 物件寫法：https://codepen.io/codepenplayer/pen/XWOGVNL
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,17 +19,18 @@
 <body>
 
 	<h1>loading</h1>
-
-	<ul>
-		<li>傳入秒數即可停止 N 秒。</li>
-		<li>開啟 loading 並停止 N 秒再關閉。</li>
-	</ul>
+	<p>開啟 loading 並停止 N 秒再關閉。</p>
 
 	<hr>
 
 	<input type="button" value="跳出訊息" class="mb-7" onclick="alert('123');">
+	
 	<br>
-	<input type="button" value="開啟 loading" class="mb-5" onclick="testLoading();">
+	
+	<div class="flex-btn-group mb-5">
+		<input type="button" value="開啟 loading" onclick="testLoading();">
+		<input type="button" value="測試 myLoading" onclick="testMyLoading();">
+	</div>
 
 	<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus labore neque recusandae, libero dolorum quos
 		architecto provident ex delectus. Odio sunt, inventore quas provident voluptatibus nobis repellat. Non, libero
@@ -43,11 +50,18 @@
 		incidunt sint. Odio ex id qui repellendus amet nobis dolor quisquam sed impedit magni?</p>
 	<p>Nulla est minima excepturi atque incidunt, sed amet deserunt provident accusamus, ullam facere ipsam vero officia
 		repellat possimus nam in non ex rerum consequatur sunt quidem, soluta vitae quibusdam? Deserunt.</p>
-
-	<div class="loading-mask">
+		
+	<!-- 方式一 -->
+	<!-- <div class="loading-mask d-none">
 		<div class="loader"></div>
-	</div>
+	</div> -->
 	
+	<!-- 方式二，可以不事先寫好，若沒寫則會由 JS 加上 -->
+	<!-- <div class="loading-mask">
+		<div class="loader"></div>
+	</div> -->
+	
+	<script src="./myLoading.js"></script>
 	<script src="./loading.js"></script>
 </body>
 
