@@ -10,6 +10,7 @@ const processFinally = () => {
 }
 
 
+// 基本 GET 測試 - 六角 API
 function testGet(event)
 {
 	elmtResult.textContent = "";
@@ -54,6 +55,7 @@ function testGet(event)
 }
 
 
+// 基本 GET 測試 - 政府開放資料
 function getOpenDataJson()
 {
 	console.clear();
@@ -77,6 +79,7 @@ function getOpenDataJson()
 }
 
 
+// 基本 POST 測試 - 六角 API
 function testPost(action)
 {
 	console.log(`action = ${action}`);
@@ -118,7 +121,6 @@ function testSignin() {
 	console.clear();
 	testPost('signin');
 }
-
 
 
 /*
@@ -213,5 +215,5 @@ async function testAsync()
 	
 	console.log(`test2 finish!`);
 }
-testAsync();
+// testAsync();
 
