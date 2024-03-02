@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>核心篇第七堂：非同步與 Promise</title>
+	
+	<link rel="stylesheet" href="../css/common.css">
+	
+</head>
+
+<body>
+	
+	<h1>核心篇第七堂：非同步與 Promise</h1>
+	<p>六角學院 JS 直播班核心篇練習</p>
+	<hr>
+	
+	<h2>認識 setTimeout 特性</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="測試執行順序" onclick="testExeOrder();">
+		<input type="button" value="測試執行順序 2" onclick="testExeOrder2();">
+		<input type="button" value="計算程式運行時間" onclick="countTime();">
+		<input type="button" value="測試執行順序 3" onclick="testExeOrder3();">
+		<input type="button" value="測試執行順序 4" onclick="testExeOrder4();">
+	</div>
+	
+	<hr>
+	
+	<h2>堆疊</h2>
+	<div class="flex-btn-group">
+		<input type="button" value="測試堆疊效果" onclick="testStack();">
+	</div>
+	
+	<hr>
+	
+	<h2>模擬非同步</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="模擬非同步" onclick="testAsyncFn();">
+		<input type="button" value="Callback hell" onclick="testCallbackHell();">
+	</div>
+	
+	<hr>
+	
+	<h2>Random user</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="測試 Random user" onclick="testRandomUser();">
+	</div>
+	
+	<hr>
+	
+	<h2>Promise 基礎介紹</h2>
+	<p>Promise 是函式、函式建構子、物件。</p>
+	
+	<h3>一般程式</h3>
+	<p>使用一般程式寫法，不特別使用 setTimeout 製造非同步效果，僅測試 Promise 寫法與特性。</p>
+	<p>測試結果：Promise 本身即為異步性質。</p>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="基本 Promise 測試" onclick="testBasePromise();">
+	</div>
+	
+	<h3>使用 setTimeout 模擬非同步</h3>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="基本 Promise 測試 1" onclick="testPromiseFn1();">
+		<input type="button" value="基本 Promise 測試 2" onclick="testPromiseFn2();">
+		<input type="button" value="巢狀寫法 (通常不會用)" onclick="testNestedPromise();">
+		<input type="button" value="連續呼叫寫法" onclick="testContinuousPromise();">
+		<input type="button" value="鏈接寫法 (常見)" onclick="testLinkedPromise();">
+		<input type="button" value="鏈接 - catch、finally" onclick="testLinkedPromiseCatch1();">
+		<input type="button" value="鏈接 - catch 呼叫 Promise (通常不會這樣處理)" onclick="testLinkedPromiseCatch2();">
+	</div>
+	
+	<hr>
+	
+	<h2>Promise 實戰方法</h2>
+	<h3>axios</h3>
+	<p>axios 本身為一個函式、物件，但它不是大寫開頭，所以並不是函式建構子，所以不需要使用 new 的方式建立。</p>
+	<p>以 Promise 為基礎。</p>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="基本測試" onclick="testBaseAxios();">
+		<input type="button" value="連續依序請求 (鏈接)" onclick="testLinkedAxios();">
+	</div>
+	
+	<hr>
+	
+	<h2>Promise 物件方法</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="all" onclick="testPromiseAll();" title="等待全部結果回來，一個有錯等於全錯">
+		<input type="button" value="allSettled" onclick="testPromiseAllSettled();" title="等待全部結果回來，有錯也會正常回來">
+	</div>
+	
+	<hr>
+	
+	<h2>async /await</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="基本測試" onclick="testAsyncPromise();">
+		<input type="button" value="箭頭函式寫法" onclick="testAsyncPromise2();">
+		<input type="button" value="立即函式寫法" onclick="testAsyncPromise3();">
+		<input type="button" value="基本測試 - 失敗" onclick="testAsyncPromiseFail();">
+		<input type="button" value="測試多個 Promise 均同步" onclick="testAsyncPromiseMulti1();">
+		<input type="button" value="測試多個 Promise - 只有第一個同步" onclick="testAsyncPromiseMulti2();">
+		<input type="button" value="測試多個 Promise - 只有最後一個同步" onclick="testAsyncPromiseMulti3();">
+		<input type="button" value="測試將 setTimeout 設為同步" onclick="testAsyncTimeout();">
+		<input type="button" value="async function 本身是 Promise" onclick="showAsync();">
+		<input type="button" value="以調用 Promise 的方式調用 async function" onclick="testAsyncPromise4();">
+		<input type="button" value="async 處理 axios 同步" onclick="testAsyncAxios();">
+		<input type="button" value="async + Promise.all" onclick="testAsyncPromiseAll();">
+	</div>
+	
+	
+	
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	
+	<script src="./core07.js"></script>
+	
+</body>
+
+</html>
