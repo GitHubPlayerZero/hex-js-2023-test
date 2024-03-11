@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>剪貼簿操作</title>
+	
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+	
+	<h1>剪貼簿操作</h1>
+	
+	<p>參考：</p>
+	<ul>
+		<li><a href="https://chupai.github.io/posts/2101/clipboard/" target="_blank">JavaScript 剪貼簿複製操作</a></li>
+		<li><a href="https://zh.javascript.info/events-change-input" target="_blank">事件：change，input，cut，copy，paste</a></li>
+		<li><a href="https://juejin.cn/s/input%20%E7%9B%91%E5%90%AC%E7%B2%98%E8%B4%B4" target="_blank">input 监听粘贴</a></li>
+		<li><a href="https://juejin.cn/s/input%20%E7%9B%91%E5%90%AC%E7%B2%98%E8%B4%B4" target="_blank">input 监听粘贴</a></li>
+		<li><a href="https://segmentfault.com/q/1010000011309564" target="_blank">怎样让input type=number不能输入负数</a></li>
+	</ul>
+	
+	<hr>
+	
+	<h2>Document.execCommand()</h2>
+	<p><span class="highlight">已棄用</span>，請見 <a href="https://developer.mozilla.org/zh-TW/docs/Web/API/Document/execCommand" target="_blank">MDN</a> 說明。</p>
+	
+	<hr>
+	
+	<h2>Clipboard API</h2>
+	<h3>對剪貼簿寫入純文字內容</h3>
+	
+	<p>將輸入的文字寫入剪貼簿：</p>
+	
+	<div class="form" style="margin-top: 10px;">
+		<input type="text" id="text1" class="mb-3" >
+		<br>
+		<input type="button" value="寫入剪貼簿" onclick="writeInputText();">
+	</div>
+	
+	<div class="form mb-9">
+		<textarea id="textarea1" cols="30" rows="10"></textarea>
+		<br>
+		<input type="button" value="寫入剪貼簿" onclick="writeTextarea();">
+	</div>
+	
+	
+	<p>將選取的文字寫入剪貼簿：</p>
+	
+	<div class="form" id="div1" style="margin-top: 10px;">
+		<p style="margin-top: 4px;">
+			床前明月光，疑是地上霜。<br>
+			舉頭望明月，低頭吃便當。
+		</p>
+		<p>
+			紅豆生南國，春來發幾枝。<br>
+			勸君多採擷，此物最想吃。
+		</p>
+		<input type="button" value="寫入剪貼簿" onclick="writeSelection();">
+	</div>
+	
+	
+	<h3 style="margin-top: 50px;">讀取剪貼簿純文字內容</h3>
+	
+	<div class="form">
+		<input type="button" class="mb-4" value="讀取剪貼簿" onclick="readText();">
+		<br>
+		<textarea id="result1" cols="30" rows="10" class="readonly" readonly ></textarea>
+	</div>
+	
+	<hr>
+	
+	<h2>ClipboardEvent</h2>
+	
+	<h3>copy、cut、paste 事件監聽</h3>
+	
+	<p id="eventP1" class="box mb-6">
+		在這個段落裡，它會偵測 copy。<br>
+		Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum vel, sunt at quia mollitia ipsa amet rerum laborum iusto quod inventore ratione assumenda eligendi porro ex, maxime nemo laudantium obcaecati.  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio ea quo deserunt placeat cum tenetur ipsam reprehenderit nisi asperiores, ipsum doloremque dicta facere accusamus a aperiam earum, itaque et provident.
+	</p>
+	
+	<div>
+		<p>這個 textarea 會偵測 paste、cut。</p>
+		<textarea id="eventTextarea1" cols="60" rows="10"></textarea>
+	</div>
+	
+	<br>
+	
+	<h3>copy、cut、paste 事件屏蔽</h3>
+	
+	<p id="eventP2" class="box mb-6">
+		在這個段落裡，它會阻止 copy。<br>
+		Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum vel, sunt at quia mollitia ipsa amet rerum laborum iusto quod inventore ratione assumenda eligendi porro ex, maxime nemo laudantium obcaecati.  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio ea quo deserunt placeat cum tenetur ipsam reprehenderit nisi asperiores, ipsum doloremque dicta facere accusamus a aperiam earum, itaque et provident.
+	</p>
+	
+	<div>
+		<p>這個 textarea 會阻止 paste、cut。</p>
+		<textarea id="eventTextarea2" cols="60" rows="10">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam atque possimus dicta maiores laudantium ad sint nulla ipsa in voluptate ab molestias, molestiae totam animi et autem ullam vel praesentium?</textarea>
+	</div>
+	
+	<br>
+	
+	<h3>改變 copy 文字</h3>
+	
+	<p id="eventP3" class="box mb-6">
+		在這個段落裡選取並複製，會改變 copy 文字。<br>
+		Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum vel, sunt at quia mollitia ipsa amet rerum laborum iusto quod inventore ratione assumenda eligendi porro ex, maxime nemo laudantium obcaecati.  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio ea quo deserunt placeat cum tenetur ipsam reprehenderit nisi asperiores, ipsum doloremque dicta facere accusamus a aperiam earum, itaque et provident.
+	</p>
+	
+	<p id="eventP4" class="box mb-6">
+		在這個段落裡選取並複製，它會在最後加上版權出處。<br>
+		Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatum vel, sunt at quia mollitia ipsa amet rerum laborum iusto quod inventore ratione assumenda eligendi porro ex, maxime nemo laudantium obcaecati.  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Optio ea quo deserunt placeat cum tenetur ipsam reprehenderit nisi asperiores, ipsum doloremque dicta facere accusamus a aperiam earum, itaque et provident.
+	</p>
+	
+	<hr>
+	
+	<h2>應用 1：製作複製、貼上按鈕</h2>
+	
+	<p id="test1P1" class="box mb-6">
+		在這個段落裡，只能使用 Copy 按鈕進行複製。<br>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit. Excepturi similique fugiat nam perspiciatis autem magnam. Illo deserunt ipsam, facilis, ipsa fugiat nemo fuga velit quae voluptatum quos neque alias aliquid et maiores cumque asperiores officiis hic provident sit. Libero doloremque atque inventore, illum eaque modi tempore natus repellat neque soluta.
+		<br><br>
+		<input type="button" value="Copy" onclick="copy();">
+	</p>
+	
+	<p>這個 textarea，只能使用 Paste 按鈕進行貼上。</p>
+	<textarea class="readonly mb-2" id="test1Textarea1" cols="30" rows="10" readonly></textarea>
+	<br>
+	<input type="button" value="Paste" onclick="paste();">
+	
+	<hr>
+	
+	<h2>應用 2：限制 input 輸入</h2>
+	
+	<p class="title">需求</p>
+	<ul>
+		<li>只能輸入數字。</li>
+		<li>不能輸入負數。</li>
+		<li>最小為 0。</li>
+	</ul>
+	
+	<input type="number" id="number1" value="0" placeholder="最小為 0" min="0" 
+		style="font-size: 18px; padding: 5px;">
+	
+	<p class="title" style="margin-top: 28px;">設計說明</p>
+	<ul>
+		<li>只能輸入數字，基本上 type 使用 number 即可達成。</li>
+		<li>給予一個預設值 0 (value)，以及預設說明文字 (placehoder)。</li>
+		<li>min 屬性設定為 0 可以限制遞減箭頭不會小於 0，但無法阻止手動輸入。</li>
+		<li>監聽 keypress 禁止輸入 - 號。</li>
+		<li>監聽 paste 禁止貼上不合規格的內容。</li>
+		<li>聚焦輸入框時，若內容為 0 則自動清空以方便輸入。</li>
+		<li>離開輸入框時，若內容為空則自動補為 0。</li>
+	</ul>
+	
+	
+	
+	<script src="./clipboard.js"></script>
+	
+</body>
+
+</html>
