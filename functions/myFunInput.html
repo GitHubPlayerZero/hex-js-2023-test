@@ -1,0 +1,64 @@
+<!-- https://codepen.io/codepenplayer/pen/LYvNJBj -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>自製函式庫 - 輸入限制</title>
+
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+	
+	<h1>自製函式庫 - 輸入限制</h1>
+	<hr class="hr">
+	
+	<h2>Sample 1 (.myfun-input1)</h2>
+	
+	<div class="box desc-area">
+		<p class="title">需求</p>
+		<ul class="desc">
+			<li>只能輸入數字。</li>
+			<li>最小為 0。</li>
+		</ul>
+	</div>
+	
+	<div class="box desc-area">
+		<p class="title">範例</p>
+		<input type="number" class="myfun-input1" value="0" placeholder="最小為 0" min="0" 
+			style="font-size: 18px; padding: 5px;">
+		<input type="number" class="myfun-input1" value="0" placeholder="最小為 0" min="0" 
+			style="font-size: 18px; padding: 5px;">
+	</div>
+	
+	<div class="box desc-area">
+		<p class="title">Code&nbsp;&nbsp;<input type="button" value="複製" onclick="copyCode('#myfunInput1Code');"></p>
+		<code id="myfunInput1Code">&ltinput type="number" class="myfun-input1" value="0" placeholder="最小為 0" min="0"></code>
+	</div>
+	
+	<div class="box desc-area">
+		<p class="title">設計說明</p>
+		<ul class="desc">
+			<li>只能輸入數字，基本上 type 使用 number 即可達成。</li>
+			<li>給予一個預設值 0 (value)，以及預設說明文字 (placehoder)。</li>
+			<li>min 屬性設定為 0 可以限制遞減箭頭不會小於 0，但無法阻止手動輸入。</li>
+			<li>監聽 keypress 禁止輸入 - 號。</li>
+			<li>監聽 paste 禁止貼上不合規格的內容。</li>
+			<li>聚焦輸入框時，若內容為 0 則自動清空以方便輸入。</li>
+			<li>離開輸入框時，若內容為空則自動補為 0。</li>
+		</ul>
+	</div>
+	
+	<hr class="hr">
+	
+	
+	
+	
+	<script src="./myFunInput.js"></script>
+	
+</body>
+
+</html>

@@ -63,6 +63,25 @@ hr {
   margin-top: 15px;
 }
 
+.desc-area .title {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+.desc-area .desc {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.box {
+  margin: 30px 0;
+  padding: 15px;
+  border: 3px dashed rgb(232, 168, 18);
+}
+
+.sample {
+  outline: 1px dashed;
+}
+
 .grid {
   margin-bottom: 10px;
 }
@@ -81,10 +100,9 @@ hr {
   font-size: 1rem;
 }
 
-.box {
+.hr {
   margin: 30px 0;
-  padding: 15px;
-  border: 3px dashed rgb(232, 168, 18);
+  border: 3px dashed #5996cc;
 }
 
 .readonly {
