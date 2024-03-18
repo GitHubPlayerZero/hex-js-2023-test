@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>核心篇第四堂：物件與記憶體位置</title>
+	
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+	
+	<h1>核心篇第四堂：物件與記憶體位置</h1>
+	<p>六角學院 JS 直播班核心篇練習</p>
+	
+	<hr class="hr">
+	
+	<h2>物件傳參考基本測試</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="變數賦值為已存在的物件" onclick="assignExistingObj();">
+		<input type="button" value="函式傳入物件" onclick="testFunObj();">
+		<input type="button" value="陣列裡放原始型別" onclick="testAryOriginal();">
+		<input type="button" value="陣列裡放物件" onclick="testAryObj();">
+	</div>
+	
+	<hr>
+	
+	<h2>物件的概念</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="基礎概念" onclick="testObjBase();">
+		<input type="button" value="進階觀念、可選串連" onclick="testObj2();">
+	</div>
+	
+	<hr>
+	
+	<h2>陣列</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="奇怪的手法" onclick="testArrayStrangeness();">
+		<input type="button" value="迴圈" onclick="testArrayLoop();">
+	</div>
+	
+	<hr>
+	
+	<h2>物件傳參</h2>
+	
+	<div style="padding-left: 10px;">
+		<input type="button" value="基本測試" onclick="testBaseObjRef();">&nbsp;
+		<span>變數賦值物件、永遠指向自己</span>
+	</div>
+	
+	<div class="flex-btn-group">
+		
+		<input type="button" value="函式也是物件" onclick="testObjFn();">
+		<input type="button" value="惡搞 parseInt" onclick="spoofParseInt();">
+		<input type="button" value="深層物件" onclick="testDeepObj();">
+		<input type="button" value="拷貝" onclick="testCopy();">
+	</div>
+	
+	<hr>
+	
+	<h2>連續賦值的陷井</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="物件的連續賦值" onclick="testObjContinuousAssignment();">
+		<input type="button" value="其它連續賦值題目" onclick="testContinuousAssignment();">
+	</div>
+	
+	<hr>
+	
+	<h2>物件的陣列方法</h2>
+	
+	<div class="flex-btn-group">
+		<input type="button" value="物件的陣列方法" onclick="testObjectAry();">
+	</div>
+	
+	
+	
+	
+	<script src="./core04.js"></script>
+	
+</body>
+
+</html>
