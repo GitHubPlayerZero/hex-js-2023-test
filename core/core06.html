@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>核心篇第六堂：this 與原型鏈</title>
+	
+	<link rel="stylesheet" href="../css/common.css">
+	
+	<style>
+		li {
+			line-height: 1.6;
+		}
+	</style>
+	
+</head>
+
+<body>
+	
+	<h1>核心篇第六堂：this 與原型鏈</h1>
+	<p>六角學院 JS 直播班核心篇練習</p>
+	
+	<hr class="hr">
+	
+	<h2>嚴格模式 (strict mode)</h2>
+	
+	<p>
+		提供開發者語法嚴格、受限的模式（strict mode），會影響語法的使用。<br>
+		在函式中，若 this 指向的是全域 window，也會被禁止使用而變成 undefined。<br>
+		這個部份之後會再測試到。
+	</p>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="testStrictMode();">嚴格模式</button>
+	</div>
+	
+	<hr>
+	
+	<h2>this</h2>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="testFn1();">函式可以取到的資訊、<br>this 與函式作用域相關</button>
+		<button type="button" onclick="testCallFn1();">純粹呼叫函式<br>（this 會指向全域）</button>
+		<button type="button" onclick="testStrictThis();">嚴格模式下的 this</button>
+		<button type="button" onclick="testObjThis1();">物件下的方法</button>
+	</div>
+	
+	<hr>
+	
+	<h2>this 與箭頭函式</h2>
+	<p>箭頭函式沒有自己的 this，箭頭函式的 this 會指向外層作用域的 this。</p>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="testArrowIIFE1();">測試一：立即執行函式</button>
+		<button type="button" onclick="testArrowObj1();">測試二：物件</button>
+	</div>
+	
+	<hr>
+	
+	<h2>this 應用：模擬 Vue 物件操作</h2>
+	
+	<p>物件裡使用 this 的好處：不需要直接指定物件名稱。</p>
+	
+	<p>當物件裡的屬性之間呼叫都使用 this 時，我們可以輕易地將這個物件複製成另一個物件，並只修改必要的屬性即可使用，而不需要再重寫一遍物件。</p>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="imitateVue();">模擬 Vue 物件操作</button>
+	</div>
+	
+	<div class="box mt-3 mb-5">
+		<p class="mt-0 mb-1">root：</p>
+		<div id="root"></div>
+	</div>
+	
+	<div class="box mt-0">
+		<p class="mt-0 mb-1">root2：</p>
+		<div id="root2"></div>
+	</div>
+	
+	<hr>
+	
+	<h2>new 運算子的 this 指向</h2>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="testConstructorFunc1();">構造函式 (Constructor Function)</button>
+	</div>
+	
+	<hr>
+	
+	<h2>原型鏈</h2>
+	
+	<p>「原型鏈」就是可以透過 prototype 一層一層往上找。</p>
+	<p>可以在中間任何一層 prototype 插入新的方法，其實體物件即可使用這些方法。</p>
+	
+	<p class="mb-1">好處：</p>
+	<ol class="mt-0">
+		<li>省記憶體。</li>
+		<li>好管理。</li>
+	</ol>
+	
+	<p class="highlight">JavaScript 本身就是透過原型鏈在運作。</p>
+	
+	<div class="flex-btn-group test-prototype">
+		<button type="button" onclick="testPrototype1();">哪裡會看到原型</button>
+		<button type="button" onclick="customizePrototype1();">自訂義原型 1</button>
+		<button type="button" onclick="customizePrototype2();">自訂義原型 2</button>
+	</div>
+	
+	<hr>
+	
+	<h2>函式建構子 (Constructor Function)</h2>
+	<p>也有的翻作「構造函式」、「建構式函式」。</p>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="testDog();">範例：狗</button>
+		<button type="button" onclick="testFunctionExtends();">函式建構子的繼承</button>
+	</div>
+	
+	<hr>
+	
+	<h2>Class</h2>
+	<p>Class 是語法糖。</p>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="testDogClass();">改寫狗範例為 Class</button>
+		<button type="button" onclick="testClassExtends();">Class 的繼承</button>
+	</div>
+	
+	
+	
+	<script src="./core06.js"></script>
+	
+</body>
+
+</html>
