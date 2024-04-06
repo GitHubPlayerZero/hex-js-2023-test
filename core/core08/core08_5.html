@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>核心篇第八堂：模組開發 Part 5</title>
+	
+	<link rel="stylesheet" href="../../css/common.css">
+	
+</head>
+
+<body>
+	
+	<h1>核心篇第八堂：模組開發 Part 5</h1>
+	<p>六角學院 JS 直播班核心篇練習</p>
+	
+	<hr class="hr">
+	
+	<h2>模組化的套件介紹 - Lodash</h2>
+	
+	<div class="box">
+		<span>防抖 (debounce)：</span>
+		<input type="text" id="input1">
+	</div>
+	
+	<div class="box">
+		<span>節流 (throttle)：</span>
+		<input type="text" id="input2">
+	</div>
+	
+	
+	
+	<!-- 只能匯入整包 lodash 模組 -->
+	<script type="module">
+		
+		// https://www.jsdelivr.com/package/npm/lodash
+		
+		// 這個網址似乎只能用於 script src 的做法
+		// SyntaxError: The requested module 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js' does not provide an export named 'default'
+		// import lodash from 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js';
+		
+		/* 看起來這個網址只能匯入整包 lodash */
+		console.log(`====== 只能 import 整包 lodash ======`);
+		import lodash from 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/+esm';
+		
+		console.log(`lodash ==>`);
+		console.dir(lodash);
+		
+		console.log(`lodash.forEach ==>`);
+		console.dir(lodash.forEach);
+		
+		// SyntaxError: The requested module 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/+esm' does not provide an export named 'forEach'
+		// import {forEach} from 'https://cdn.jsdelivr.net/npm/lodash@4.17.21/+esm';
+		// console.dir(forEach);
+		
+		console.log(``);
+		
+		const ary = ['a', 'b', 'c', 'd', 'e'];
+		console.log(ary);
+		lodash.forEach(ary, function (item) {
+			console.log(item);
+		})
+		
+		console.log(``);
+		
+	</script>
+	
+	
+	<!-- 可以 import 整包 lodash 及各別 function 的模組 -->
+	<script type="module">
+		
+		// https://www.jsdelivr.com/package/npm/lodash-es
+		
+		/* 這個網址可以整包匯入也可以匯入各別 function */
+		console.log(`====== 可以 import 整包 lodash 及各別 function ======`);
+		
+		import lodash from 'https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/+esm';
+		import {forEach} from 'https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/+esm';
+		
+		// 也可以用這個網址
+		// import {forEach} from 'https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.min.js';
+		
+		console.log(`lodash ==>`);
+		console.dir(lodash);
+		
+		console.log(`forEach ==>`);
+		console.dir(forEach);
+		
+		console.log(``);
+		
+		const ary = ['a', 'b', 'c', 'd', 'e'];
+		console.log(ary);
+		forEach(ary, function (item) {
+			console.log(item);
+		})
+		
+		console.log(``);
+		
+	</script>
+	
+	
+	<!-- 防抖 (debounce)、節流 (throttle) -->
+	<script type="module">
+		
+		console.log(`====== 防抖 (debounce)、節流 (throttle) ======`);
+		
+		import {debounce, throttle} from 'https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/lodash.min.js';
+		
+		
+		const fn = function (e) {
+			console.log(this.value);
+		};
+		
+		
+		/*
+			防抖 (debounce)
+			在指定時間內沒有再觸發才會執行。
+		*/
+		const elmtInput1 = document.querySelector("#input1");
+		console.log(elmtInput1);
+		
+		// elmtInput1.addEventListener("keyup", fn);
+		elmtInput1.addEventListener("keyup", debounce(fn, 500));
+		
+		console.log(``);
+		
+		
+		/*
+			節流 (throttle)
+			第一次會直接觸發，接下來會在指定的時間週期到了才執行。
+		*/
+		const elmtInput2 = document.querySelector("#input2")
+		console.log(elmtInput2);
+		elmtInput2.addEventListener("keyup", throttle(fn, 2000));
+		
+	</script>
+	
+	
+</body>
+
+</html>

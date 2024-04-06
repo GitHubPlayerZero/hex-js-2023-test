@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>核心篇第八堂：模組開發 Part 3</title>
+	
+	<link rel="stylesheet" href="../../css/common.css">
+	
+</head>
+
+<body>
+	
+	<h1>核心篇第八堂：模組開發 Part 3</h1>
+	<p>六角學院 JS 直播班核心篇練習</p>
+	
+	<hr class="hr">
+	
+	<h2>Top Level await</h2>
+	
+	
+	
+	
+	<!-- 在 module 裡 import axios -->
+	<script type="module">
+		
+		console.log(``);
+		console.log(`====== [script 1] Start ======`);
+		
+		console.log(`在 module 裡 import axios ...`);
+		
+		import axios from "https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/esm/axios.min.js";
+		
+		console.dir(axios);
+		
+		// const res = await axios.get("https://randomuser.me/api/");
+		// console.log(`[script 1] res ==>`, res);
+		
+		console.log(`====== [script 1] End ======`);
+		console.log(``);
+		
+	</script>
+	
+	
+	<!-- 使用 CDN 載入 axios -->
+	<!--
+		注意：如果有使用 CDN 的方式載入套件，不管是寫在 module 之前還之後，module 都可以使用，不需要再自己做 import。
+	-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
+	
+	<!-- 傳統 async + await 寫法 -->
+	<script>
+		
+		console.log(``);
+		console.log(`====== [script 2] Start ======`);
+		
+		console.log(`使用 CDN 載入 axios ...`);
+		console.dir(axios);
+		
+		/*
+			ASI (自動插入分號)
+			在某些情境下 JS 不會自動插入分號，像此例就是。
+			因此有些資深開發者會把分號加在特定程式的開頭。
+			P.S. 個人猜測，可能是因為不能保證大家都一定會在結尾加上分號，所以乾脆自己加在開頭。
+		*/
+		const a = 1	// TypeError: 1 is not a function
+		
+		;(async () => {
+			const res = await axios.get("https://randomuser.me/api/");
+			console.log(`[script 2] res ==>`, res);
+		}) ();
+		
+		console.log(`====== [script 2] End ======`);
+		console.log(``);
+		
+	</script>
+	
+	
+	<!--
+		Top Level 寫法：
+		當沒有使用 async，只有使用 await 時，必須使用 top level 寫法。
+		Top level 寫法即是將 script type 設定為 module，並且 await 必須寫在此模組的 Module 或區塊作用域，而不能寫在 function 裡。
+		若寫在 function 裡仍需要加上 async。
+	-->
+	
+	<!-- SyntaxError: await is only valid in async functions and the top level bodies of modules -->
+	<!-- <script> -->
+	
+	<script type="module">
+		
+		console.log(``);
+		console.log(`====== [script 3] Start ======`);
+		
+		// 函式作用域 (立即函式)
+		// Scope ==> Local
+		(async () => {
+			const res1 = await axios.get("https://randomuser.me/api/");
+			console.log(`[script 3 #1] 立即函式 res1 ==>`, res1);
+			// debugger;
+		}) ();
+		
+		// 函式作用域
+		// Scope ==> Local
+		async function test() {
+			const res2 = await axios.get("https://randomuser.me/api/");
+			console.log(`[script 3 #2] 函式 res2 ==>`, res2);
+			// debugger;
+		}
+		test();
+		
+		// 區塊作用域
+		// Scope ==> Block
+		{
+			const res3 = await axios.get("https://randomuser.me/api/");
+			console.log(`[script 3 #3] 區塊 res3 ==>`, res3);
+			// debugger;
+		}
+		
+		// 區塊作用域
+		// Scope ==> Block
+		if (1) {
+			const res4 = await axios.get("https://randomuser.me/api/");
+			console.log(`[script 3 #4] 區塊 res4 ==>`, res4);
+			// debugger;
+		}
+		
+		// 模組作用域
+		// Scope ==> Module
+		const res5 = await axios.get("https://randomuser.me/api/");
+		console.log(`[script 3 #5] 模組 res5 ==>`, res5);
+		// debugger;
+		
+		console.log(`====== [script 3] End ======`);
+		console.log(``);
+		
+	</script>
+	
+	
+</body>
+
+</html>

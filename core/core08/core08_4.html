@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>核心篇第八堂：模組開發 Part 4</title>
+	
+	<link rel="stylesheet" href="../../css/common.css">
+	
+</head>
+
+<body>
+	
+	<h1>核心篇第八堂：模組開發 Part 4</h1>
+	<p>六角學院 JS 直播班核心篇練習</p>
+	
+	<hr class="hr">
+	
+	<h2>實作範例</h2>
+	
+	
+	
+	<script type="module">
+		
+		import {store, Dog, Store} from "./core08_04.js";
+		
+		/* 閉包 */
+		console.log(`====== 閉包 ======`);
+		console.dir(store);
+		console.log(``);
+		
+		const 小明 = store('小明', 1000);
+		console.log(小明);
+		小明.showMoney();
+		小明.increase(500);
+		小明.showMoney();
+		小明.increase(800);
+		小明.showMoney();
+		console.log(`# ${小明.getName()} 有 ${小明.getMoney()} 元`);
+		
+		console.log(``);
+		
+		const 杰倫 = store('杰倫', 10000);
+		console.log(杰倫);
+		杰倫.showMoney();
+		杰倫.increase(3000);
+		杰倫.showMoney();
+		杰倫.increase(9000);
+		杰倫.showMoney();
+		console.log(`# ${杰倫.getName()} 有 ${杰倫.getMoney()} 元`);
+		
+		console.log(``);
+		console.log(``);
+		
+		
+		/* 函式建構子 */
+		console.log(`====== 函式建構子 ======`);
+		console.dir(Dog);
+		console.log(``);
+		
+		const 小白 = new Dog('白色', '小白');
+		console.log(小白);
+		小白.walk();
+		console.log(`# ${小白.name} 是 ${小白.color} 的`);
+		
+		console.log(``);
+		console.log(``);
+		
+		
+		/* Class */
+		console.log(`====== Class ======`);
+		console.dir(Store);
+		console.log(``);
+		
+		const 小明存款 = new Store('小明', 1000);
+		console.log(小明存款);
+		小明存款.showMoney();
+		小明存款.increase(300);
+		小明存款.showMoney();
+		console.log(`# ${小明存款.name} 有 ${小明存款.money} 元`);
+		
+		console.log(``);
+		
+		const 杰倫存款 = new Store('杰倫', 10000);
+		console.log(杰倫存款);
+		杰倫存款.showMoney();
+		杰倫存款.increase(5000);
+		杰倫存款.showMoney();
+		console.log(`# ${杰倫存款.name} 有 ${杰倫存款.money} 元`);
+		
+	</script>
+	
+	
+	
+</body>
+
+</html>

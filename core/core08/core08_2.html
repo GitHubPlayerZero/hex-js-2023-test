@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>核心篇第八堂：模組開發 Part 2</title>
+	
+	<link rel="stylesheet" href="../../css/common.css">
+	
+</head>
+
+<body>
+	
+	<h1>核心篇第八堂：模組開發 Part 2</h1>
+	<p>六角學院 JS 直播班核心篇練習</p>
+	
+	<hr class="hr">
+	
+	<h2>作用域</h2>
+	
+	
+	
+	<!--
+		作用域測試
+		
+		純 <script> 區域：
+		1. 不同的 <script> 區域可以連貫其作用域。
+		2. 上面的區域可以影响到下面，下面的無法影响到上面。
+		3. 不同的 <script> 區域發生錯誤時，只會影响到自己本身的區域，其它區域仍可以正常執行。
+		
+		module 與純 <script> 區域：
+		1. module 可以存取到純 <script> 區域的資料，不管區域是在之前或之後（因為純 <script> 會先被執行）。
+		2. module 可以重複宣告純 <script> 區域已宣告的變數，且覆蓋效果僅限於此 module 區域內。
+		3. module 區域定義的資料無法影响到純 <script> 區域。
+		
+		module 與 module 區域：彼此作用域獨立，不會互相影響。
+		
+		結論：
+		1. 純 <script> 區域會先被執行，再執行 module 區域。
+		2. 純 <script> 區域上面會影响下面，也會影响 module。
+		3. module 會產生獨立作用域，在其中 import、宣告都不會影响到其它 module 或純 <script> 區域。
+	-->
+	
+	<script>
+		
+		console.log(`====== [script 1] ======`);
+		
+		const script1_test1 = 1;
+		console.log(`script1_test1 = ${script1_test1}`);
+		
+		// 下面的純 <script> 區塊無法影响到上面
+		// 會發生錯誤，但只會影响到自己的區域，下面的 script 區塊仍可以正常執行。
+		console.log(`script3_test1 = ${script3_test1}`);	// ReferenceError: script3_test1 is not defined
+		
+		// module 區域定義的資料無法影响到純 <script>
+		// console.log(`script2_test1 = ${script2_test1}`);	// ReferenceError: script2_test1 is not defined
+		
+		console.log(`[script 1] end.`);
+		console.log(``);
+		
+	</script>
+	
+	
+	<script type="module">
+		
+		console.log(`====== [script 2 (module)] ======`);
+		
+		// module 可以重複宣告純 <script> 區域已宣告的變數，且覆蓋效果僅限於此 module 區域內。
+		const script1_test1 = "我也定義了 script1_test1";
+		
+		const script2_test1 = 2;
+		console.log(`script2_test1 = ${script2_test1}`);
+		
+		// module 可以存取到純 <script> 區域的資料，不管區域是在之前或之後
+		console.log(`script1_test1 = ${script1_test1}`);
+		console.log(`script3_test1 = ${script3_test1}`);
+		
+		window.script2_test2 = "script2 定義在 window";
+		console.log(`window.script2_test2 = ${window.script2_test2}`);
+		
+		// 因為純 <script> 會先於 module 執行，因此有值
+		console.log(`window.script3_test2 = ${window.script3_test2}`);
+		console.log(`script3_test2 = ${script3_test2}`);
+		
+		console.log(`[script 2 (module)] end.`);
+		
+	</script>
+	
+		
+	<script>
+		
+		console.log(``);
+		console.log(`====== [script 3] ======`);
+		
+		// 純 <script> 區域，其作用域有連貫性，這邊不能重複定義變數上面定義過的變數。
+		// const script1_test1 = "123";	// SyntaxError: Identifier 'script1_test1' has already been declared
+		
+		var script3_test1 = 3;
+		console.log(`script3_test1 = ${script3_test1}`);
+		
+		// 上面的 script 區塊可以影响到下面
+		console.log(`script1_test1 = ${script1_test1}`);
+		
+		// module 區域定義的資料無法影响到純 <script>
+		// console.log(`script2_test1 = ${script2_test1}`);	// ReferenceError: script2_test1 is not defined
+		
+		const script2_test1 = "我也定義了 script2_test1";
+		console.log(`script2_test1 = ${script2_test1}`);
+		
+		// 因為純 <script> 區域會先被執行，然後才執行 module，因此此時沒有 window.script2_test2
+		console.log(`window.script2_test2 = ${window.script2_test2}`);	// undefined
+		
+		window.script3_test2 = "script3 定義在 window";
+		console.log(`window.script3_test2 = ${window.script3_test2}`);
+		
+		console.log(`[script 3] end.`);
+		console.log(``);
+		
+	</script>
+	
+	
+	<script type="module">
+		
+		console.log(``);
+		console.log(`====== [script 4 (module)] ======`);
+		
+		console.log(`script1_test1 = ${script1_test1}`);
+		
+		// module 區域定義的資料無法影响到另一個 module 區域
+		// console.log(`script2_test1 = ${script2_test1}`);	// ReferenceError: script2_test1 is not defined
+		
+		// 可以取到值
+		console.log(`window.script2_test2 = ${window.script2_test2}`);
+		console.log(`script2_test2 = ${script2_test2}`);
+		
+		console.log(`[script 4 (module)] end.`);
+		console.log(``);
+		
+	</script>
+	
+	
+</body>
+
+</html>
