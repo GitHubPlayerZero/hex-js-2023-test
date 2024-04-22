@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Local storage 監聽</title>
+	
+	<link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+	
+	<h1>Local storage 監聽</h1>
+	
+	<p>
+		以 Chrome 做測試，分頁分別開啟本隻程式及 storage.html 做觀察。
+		<br>
+		瀏覽器不會在當前的分頁觸發 storage 監聽，只有其它有監聽的分頁會被觸發。
+	</p>
+	
+	<hr class="hr">
+	
+	<div>
+		<div class="grid">
+			<label>
+				鍵項：
+				<input type="text" value="test1" id="keyName2">
+			</label>
+		</div>
+		
+		<div class="grid">
+			<label>
+				值：
+				<input type="text" value="aaa" id="keyValue2">
+			</label>
+		</div>
+	</div>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="testLocalListener().setItem()">使用 setItem 存入</button>
+		<button type="button" onclick="testLocalListener().removeItem()">使用 removeItem 刪除</button>
+		<button type="button" onclick="testLocalListener().setObjProperty()">使用物件屬性存入</button>
+		<button type="button" onclick="testLocalListener().removeObjProperty()">使用物件屬性刪除</button>
+	</div>
+	
+	
+	
+	<script src="./storageListener.js"></script>
+	
+</body>
+
+</html>

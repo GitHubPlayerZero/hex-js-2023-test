@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Local、Session storage</title>
+	
+	<link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+	
+	<h1>Local storage、Session storage</h1>
+	<hr class="hr">
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="showStorage();">顯示 Local storage、Session storage</button>
+		<button type="button" onclick="clearStorage();">清除 Local storage、Session storage</button>
+	</div>
+	
+	<hr>
+	
+	<h2>玩一下吧</h2>
+	
+	<p>請輸入你的姓名：</p>
+	<input type="text" id="name" value="小智">
+	
+	<div class="flex-btn-group">
+		<input type="button" value="送出" id="btnSend">
+		<input type="button" value="打個招呼吧" id="btnHello">
+	</div>
+	
+	<p>
+		<span>Local storage：</span>
+		<span id="helloLocal"></span>
+	</p>
+	<p>
+		<span>Session storage：</span>
+		<span id="helloSession"></span>
+	</p>
+	
+	<hr>
+	
+	<h2>物件的存取</h2>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="saveObject();">存入物件</button>
+		<button type="button" onclick="getObject();">取出物件</button>
+	</div>
+	
+	<hr>
+	
+	<h2>刪除某個項目</h2>
+	
+	<div class="mb-3">
+		<label>
+			鍵項名稱：
+			<input type="text" id="keyName">
+		</label>
+	</div>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="removeLocalItem();">刪除 Local storage 項目</button>
+		<button type="button" onclick="removeSessionItem();">刪除 Session storage 項目</button>
+	</div>
+	
+	<hr>
+	
+	<h2>遍歷項目</h2>
+	<p>length、key() 的使用。</p>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="traceLocalItem();">Local storage</button>
+		<button type="button" onclick="traceSessionItem();">Session storage</button>
+	</div>
+	
+	<hr>
+	
+	<h2>直接用物件的方式存取 Storage</h2>
+	
+	<p>
+		Local storage、Session storage 本身為物件，每一個項目都是其屬性，因此其實也可以像使用物件般地直接對它們增、刪、改、查。
+	</p>
+	<p class="highlight">但通常不建議這麼做。</p>
+	<p>因為對於某些關鍵字——如 "length"、"key" 等等——可能會出現非預期的不正常的情況。</p>
+	<p>以 Local storage 做測試，以 test 為鍵項。</p>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="storageObjTester.setItem()">存入項目</button>
+		<button type="button" onclick="storageObjTester.getItem()">取出項目</button>
+		<button type="button" onclick="storageObjTester.removeItem()">刪除項目</button>
+		<button type="button" onclick="storageObjTester.keys()">取出所有鍵項 (key)</button>
+		<button type="button" onclick="storageObjTester.values()">取出所有值 (value)</button>
+	</div>
+	
+	<hr>
+	
+	<h2>Storage 事件</h2>
+	
+	<p>使用 Local storage 測試。</p>
+	
+	<p>
+		以 Chrome 做測試，分頁分別開啟本隻程式及 storageListener.html 做觀察。
+		<br>
+		瀏覽器不會在當前的分頁觸發 storage 監聽，只有其它有監聽的分頁會被觸發。
+	</p>
+	
+	<div>
+		<div class="grid">
+			<label>
+				鍵項：
+				<input type="text" value="test1" id="keyName2">
+			</label>
+		</div>
+		
+		<div class="grid">
+			<label>
+				值：
+				<input type="text" value="aaa" id="keyValue2">
+			</label>
+		</div>
+	</div>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="testLocalListener().setItem()">使用 setItem 存入</button>
+		<button type="button" onclick="testLocalListener().removeItem()">使用 removeItem 刪除</button>
+		<button type="button" onclick="testLocalListener().setObjProperty()">使用物件屬性存入</button>
+		<button type="button" onclick="testLocalListener().removeObjProperty()">使用物件屬性刪除</button>
+	</div>
+	
+	
+	
+	<script src="./storage.js"></script>
+	<script src="./storageListener.js"></script>
+	
+</body>
+
+</html>
