@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>defineProperty</title>
+	
+	<link rel="stylesheet" href="../../css/common.css">
+	
+	<style>
+		
+		body {
+			padding-bottom: 0;
+			margin-bottom: 0;
+		}
+		 
+		.main {
+			height: calc(100dvh - 215px - 120px);
+			overflow: auto;
+		}
+		
+		.fixed-info {
+			height: 120px;
+			overflow: auto;
+		}
+		.fixed-info.box {
+			margin-bottom: 0;
+		}
+		
+	</style>
+	
+</head>
+
+<body>
+	
+	<h1>Object.defineProperty 及其它相關</h1>
+	
+	<hr class="hr">
+	
+	<div class="main">
+		
+		<h2>defineProperty</h2>
+		<button type="button" onclick="buildDefinePropertyTest();">建立 defineProperty 測試</button>
+		
+		<div id="definePropertyArea" style="display: none;">
+			
+			<div class="box">
+				<h3>預設屬性</h3>
+				<p>
+					預設的 value 為 undefined。<br>
+					預設的 writable、enumerable、configurable 均為 false。<br>
+					意即此屬性無法被修改、遍歷、刪除，亦無法再被重新配置。
+				</p>
+				
+				<button type="button" onclick="definePropertyTest.addDefaultProperty();">加入預設屬性</button>
+			</div>
+			
+			<div class="flex-btn-group box">
+				<button type="button" onclick="definePropertyTest.addEnumerableProperty();">加入可列舉屬性</button>
+				<button type="button" onclick="definePropertyTest.addWritableProperty();">加入可修改屬性</button>
+			</div>
+			
+			<div class="box">
+				<h3>可刪除屬性</h3>
+				
+				<div class="flex-btn-group">
+					<button type="button" onclick="definePropertyTest.addDeletableProperty();">加入可刪除屬性</button>
+					<button type="button" onclick="definePropertyTest.deleteDeletableProperty();">刪除</button>
+				</div>
+			</div>
+			
+		</div>
+		
+		<hr>
+			
+			<h2>defineProperties</h2>
+			<p>同 defineProperty，但可一次定義多個屬性。</p>
+			<button type="button" onclick="buildDefinePropertiesTest();">建立 defineProperties 測試</button>
+			
+			<div id="definePropertiesArea" class="flex-btn-group box" style="display: none;">
+				<button type="button" onclick="definePropertiesTest.addMultiProperties();">加入多個屬性</button>
+				<button type="button" onclick="definePropertiesTest.listProperties();">遍歷</button>
+				<button type="button" onclick="definePropertiesTest.modifyProperties();">修改所有屬性</button>
+				<button type="button" onclick="definePropertiesTest.deleteProperties();">刪除所有屬性</button>
+			</div>
+			
+		<hr>
+		
+		<h2>Getter / Setter</h2>
+		<p>屬性的 value 無法與 get、set 並存。</p>
+		<button type="button" onclick="buildGetterSetterTest();">建立 Getter / Setter 測試</button>
+		
+		<div id="getterSetterArea" class="flex-btn-group box" style="display: none;">
+			<button type="button" onclick="getterSetterTest.setAgeGetter();">設定 age 的 Getter (錯誤)</button>
+			<button type="button" onclick="getterSetterTest.callAge();">呼叫 age</button>
+			<button type="button" onclick="getterSetterTest.setAgeSetter();">設定 age 的 Setter (錯誤)</button>
+			<button type="button" onclick="getterSetterTest.setAge();">設定 age</button>
+			<br>
+			<button type="button" onclick="getterSetterTest.setWeightGetterSetter();">設定 weight 的 Getter / Setter</button>
+			<button type="button" onclick="getterSetterTest.callWeight();">呼叫 weight</button>
+			<button type="button" onclick="getterSetterTest.addWeight();">增加 weight</button>
+		</div>
+		
+		<hr>
+		
+		<h2>preventExtensions</h2>
+		
+		<p>
+			防止物件擴展新屬性。<br>
+			不管是直接對物件增加，或是使用 defineProperty 都無法增加新屬性。<br>
+			但子物件的屬性可以被增加。
+		</p>
+		
+		<button type="button" onclick="buildPreventExtensionsTest();">建立 preventExtensions 測試</button>
+		
+		<div id="preventExtensionsArea" class="flex-btn-group box" style="display: none;">
+			<button type="button" onclick="preventExtensionsTest.modifyName();">修改姓名</button>
+			<button type="button" onclick="preventExtensionsTest.deleteAge();">刪除 age</button>
+			<button type="button" onclick="preventExtensionsTest.addProperty();">增加屬性 (無作用)</button>
+			<button type="button" onclick="preventExtensionsTest.addScoreProperty();">增加子物件 (score) 屬性</button>
+			<button type="button" onclick="preventExtensionsTest.useDefinePropertyModify();">使用 defineProperty 修改姓名</button>
+			<button type="button" onclick="preventExtensionsTest.useDefinePropertyAdd();">使用 defineProperty 新增屬性 (會拋錯)</button>
+		</div>
+		
+		<hr>
+		
+		<h2>seal</h2>
+		<p>
+			封裝。<br>
+			不可擴展、刪除屬性。<br>
+			既有屬性可以修改其值（若原本為可修改），但不可更改其特性配置。<br>
+			設定為 seal 的物件，也會自動被設定為 preventExtensions。<br>
+		</p>
+		<button type="button" onclick="testSeal();">測試 seal（請觀察 console）</button>
+		
+		<hr>
+		
+		<h2>freeze</h2>
+		<p>
+			凍結。<br>
+			不可修改、擴展、刪除屬性，亦不可更改其特性配置。<br>
+			設定為 freeze 的物件，也會自動被設定為 seal、preventExtensions。<br>
+			為 JavaScript 提供的最高完整性級別保護措施。
+		</p>
+		<button type="button" onclick="testFreeze();">測試 freeze（請觀察 console）</button>
+		
+		
+	</div>
+	
+	<hr>
+	
+	<div class="fixed-info box">
+		<p class="mt-0">obj 內容：</p>
+		<code class="result"></code>
+	</div>
+	
+	
+	
+	<script src="./defineProperty.js"></script>
+	
+</body>
+
+</html>

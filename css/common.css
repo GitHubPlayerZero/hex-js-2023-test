@@ -79,6 +79,16 @@ hr {
   border: 3px dashed rgb(232, 168, 18);
 }
 
+.border-table {
+  border-width: 2px;
+  border-style: solid;
+}
+.border-table th, .border-table td {
+  border-width: 1px;
+  border-style: solid;
+  padding: 8px;
+}
+
 .sample {
   outline: 1px dashed;
 }
