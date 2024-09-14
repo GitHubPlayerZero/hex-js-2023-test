@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>form</title>
+
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+	
+	<h1>form</h1>
+	<hr>
+	
+	<h2>古早時期的那些事...</h2>
+	
+	<!-- action -->
+	<h3>action</h3>
+	
+	<p>
+		早期，前端與後端 API 溝通的方式，就是將 form 整個 submit 給後端。<br>
+		action 屬性就是用來指定後端 API 的 URL。<br>
+		在提交表單（submit）時，會自動將資料發送至 action 所指定的 URL。<br>
+		如果沒有設定 action，預設就會是當前的頁面。
+	</p>
+	
+	<fieldset class="form mb-11">
+		<legend>&nbsp;沒有設定 action 的 form&nbsp;</legend>
+		
+		<p class="mt-0">會預設為當前頁面，依然會有送出的動作。</p>
+		
+		<form>
+			<input type="text" placeholder="非必填" name="testField">&nbsp;&nbsp;
+			<button>送出</button>
+		</form>
+	</fieldset>
+	
+	
+	<p>
+		如果不想讓表單進行最後的發送動作，那可以這樣做：
+	</p>
+	
+	<fieldset class="form mb-11">
+		<legend>&nbsp;阻止表單送出&nbsp;</legend>
+		
+		<p class="mt-0">
+			<code>action="javascript:void(0)"</code>
+		</p>
+		
+		<form action="javascript:void(0)">
+			<input type="text" placeholder="非必填">&nbsp;&nbsp;
+			<button>送出</button>
+		</form>
+	</fieldset>
+	
+	
+	<p>
+		同理，也可以改成進行其他的 JS 動作，而不是發送至 URL：
+	</p>
+	
+	<fieldset class="form mb-11">
+		<legend>&nbsp;執行 JS 動作&nbsp;</legend>
+		
+		<p class="mt-0">
+			<code>action="javascript:doFormAction(this)"</code>
+		</p>
+		
+		<form action="javascript:doFormAction(this)">
+			<input type="text" placeholder="非必填">&nbsp;&nbsp;
+			<button>送出</button>
+		</form>
+	</fieldset>
+	
+	<p class="highlight mb-11">註：在 action 中使用 javascript，其 "javascript:" 字樣不可省略，否則會被當作 URL。</p>
+	
+	
+	<!-- onsubmit -->
+	<h3>onsubmit</h3>
+	
+	<p>
+		如果想在執行 form action 之前做一些檢核，就會在 HTML 中加上 onsubmit 屬性（嵌入式 onevent 寫法），裡面執行 JS 檢核動作。<br>
+		依據檢核的「通過／不通過」而「return true／false」。<br>
+	</p>
+	<p>
+		注意！如果沒有 return、或是 return true，就會繼續執行 action 所設定的動作（URL 或是 JS 動作）；只有 return false 才會阻止繼續執行。<br>
+	</p>
+	<p>
+		註：這也就是為什麼在監聽 submit 時，還必須加上 preventDefault() 才能阻止接下來的默認動作。
+	</p>
+	
+	<fieldset class="form mb-11">
+		<legend>&nbsp;檢核（沒有 return）&nbsp;</legend>
+		
+		<p class="mt-0">檢核不通過時依然會執行 form action。</p>
+		<p>
+			<code>onsubmit="checkForm(this)"</code>
+		</p>
+		
+		<form 
+			action="javascript:doFormAction(this)" 
+			onsubmit="checkForm(this)" 
+			novalidate
+		>
+			<div class="grid">
+				<input type="text" placeholder="非必填">&nbsp;&nbsp;
+			</div>
+			<div class="grid">
+				<input type="text" placeholder="必填" required>&nbsp;&nbsp;
+				<span class="highlight">*</span>
+			</div>
+			<button class="mt-3">送出</button>
+		</form>
+	</fieldset>
+	
+	<fieldset class="form mb-11">
+		<legend>&nbsp;檢核（有 return）&nbsp;</legend>
+		
+		<p class="mt-0">檢核不通過時不會執行 form action。</p>
+		<p>
+			<code>onsubmit="return checkForm(this)"</code>
+		</p>
+		
+		<form 
+			action="javascript:doFormAction(this)" 
+			onsubmit="return checkForm(this)" 
+			novalidate
+		>
+			<div class="grid">
+				<input type="text" placeholder="非必填">&nbsp;&nbsp;
+			</div>
+			<div class="grid">
+				<input type="text" placeholder="必填" required>&nbsp;&nbsp;
+				<span class="highlight">*</span>
+			</div>
+			<button class="mt-3">送出</button>
+		</form>
+	</fieldset>
+	
+	
+	<!-- this -->
+	<h3>action event 與 onsubmit event 的 "this"</h3>
+	
+	<p>在 action 中呼叫 JS 並傳入 this，與在 onsubmit 中呼叫 JS 傳入的 this，其物件是不同的。</p>
+	<p>
+		onsubmit 傳入的 this，會是 form 物件。<br>
+		而 action 所傳入的 this，是 window。
+	</p>
+	
+	<form class="form mb-11" 
+		action="javascript:doFormAction(this)" 
+		onsubmit="doFormSubmit(this)" 
+		novalidate
+	>
+		<input type="text" placeholder="非必填">&nbsp;&nbsp;
+		<button class="mt-3">送出</button>
+	</form>
+	
+	
+	<!-- 使用 JS 定義 onsubmit 動作 -->
+	<h3>使用 JS 定義 onsubmit 動作</h3>
+	<p>除了在 HTML 中使用嵌入 onevent 的寫法之外，也可以使用 JS 定義 onsubmit 的動作。</p>
+	<p>要注意的是，<strong>若已有在 HTML 定義 onsubmit 動作，則使用 JS 定義會覆蓋原本的動作。</strong></p>
+	
+	<fieldset class="form mb-11">
+		<legend>&nbsp;檢核（使用 JS 定義 onsubmit）&nbsp;</legend>
+		
+		<p class="mt-0">預設為 HTML 嵌入 onsubmit，在加入 JS 的 onsubmit 後，會覆蓋原本的動作。</p>
+		
+		<form id="formOnsubmit"
+			action="javascript:doFormAction(this)" 
+			onsubmit="return doHtmlOnsubmit(this)"
+			novalidate
+		>
+			<div class="grid">
+				<input type="text" placeholder="非必填">&nbsp;&nbsp;
+			</div>
+			<div class="grid">
+				<input type="text" placeholder="必填" required>&nbsp;&nbsp;
+				<span class="highlight">*</span>
+			</div>
+			<button class="mt-3">送出</button>&nbsp;&nbsp;
+			<button type="button" onclick="addJsOnsubmit()">加入 JS 的 onsubmit</button>
+		</form>
+	</fieldset>
+	
+	<hr>
+	
+	
+	<!-- 現代化的開發方式 -->
+	<h2>現代化的開發方式：addEventListener</h2>
+	
+	<p>
+		現在通常會使用監聽的方式來執行 JS 動作，而不會在 HTML 中使用嵌入式 onevent 的寫法。<br>
+		而現在前端與後端 API 溝通的方式，也通常是使用 AJAX，因此表單元素最後預設執行 form action URL 以提交整份表單的動作，通常來說是不需要的。
+	</p>
+	
+	<p>
+		因此，現在整個寫法會改成使用 <code>addEventListener</code> 監聽 submit 事件，執行從檢核到 AJAX 提交的整個過程，並且加上 preventDefault() 以阻止後續的 form action 動作。
+	</p>
+	
+	<fieldset class="form mb-11">
+		<legend>&nbsp;使用 addEventListener（沒有使用 preventDefault()）&nbsp;</legend>
+		
+		<p class="mt-0">最後會執行 form action。</p>
+		
+		<form id="formListenerNoPrevent" action="javascript:doFormAction(this)" novalidate>
+			<div class="grid">
+				<input type="text" placeholder="非必填">&nbsp;&nbsp;
+			</div>
+			<div class="grid">
+				<input type="text" placeholder="必填" required>&nbsp;&nbsp;
+				<span class="highlight">*</span>
+			</div>
+			<button class="mt-3">送出</button>
+		</form>
+	</fieldset>
+	
+	<fieldset class="form mb-11">
+		<legend>&nbsp;使用 addEventListener（使用 preventDefault()）&nbsp;</legend>
+		
+		<p class="mt-0">不會執行 form action。</p>
+		
+		<form id="formListenerWithPrevent" action="javascript:doFormAction(this)" novalidate>
+			<div class="grid">
+				<input type="text" placeholder="非必填">&nbsp;&nbsp;
+			</div>
+			<div class="grid">
+				<input type="text" placeholder="必填" required>&nbsp;&nbsp;
+				<span class="highlight">*</span>
+			</div>
+			<button class="mt-3">送出</button>
+		</form>
+	</fieldset>
+	
+	<hr>
+	
+	
+	<!-- HTML 本身的驗證 -->
+	<h2>HTML 本身的驗證</h2>
+	<p>HTML 5 提供了一些驗證機制，按照規範撰寫 HTML，即能在 submit 時自動進行這些驗證，並且當驗證不通過時，會自動停止 submit 繼續執行。</p>
+	
+	<p>
+		但其實，現在也很常使用另外的套件達到更細部且美觀的檢核效果，此時就會需要將 HTML 的自動檢核關閉。<br>
+		form 有一個 <code>noValidate</code> 屬性，只要加上這個屬性，即可關閉 HTML 的自動檢核。
+	</p>
+	
+	<form id="formValidate"
+		class="form"
+		action="javascript:doFormAction(this);"
+	>
+		<div class="grid">
+			<input type="text" placeholder="非必填文字">
+		</div>
+		
+		<div class="grid">
+			<input type="text" placeholder="必填文字" required>
+			<span class="highlight">*</span>
+		</div>
+		
+		<div class="grid">
+			<input type="email" placeholder="必填 email" required>
+			<span class="highlight">*</span>
+		</div>
+		
+		<div class="grid">
+			<select required>
+				<option value=" ">預設空字串</option>
+				<option value="option1">選項一</option>
+				<option value="option2">選項二</option>
+			</select>
+			<span class="highlight">*</span>
+			（空字串會被當成有值）
+		</div>
+		
+		<div class="grid">
+			<select required>
+				<option value="">預設空值</option>
+				<option value="option1">選項一</option>
+				<option value="option2">選項二</option>
+			</select>
+			<span class="highlight">*</span>
+		</div>
+		
+		<div class="gird">
+			<textarea cols="70" rows="10" required></textarea>
+			<span class="highlight">*</span>
+		</div>
+		
+		<div>
+			<input type="submit" value="送出">&nbsp;&nbsp;
+			<input type="button" value="關閉 HTML 檢核" onclick="enableHtmlValidate('formValidate', false)">&nbsp;&nbsp;
+			<input type="button" value="開啟 HTML 檢核" onclick="enableHtmlValidate('formValidate', true)">&nbsp;&nbsp;
+		</div>
+	</form>
+	
+	<hr>
+	
+	
+	<!-- submit()、requestSubmit() -->
+	<h2>submit()、requestSubmit()</h2>
+	
+	<p>可以使用 submit()、requestSubmit() 手動觸發 form 的 submit 動作。</p>
+	<p>但要注意的是，<strong>submit() 會直接觸發 form action</strong>，而 <strong>requestSubmit() 才會觸發完整的 submit 過程</strong>。</p>
+	<p>
+		也就是說，若是使用 addEventListener 撰寫提交動作，submit() 並不會觸發 listener 的提交動作，而是直接觸發 form action。<br>
+		如果 form action 沒有設定 <code>javascript:void(0)</code>，那麼就會將表單提交出去。
+	</p>
+	
+	<p>
+		以下表單，即是使用 listener 監聽 submit，且完全沒有設定 form action 的動作。<br>
+		在呼叫 submit() 時，可以看到表單被提交出去導致網頁重整的情況。
+	</p>
+	
+	<form id="formTestSubmit" class="form">
+		<div class="grid">
+			<input type="text" name="testField1" placeholder="必填" required>
+			<span class="highlight">*</span>
+		</div>
+		<input type="button" value="呼叫 submit()" onclick="document.querySelector('#formTestSubmit').submit()">&nbsp;&nbsp;
+		<input type="button" value="呼叫 requestSubmit()" onclick="document.querySelector('#formTestSubmit').requestSubmit()">&nbsp;&nbsp;
+	</form>
+	
+	<hr>
+	
+	
+	<!-- 觀察所有動作執行順序 -->
+	<h2>觀察所有動作執行順序</h2>
+	
+	<p>
+		以 submit button 執行提交、或是隱式提交（此部份後面會再說明），都會由 submit button 的動作開始執行：<br>
+		submit button onclick → submit button listener → HTML 自動檢核 → form HTML onsubmit → form submit listener → form action
+	</p>
+	
+	<form id="formExecution"
+		class="form"
+		action="javascript: doExecutionAction(this)" 
+		onsubmit="doExecutionSubmit(this)"
+	>
+		<input type="text" placeholder="必填" required>
+		<span class="highlight">*</span>
+		<br>
+		<input id="btnExecutionSubmit" type="submit" value="我是 submit button" onclick="clickExecutionSubmit(this)">&nbsp;&nbsp;
+		<input type="button" value="我是普通 button：執行 submit()" onclick="testSubmit();">&nbsp;&nbsp;
+		<input type="button" value="我是普通 button：執行 requestSubmit()" onclick="testRequestSubmit();">&nbsp;&nbsp;
+	</form>
+	
+	<div class="box">
+		執行過程： <input type="button" value="清除內容" onclick="clearExecution();">
+		<ol id="execution"></ol>
+	</div>
+	
+	<hr>
+	
+	
+	<!-- form 的特性 - 隱式提交 -->
+	<h2>form 的特性 - 隱式提交</h2>
+	
+	<p>
+		form 有所謂的「
+		<a href="https://www.w3.org/TR/2018/SPSD-html5-20180327/forms.html#implicit-submission" target="_blank">
+			隱式提交
+		</a>
+		」的特性：
+	</p>
+	
+	<ul>
+		<li class="mb-3">按下 Enter 時，會觸發非 disabled 狀態的 default button，接著再觸發 form 的 submit 流程。</li>
+		<li class="mb-3"><strong>default button</strong>：form 底下的第一個 submit button；或指定對應 form id 的 submit button</li>
+		<li class="mb-3">如果沒有 default button，而且只有一個 field 在 form 裡的話也會觸發 submit 流程。</li>
+		<li class="mb-3">如果沒有 default button，且有多個 field 的情況下，則不會觸發隱式提交，將必須手動觸發 form 的 submit 流程（最好使用 requestSubmit()）。</li>
+	</ul>
+	
+	<p class="mb-3 mt-8">參考資料：</p>
+	<ul class="mt-0 mb-11">
+		<li>
+			<a 
+				href="https://blog.camel2243.com/posts/html-understand-why-sometimes-pressing-enter-will-automatically-submit-form-and-sometimes-not/" 
+				target="_blank"
+			>
+				[html] 從 html spec 了解有時候按下 enter 會自動 submit form，有時卻不會？
+			</a>
+		</li>
+	</ul>
+	
+	
+	<!-- 有 submit button -->
+	<h3>有 submit button</h3>
+	<p>在 text field 裡按下 Enter 即可觸發 submit 流程。</p>
+	
+	<form id="formImplicit1" class="form mb-11">
+		<div class="grid">
+			<input type="text" placeholder="非必填文字">&nbsp;&nbsp;
+			<input type="text" placeholder="必填文字" required>
+			<span class="highlight">*</span>
+		</div>
+		<div class="mt-4">
+			<button type="submit">我是 submit button</button>
+		</div>
+	</form>
+	
+	
+	<!-- 沒有 submit button -->
+	<h3>沒有 submit button</h3>
+	<p>在 text field 裡按下 Enter 不會觸發 submit 流程。</p>
+		
+	<form id="formImplicit2" class="form mb-7">
+		<div class="grid">
+			<input type="text" placeholder="非必填文字">&nbsp;&nbsp;
+			<input type="text" placeholder="必填文字" required>
+			<span class="highlight">*</span>
+		</div>
+	</form>
+	
+	<p>但如果只有一個 text input，依然能夠觸發隱式提交。</p>
+	<form id="formImplicit3" class="form mb-11">
+		<div class="grid">
+			<input type="text" placeholder="必填文字" required>
+			<span class="highlight">*</span>
+		</div>
+	</form>
+	
+	
+	<!-- 不想觸發隱式提交的方式 -->
+	<h3>不想觸發隱式提交的方式</h3> 
+	
+	<ul>
+		<li class="mb-2">如果只有一個 text input，但不想觸發隱式提交的話，可以放入一個 <code>display: none;</code> 的 text input。</li>
+		<li class="mb-2">提交按鈕不要使用 submit button，改用普通按鈕，在按鈕的 click 事件中觸發 submit 流程。</li>
+	</ul>
+	
+	<form id="formImplicit4" class="form mb-11">
+		<div class="grid">
+			<input type="text" placeholder="必填文字" required>
+			<span class="highlight">*</span>
+			<input type="text" style="display: none;">
+		</div>
+		<div class="mt-4">
+			<button type="button" onclick="document.querySelector('#formImplicit4').requestSubmit()">
+				我是普通的 button，但我可以觸發 submit 流程。
+			</button>
+		</div>
+	</form>
+	
+	
+	<!-- 就想要使用隱式提交的方式 -->
+	<h3>就想要使用隱式提交的方式</h3>
+	
+	<ul>
+		<li class="mb-2">如果需要使用 a 連結為裝 button，可以設置一個 <code>display: none;</code> 的 submit button，這樣就能使用隱式提交。</li>
+		<li class="mb-2">a 連結的 click 事件需阻止默認動作，並且觸發 submit 流程。</li>
+	</ul>
+	
+	<form id="formImplicit5" class="form mb-11">
+		<div class="grid">
+			<input type="text" placeholder="非必填文字">&nbsp;&nbsp;
+			<input type="text" placeholder="必填文字" required>
+			<span class="highlight">*</span>
+		</div>
+		<div class="mt-4">
+			<a href="#" id="submitLink">我是為裝成 submit button 的 a 連結</a>
+			<input type="submit" style="display: none;">
+		</div>
+	</form>
+	
+	<hr>
+	
+	
+	<h2>補獲與冒泡</h2>
+	<!-- https://medium.com/itsems-frontend/javascript-event-bubbling-capturing-794cd2d01e61 -->
+	
+	<script src="./form.js"></script>
+</body>
+
+</html>
