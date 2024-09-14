@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Cookie</title>
+
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+
+	<h1>cookie</h1>
+
+	<h2>基本測試</h2>
+
+	<div class="flex-btn-group box">
+		<button type="button" onclick="createSessionCookie();">建立 session cookie（test1、test2）</button>
+		<button type="button" onclick="createFiveMinutesCookie();">建立維持 5 分鐘的 cookie（userName）</button>
+		<button type="button" onclick="showAllCookies();">查看所有 cookie</button>
+		<button type="button" onclick="showTest1Test2();">查看 test1、test2</button>
+		<button type="button" onclick="updateTest1();">更新 test1 期限為一分鐘</button>
+		<button type="button" onclick="removeCookie('test1')">刪除 test1</button>
+		<button type="button" onclick="removeCookie('test2')">刪除 test2</button>
+		<button type="button" onclick="removeCookie2('userName')">刪除 userName</button>
+	</div>
+
+
+
+	<script src="./cookie.js"></script>
+</body>
+
+</html>
