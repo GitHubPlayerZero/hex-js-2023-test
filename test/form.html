@@ -11,6 +11,8 @@
 
 <body>
 	
+	<!-- CodePen：https://codepen.io/codepenplayer/pen/NWZVgXM -->
+	
 	<h1>form</h1>
 	<hr>
 	
@@ -330,7 +332,7 @@
 	
 	<p>
 		以 submit button 執行提交、或是隱式提交（此部份後面會再說明），都會由 submit button 的動作開始執行：<br>
-		submit button onclick → submit button listener → HTML 自動檢核 → form HTML onsubmit → form submit listener → form action
+		submit button HTML onclick → submit button listener → HTML 自動檢核 → form HTML onsubmit → form submit listener → form action
 	</p>
 	
 	<form id="formExecution"
@@ -448,7 +450,7 @@
 	<h3>就想要使用隱式提交的方式</h3>
 	
 	<ul>
-		<li class="mb-2">如果需要使用 a 連結為裝 button，可以設置一個 <code>display: none;</code> 的 submit button，這樣就能使用隱式提交。</li>
+		<li class="mb-2">如果需要使用 a 連結偽裝 button，可以設置一個 <code>display: none;</code> 的 submit button，這樣就能使用隱式提交。</li>
 		<li class="mb-2">a 連結的 click 事件需阻止默認動作，並且觸發 submit 流程。</li>
 	</ul>
 	
@@ -466,9 +468,21 @@
 	
 	<hr>
 	
+	<h2>測試觸發 submit 的階段</h2>
 	
-	<h2>補獲與冒泡</h2>
-	<!-- https://medium.com/itsems-frontend/javascript-event-bubbling-capturing-794cd2d01e61 -->
+	<p>
+		在 input text 按下 Enter，會觸發：<br>
+		[input text] keydown → [form] keydown → [input text] keypress → [form] keypress → <span class="bold">[form] submit</span> → [input text] keyup → [form] keyup
+	</p>
+	
+	<p>form 在 keypress 觸發了 submit。</p>
+	
+	<form id="formEvent" class="form">
+		<input type="text" id="inputTextEvent">&nbsp;&nbsp;
+		<input type="submit">
+	</form>
+	
+	
 	
 	<script src="./form.js"></script>
 </body>

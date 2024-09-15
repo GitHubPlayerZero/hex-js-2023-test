@@ -214,6 +214,30 @@ hr {
   margin-top: 20px;
 }
 
+.mt-6 {
+  margin-top: 24px;
+}
+
+.mt-7 {
+  margin-top: 28px;
+}
+
+.mt-8 {
+  margin-top: 32px;
+}
+
+.mt-9 {
+  margin-top: 36px;
+}
+
+.mt-10 {
+  margin-top: 40px;
+}
+
+.mt-11 {
+  margin-top: 44px;
+}
+
 .mb-0 {
   margin-bottom: 0;
 }
@@ -260,4 +284,4 @@ hr {
 
 .mb-11 {
   margin-bottom: 44px;
-}
+}/*# sourceMappingURL=common.css.map */

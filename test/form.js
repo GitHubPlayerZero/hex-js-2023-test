@@ -115,9 +115,9 @@ function clearExecution() {
 // 送出
 function clickExecutionSubmit(event) {
 	console.log(``);
-	console.log(`我是 submit button 的 onclick...`);
+	console.log(`我是 submit button 的 HTML onclick...`);
 	console.log(`event ==>`, event);
-	writeExecution("我是 submit button 的 onclick");
+	writeExecution("我是 submit button 的 HTML onclick");
 }
 
 // form onsubmit
@@ -157,7 +157,6 @@ function addSubmitListener(form) {
 		alert("透過 listener 提交表單！");
 	});
 }
-
 
 
 // initial
@@ -215,5 +214,48 @@ function addSubmitListener(form) {
 		event.preventDefault();
 		document.querySelector("#formImplicit5").requestSubmit();
 	})
+	
+	
+	const elemFormEvent = document.querySelector("#formEvent");
+	const elemInputTextEvent = document.querySelector("#inputTextEvent");
+
+	elemFormEvent.addEventListener("keydown", (event) => {
+		console.log(`[form] keydown`);
+		// console.log(`[form] event.target ==>`, event.target);
+		// console.log(``);
+	});
+	// 觸發 form 的 keypress 之後，就會觸發 submit
+	elemFormEvent.addEventListener("keypress", (event) => {
+		console.log(`[form] keypress`);
+		// console.log(`[form] event.target ==>`, event.target);
+		// console.log(``);
+	});
+	elemFormEvent.addEventListener("keyup", (event) => {
+		console.log(`[form] keyup`);
+		// console.log(`[form] event.target ==>`, event.target);
+		// console.log(``);
+	});
+	elemFormEvent.addEventListener("submit", (event) => {
+		event.preventDefault();
+		console.log(`[form] submit`);
+		// console.log(`[form] event.target ==>`, event.target);
+		// console.log(``);
+	});
+	
+	elemInputTextEvent.addEventListener("keydown", (event) => {
+		console.log(`[input text] keydown`);
+		// console.log(`[input text] event.target ==>`, event.target);
+		// console.log(``);
+	});
+	elemInputTextEvent.addEventListener("keypress", (event) => {
+		console.log(`[input text] keypress`);
+		// console.log(`[input text] event.target ==>`, event.target);
+		// console.log(``);
+	});
+	elemInputTextEvent.addEventListener("keyup", (event) => {
+		console.log(`[input text] keyup`);
+		// console.log(`[input text] event.target ==>`, event.target);
+		// console.log(``);
+	});
 	
 }) ();
