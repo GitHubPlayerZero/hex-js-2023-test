@@ -425,14 +425,17 @@
 	
 	
 	<!-- 不想觸發隱式提交的方式 -->
-	<h3>不想觸發隱式提交的方式</h3> 
+	<h3>不想觸發隱式提交的方式</h3>
+	
+	<h4>方式一</h4>
+	<p>依然使用 form submit 流程。</p>
 	
 	<ul>
 		<li class="mb-2">如果只有一個 text input，但不想觸發隱式提交的話，可以放入一個 <code>display: none;</code> 的 text input。</li>
-		<li class="mb-2">提交按鈕不要使用 submit button，改用普通按鈕，在按鈕的 click 事件中觸發 submit 流程。</li>
+		<li class="mb-2">提交按鈕不要使用 submit button，改用普通按鈕，但按鈕的 click 事件是觸發 form submit（使用 requestSubmit()）。</li>
 	</ul>
 	
-	<form id="formImplicit4" class="form mb-11">
+	<form id="formImplicit4" class="form mb-9">
 		<div class="grid">
 			<input type="text" placeholder="必填文字" required>
 			<span class="highlight">*</span>
@@ -440,7 +443,27 @@
 		</div>
 		<div class="mt-4">
 			<button type="button" onclick="document.querySelector('#formImplicit4').requestSubmit()">
-				我是普通的 button，但我可以觸發 submit 流程。
+				我是普通的 button，但我可以觸發 form submit 事件。
+			</button>
+		</div>
+	</form>
+	
+	<h4>方式二</h4>
+	<p>不使用 form submit 流程。</p>
+	
+	<ul>
+		<li class="mb-2">禁止 form 的 submit 事件。</li>
+		<li class="mb-2">提交按鈕不要使用 submit button，改用普通按鈕，在按鈕的 click 事件中呼叫要處理的流程。</li>
+	</ul>
+	
+	<form id="formImplicit4_2" class="form mb-11" novalidate>
+		<div class="grid">
+			<input type="text" placeholder="必填文字" required>
+			<span class="highlight">*</span>
+		</div>
+		<div class="mt-4">
+			<button type="button" id="btnFormImplicit4_2">
+				我是普通的 button，我會使用自己的處理流程。
 			</button>
 		</div>
 	</form>

@@ -190,6 +190,28 @@ function addSubmitListener(form) {
 	addSubmitListener(document.querySelector("#formImplicit2"));
 	addSubmitListener(document.querySelector("#formImplicit3"));
 	addSubmitListener(document.querySelector("#formImplicit4"));
+	
+	
+	/* 禁止隱式提交 - 方式二 */
+	// 禁止表單提交
+	document.querySelector("#formImplicit4_2").addEventListener("submit", (event) => {
+		console.log(`阻擋 form sumbit...`);
+		console.log(`event ==>`, event);
+		event.preventDefault();
+	});
+	
+	// 自定 button 提交流程
+	document.querySelector("#btnFormImplicit4_2").addEventListener("click", (event) => {
+		console.log(`使用 button 提交表單`);
+		console.log(`event ==>`, event);
+		alert(`使用 button 提交表單`);
+		
+		if (checkForm(document.querySelector("#formImplicit4_2"))) {
+			alert("檢核成功，提交表單！");
+		}
+	});
+	
+	
 	addSubmitListener(document.querySelector("#formImplicit5"));
 	
 	
