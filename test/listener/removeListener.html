@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>移除 Listener</title>
+
+	<link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+	
+	<!-- CodePen：https://codepen.io/codepenplayer/pen/YzooBrd -->
+
+	<h1>移除 Listener</h1>
+	
+	<h2>removeEventListener</h2>
+	
+	<ul>
+		<li>add、remove 的參數要能對應。</li>
+		<li>
+			需要將 listener 動作抽出成全域函式使用，才能進行移除。<br>
+			因為在 addEventListener 裡面建立的函式，會是區域物件，移除時不可能對應到同一個物件，因此就會被視為參數不同而無法移除。
+		</li>
+	</ul>
+	
+	<fieldset class="box mb-9">
+		<legend>document</legend>
+		
+		<div class="flex-btn-group">
+			<button type="button" onclick="listenKeydown1(document)">加入 keydown1 監聽</button>
+			<button type="button" onclick="removeKeydown1(document)">移除 keydown1 監聽</button>
+			<button type="button" onclick="listenStopKeydown(document)">加入禁止 keydown 監聽</button>
+			<button type="button" onclick="removeStopKeydown(document)">解除 keydown 禁止</button>
+		</div>
+	</fieldset>
+	
+	<fieldset class="box mb-9">
+		<legend>表單 1</legend>
+		
+		<form action="javascript:void(0)">
+			<div class="grid">
+				<input type="text" id="text1">
+			</div>
+			
+			<div class="flex-btn-group">
+				<button type="button" onclick="listenKeydown1(document.querySelector('#text1'))">加入 keydown1 監聽</button>
+				<button type="button" onclick="listenKeydown2(document.querySelector('#text1'))">加入 keydown2 監聽</button>
+				<button type="button" onclick="removeKeydown1(document.querySelector('#text1'))">移除 keydown1 監聽</button>
+				<button type="button" onclick="removeKeydown2(document.querySelector('#text1'))">移除 keydown2 監聽</button>
+			</div>
+		</form>
+		
+	</fieldset>
+	
+	<fieldset class="box mb-9">
+		<legend>表單 2</legend>
+		
+		<form action="javascript:void(0)">
+			<div class="grid">
+				<input type="text" id="text2">
+			</div>
+			
+			<div class="flex-btn-group">
+				<button type="button" onclick="listenKeydown1(document.querySelector('#text2'))">加入 keydown1 監聽</button>
+				<button type="button" onclick="listenKeydown2(document.querySelector('#text2'))">加入 keydown2 監聽</button>
+				<button type="button" onclick="removeKeydown1(document.querySelector('#text2'))">移除 keydown1 監聽</button>
+				<button type="button" onclick="removeKeydown2(document.querySelector('#text2'))">移除 keydown2 監聽</button>
+			</div>
+		</form>
+	</fieldset>
+	
+	<hr>
+	
+	<h2>AbortController, AbortSignal</h2>
+	
+	<ul>
+		<li>需全域存放 AbortController，因為 remove 時會需要用到它。</li>
+		<li>AbortController 不能重複使用，已經 abort 的 controller 將會失效，因此重新加入監聽時需要重新 new。</li>
+	</ul>
+	
+	<fieldset class="box mb-9">
+		<legend>document</legend>
+		
+		<div class="flex-btn-group">
+			<button type="button" onclick="listenKeydownAbort1Document(document, 'document')">加入 keydown1 監聽</button>
+			<button type="button" onclick="removeKeydownAbort1Document()">移除 keydown1 監聽</button>
+			<button type="button" onclick="listenStopKeydownAbort(document, 'document')">加入禁止 keydown 監聽</button>
+			<button type="button" onclick="removeStopKeydownAbort(document, 'document')">解除 keydown 禁止</button>
+		</div>
+	</fieldset>
+	
+	<fieldset class="box mb-9">
+		<legend>表單 1</legend>
+		
+		<form action="javascript:void(0)">
+			<div class="grid">
+				<input type="text" id="abortText1">
+			</div>
+			
+			<div class="flex-btn-group">
+				<button type="button" onclick="listenKeydownAbort1Text1(document.querySelector('#abortText1'), 'abortText1')">加入 keydown1 監聽</button>
+				<button type="button" onclick="listenKeydownAbort2Text1(document.querySelector('#abortText1'), 'abortText1')">加入 keydown2 監聽</button>
+				<button type="button" onclick="removeKeydownAbort1Text1()">移除 keydown1 監聽</button>
+				<button type="button" onclick="removeKeydownAbort2Text1()">移除 keydown2 監聽</button>
+			</div>
+		</form>
+		
+	</fieldset>
+	
+	<fieldset class="box mb-9">
+		<legend>表單 2</legend>
+		
+		<form action="javascript:void(0)">
+			<div class="grid">
+				<input type="text" id="abortText2">
+			</div>
+			
+			<div class="flex-btn-group">
+				<button type="button" onclick="listenKeydownAbort1Text2(document.querySelector('#abortText2'), 'abortText2')">加入 keydown1 監聽</button>
+				<button type="button" onclick="listenKeydownAbort2Text2(document.querySelector('#abortText2'), 'abortText2')">加入 keydown2 監聽</button>
+				<button type="button" onclick="removeKeydownAbort1Text2()">移除 keydown1 監聽</button>
+				<button type="button" onclick="removeKeydownAbort2Text2()">移除 keydown2 監聽</button>
+			</div>
+		</form>
+	</fieldset>
+	
+	
+	<script src="./removeListener.js"></script>
+</body>
+
+</html>
