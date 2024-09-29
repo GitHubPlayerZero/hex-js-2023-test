@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- https://codepen.io/codepenplayer/pen/abevmYK -->
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>畫面大小偵測</title>
+
+	<link rel="stylesheet" href="../css/common.css">
+	
+	<style>
+		*, *::after, *::before {
+			box-sizing: border-box;
+		}
+		
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+		caption {
+			font-size: 24px;
+			font-weight: bold;
+			margin-bottom: 24px;
+		}
+		th, td {
+			border: 1px solid blue;
+			padding: 10px;
+		}
+		th {
+			background-color: #ffddcc;
+		}
+		
+		.border-bottom-bold {
+			border-bottom: 3px solid black;
+		}
+		
+		.border-doc {
+			border: 2px solid red;
+		}
+		.border-body {
+			border: 3px solid green;
+		}
+		
+		.test-box {
+			margin-right: 200px;
+			margin-bottom: 20px;
+		}
+		.parent-box {
+			border: 3px dashed rgb(232, 168, 18);
+			width: 300px;
+			height: 350px;
+			padding: 15px 100px 100px 15px;
+		}
+		.child-box {
+			width: 400px;
+			height: 420px;
+			background-color: green; opacity: 0.3;
+		}
+	</style>
+</head>
+
+<body>
+
+	<h1>畫面大小偵測</h1>
+	
+	<hr class="hr">
+	
+	<!-- window.screen -->
+	<h2>window.screen</h2>
+	
+	<p>取得 screen 物件。</p>
+	<p>width、height 為屏幕解析度的寬、高，很適合用來判斷裝置大小（手機、平板、桌機）。</p>
+	<p>availWidth、availHeight 為瀏覽器窗口實際可使用的寬、高，實際可用空間可能會因為工作列的佔據而減少。</p>
+	
+	<hr>
+	
+	
+	<!-- 元素的各種大小偵測 -->
+	<h2>元素的各種大小偵測</h2>
+	
+	<h3 class="mt-9" style="color: blue;">offsetWidth、offsetHeight</h3>
+	<p>包含 padding、border、scrollbar。</p>
+	
+	
+	<h3 class="mt-9" style="color: blue;">clientWidth、clientHeight</h3>
+	<p>包含 padding，不包含 border、scrollbar。</p>
+	<p>
+		藉由 offset 和 client 之間的差異，可以算出 scrollbar 的大小：<br>
+		<code class="bold" style="border: 1px dotted gray; padding: 10px 20px; background-color: #ffffff; line-height: 3.5;">
+			scrollbar 大小 = offset - client - 兩邊 border 總合
+		</code>
+	</p>
+	
+	<h3 class="mt-7" style="color: blue;">scrollWidth、scrollHeight</h3>
+	<p>不管有沒有 scrollbar，都會取得「沒有 scrollbar」的情況下內容所需的大小。</p>
+	<p>包含 padding，不包含 border、scrollbar。</p>
+	
+	<hr>
+	
+	
+	<!-- 基本範例 -->
+	<h2>基本範例</h2>
+	
+	<!-- 內容沒有超出父容器 -->
+	<h3 class="bold">內容沒有超出父容器。</h3>
+	<div class="d-flex" style="margin-bottom: 30px;">
+		
+		<!-- 受測者 -->
+		<div class="test-box">
+			<div class="parent-box" id="divNoOverflow">
+				<div class="child-box" style="width: 150px; height: 200px;">
+				</div>
+			</div>
+		</div>
+		
+		<!-- 結果 -->
+		<div>
+			<table>
+				<tr>
+					<th scope="col" colspan="2">指令</th>
+					<th scope="col" colspan="2">結果</th>
+					<th scope="col" rowspan="2">備註</th>
+				</tr>
+				<tr class="border-bottom-bold">
+					<th scope="col">寬</th>
+					<th scope="col">高</th>
+					<th scope="col">寬</th>
+					<th scope="col">高</th>
+				</tr>
+				
+				<tr>
+					<td nowrap>offsetWidth</td>
+					<td nowrap>offsetHeight</td>
+					<td nowrap id="dnoOffsettWidth"></td>
+					<td nowrap id="dnoOffsettHeight"></td>
+					<td>為父容器的大小</td>
+				</tr>
+				<tr>
+					<td nowrap>clientWidth</td>
+					<td nowrap>clientHeight</td>
+					<td nowrap id="dnoClientWidth"></td>
+					<td nowrap id="dnoClientHeight"></td>
+					<td>為「父容器的大小 - border」</td>
+				</tr>
+				<tr>
+					<td nowrap>scrollWidth</td>
+					<td nowrap>scrollHeight</td>
+					<td nowrap id="dnoScrollWidth"></td>
+					<td nowrap id="dnoScrollHeight"></td>
+					<td>因為沒有溢出，所以會與 client 相同</td>
+				</tr>
+			</table>
+		</div>
+		
+	</div>
+	
+	
+	<!-- 內容超出父容器，沒有設定 overfow（預設為 visible）。 -->
+	<h3 class="bold">內容超出父容器，沒有設定 overfow（預設為 visible）。</h3>
+	<div class="d-flex" style="margin-bottom: 100px;">
+		
+		<!-- 受測者 -->
+		<div class="test-box">
+			<div class="parent-box" id="divNoScroll">
+				<div class="child-box">
+				</div>
+			</div>
+		</div>
+		
+		<!-- 結果 -->
+		<div>
+			<table>
+				<tr>
+					<th scope="col" colspan="2">指令</th>
+					<th scope="col" colspan="2">結果</th>
+					<th scope="col" rowspan="2">備註</th>
+				</tr>
+				<tr class="border-bottom-bold">
+					<th scope="col">寬</th>
+					<th scope="col">高</th>
+					<th scope="col">寬</th>
+					<th scope="col">高</th>
+				</tr>
+				
+				<tr>
+					<td nowrap>offsetWidth</td>
+					<td nowrap>offsetHeight</td>
+					<td nowrap id="dnsOffsettWidth"></td>
+					<td nowrap id="dnsOffsettHeight"></td>
+					<td>為父容器的大小</td>
+				</tr>
+				<tr>
+					<td nowrap>clientWidth</td>
+					<td nowrap>clientHeight</td>
+					<td nowrap id="dnsClientWidth"></td>
+					<td nowrap id="dnsClientHeight"></td>
+					<td>為「父容器的大小 - border」</td>
+				</tr>
+				<tr>
+					<td nowrap>scrollWidth</td>
+					<td nowrap>scrollHeight</td>
+					<td nowrap id="dnsScrollWidth"></td>
+					<td nowrap id="dnsScrollHeight"></td>
+					<td>
+						有溢出。<br>
+						大小為「單邊 padding（左、上） + 子元素原本大小」
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+	</div>
+	
+	
+	<!-- 內容超出父容器，設定 overfow 為 auto。 -->
+	<h3 class="bold">內容超出父容器，設定 overfow 為 auto。</h3>
+	<div class="d-flex">
+		
+		<!-- 受測者 -->
+		<div class="test-box">
+			<div class="parent-box" style="overflow: auto;" id="divScroll">
+				<div class="child-box">
+				</div>
+			</div>
+		</div>
+		
+		<!-- 結果 -->
+		<div>
+			<table>
+				<tr>
+					<th scope="col" colspan="2">指令</th>
+					<th scope="col" colspan="2">結果</th>
+					<th scope="col" rowspan="2">備註</th>
+				</tr>
+				<tr class="border-bottom-bold">
+					<th scope="col">寬</th>
+					<th scope="col">高</th>
+					<th scope="col">寬</th>
+					<th scope="col">高</th>
+				</tr>
+				
+				<tr>
+					<td nowrap>offsetWidth</td>
+					<td nowrap>offsetHeight</td>
+					<td nowrap id="dsOffsettWidth"></td>
+					<td nowrap id="dsOffsettHeight"></td>
+					<td>為父容器的大小</td>
+				</tr>
+				<tr>
+					<td nowrap>clientWidth</td>
+					<td nowrap>clientHeight</td>
+					<td nowrap id="dsClientWidth"></td>
+					<td nowrap id="dsClientHeight"></td>
+					<td>
+						為「父容器的大小 - border - scrollbar」<br>
+						因此可以推算出 scrollbar 的大小為 25
+					</td>
+				</tr>
+				<tr>
+					<td nowrap>scrollWidth</td>
+					<td nowrap>scrollHeight</td>
+					<td nowrap id="dsScrollWidth"></td>
+					<td nowrap id="dsScrollHeight"></td>
+					<td>
+						有溢出。<br>
+						大小為「雙邊 padding + 子元素原本大小」
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+	</div>
+	
+	<hr>
+	
+	
+	<h2>取得整個畫面的大小</h2>
+	
+	<h3 class="mt-8" style="color: blue;">document.documentElement</h3>
+	<p>即為 <code>&lt;HTML></code> 元素。</p>
+	
+	<h3 class="mt-8" style="color: blue;">document.body</h3>
+	<p>即為 <code>&lt;body></code> 元素。</p>
+	
+	
+	<!-- 範例 -->
+	<h3 class="mt-8" style="color: blue;">範例</h3>
+	<p>注意，這裡的盒模型設定為 <code>border-box</code>。</p>
+	
+	<p>
+		可以觀察有／無框線時，取得大小的差異。<br>
+		紅色框線為 <code>document.documentElement</code>，大小為 <code>2px</code>。<br>
+		綠色框線為 <code>document.body</code>，大小為 <code>3px</code>。
+	</p>
+	
+	<p class="highlight">
+		注意：<br>
+		由於 <code>document.documentElement</code> 即為最外層的 <code>&lt;html></code>，因此當加上框線時，左右會擠壓到內容。<br>
+		框線大小為 2px，兩邊加起來為 4px，因此 body 取值會減少 4px。<br>
+		另外也要注意高，在加上框線後會讓高度成長。
+	</p>
+	
+	<div class="flex-btn-group">
+		<button type="button" onclick="toggleDocBorder()">documentElement 加上／移除 框線 （Alt + 1）</button>
+		<button type="button" onclick="toggleBodyBorder()">body 加上／移除 框線 （Alt + 2）</button>
+	</div>
+	
+	<div class="mb-8">
+		
+	</div>
+	
+	<table class="mb-9">
+		<caption>
+			測試結果
+			&nbsp;&nbsp;&nbsp;
+			<button type="button" onclick="getFullPageSize();">重新取得 （Alt + R）</button>
+		</caption>
+		
+		<tr>
+			<th scope="col" colspan="3">指令</th>
+			<th scope="col" colspan="2">結果</th>
+			<th scope="col" rowspan="2">備註</th>
+		</tr>
+		<tr class="border-bottom-bold">
+			<th scope="col">元素</th>
+			<th scope="col">寬</th>
+			<th scope="col">高</th>
+			<th scope="col">寬</th>
+			<th scope="col">高</th>
+		</tr>
+		
+		<!-- window.screen.width -->
+		<tr>
+			<th scope="row" rowspan="2"><code>window.screen</code></th>
+			<td nowrap>width</td>
+			<td nowrap>height</td>
+			<td nowrap id="windowScreenWidth"></td>
+			<td nowrap id="windowScreenHeight"></td>
+			<td rowspan="2">螢幕像素</td>
+		</tr>
+		<!-- window.screen.availWidth -->
+		<tr class="border-bottom-bold">
+			<td nowrap>availWidth</td>
+			<td nowrap>availHeight</td>
+			<td nowrap id="windowScreenAvailWidth"></td>
+			<td nowrap id="windowScreenAvailHeight"></td>
+		</tr>
+		
+		<!-- document.documentElement.clientWidth -->
+		<tr>
+			<th scope="row" rowspan="3">
+				<code>document.documentElement<br>
+				&lt;html></code>
+			</th>
+			<td nowrap>clientWidth</td>
+			<td nowrap>clientHeight</td>
+			<td nowrap id="docClientWidth"></td>
+			<td nowrap id="docClientHeight"></td>
+			<td>
+				寬度會包含框線，高度看不出來怎麼取得，但不會改變。<br>
+				註：使用工具測量，高度可能為一個畫面的可視高度，類似 vh。
+			</td>
+		</tr>
+		<!-- document.documentElement.offsetWidth -->
+		<tr>
+			<td nowrap>offsetWidth</td>
+			<td nowrap>offsetHeight</td>
+			<td nowrap id="docOffsetWidth"></td>
+			<td nowrap id="docOffsetHeight"></td>
+			<td>會包含框線，加上框線後寬度不變高度增加。</td>
+		</tr>
+		<!-- document.documentElement.scrollWidth -->
+		<tr class="border-bottom-bold">
+			<td nowrap>scrollWidth</td>
+			<td nowrap>scrollHeight</td>
+			<td nowrap id="docScrollWidth"></td>
+			<td nowrap id="docScrollHeight"></td>
+			<td>會包含框線，加上框線後寬度不變高度增加。</td>
+		</tr>
+		
+		<!-- document.body.clientWidth -->
+		<tr>
+			<th scope="row" rowspan="3">
+				<code>document.body<br>
+				&lt;body></code>
+			</th>
+			<td nowrap>clientWidth</td>
+			<td nowrap>clientHeight</td>
+			<td nowrap id="bodyClientWidth"></td>
+			<td nowrap id="bodyClientHeight"></td>
+			<td>不包含框線，body 加上框線後寬度減少高度不變。</td>
+		</tr>
+		<!-- document.body.offsetWidth -->
+		<tr>
+			<td nowrap>offsetWidth</td>
+			<td nowrap>offsetHeight</td>
+			<td nowrap id="bodyOffsetWidth"></td>
+			<td nowrap id="bodyOffsetHeight"></td>
+			<td>會包含框線，body 加上框線後寬度不變高度增加。</td>
+		</tr>
+		<!-- document.body.scrollWidth -->
+		<tr>
+			<td nowrap>scrollWidth</td>
+			<td nowrap>scrollHeight</td>
+			<td nowrap id="bodyScrollWidth"></td>
+			<td nowrap id="bodyScrollHeight"></td>
+			<td>不包含框線，body 加上框線後寬度減少高度不變。</td>
+		</tr>
+		
+	</table>
+	
+	<ul>
+		<li>
+			document.documentElement 即為整個 HTML，因此比較特殊。<br>
+			使用 clientWidth／clientHeight 時，看起來是取得一個畫面的寬與高，類似 vh。<br>
+			而即使是使用 scrollWidth／scrollHeight，也會包含框線。
+		</li>
+	</ul>
+	
+	
+	<script src="./畫面大小偵測.js"></script>
+</body>
+
+</html>
