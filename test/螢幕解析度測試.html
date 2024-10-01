@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>螢幕解析度測試</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		.container {
+			max-width: 85vw;
+			margin: auto;
+		}
+
+		h1 {
+			text-align: center;
+			margin-top: 2rem;
+		}
+
+		ul {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			list-style: none;
+			margin: 4em 0;
+			padding: 0;
+		}
+
+		ul li {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			border-left: 1px solid #ccc;
+			border-right: 1px solid #ccc;
+		}
+
+		ul li .label {
+			font-size: 1.25em;
+			font-weight: 700;
+		}
+
+		ul li .value {
+			color: #930000;
+			font-size: 2rem;
+			font-weight: 700;
+			margin-top: 0.5em;
+		}
+
+		.system {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			flex-direction: column;
+		}
+
+		.system h4 {
+			margin-bottom: 1rem;
+			font-size: 1.25em;
+		}
+
+		.system h5 {
+			font-size: 1rem;
+			font-weight: 700;
+		}
+
+		@media screen and (max-width: 768px) {
+			h1 {
+				margin: 0.5rem 0;
+			}
+
+			ul {
+				display: block;
+				margin: 2rem 0;
+			}
+
+			ul li .value {
+				font-size: 1.85rem;
+			}
+
+			.system h4 {
+				font-size: 1.2rem;
+			}
+
+			.system h5 {
+				font-size: 1rem;
+				font-weight: 700;
+				margin-bottom: 2rem;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<h1 class="ui header">螢幕解析度測試</h1>
+		<ul>
+			<li>
+				<span id="screenSize" class="value"></span>
+				<span class="label">螢幕解析度</span>
+			</li>
+			<li>
+				<span id="systemSize" class="value"></span>
+				<span class="label">系統解析度</span>
+			</li>
+			<li>
+				<span id="ratio" class="value"></span>
+				<span class="label">螢幕縮放百分比</span>
+			</li>
+			<li>
+				<span id="orientation" class="value"></span>
+				<span class="label">方向</span>
+			</li>
+		</ul>
+		<div class="system">
+			<h4>操作系統</h4>
+			<h5 id="userAgent"></h5>
+		</div>
+	</div>
+
+	<script>
+		const setInfo = () => {
+			const devicePixelRatio = window.devicePixelRatio;
+			const ratio = document.querySelector("#ratio");
+			ratio.innerHTML = devicePixelRatio;
+
+			const width = window.screen.width;
+			const height = window.screen.height;
+			const size = width + " x " + height;
+			document.querySelector("#screenSize").innerHTML = size;
+
+			const systemSize =
+				width * devicePixelRatio + " x " + height * devicePixelRatio;
+			document.querySelector("#systemSize").innerHTML = systemSize;
+
+			const match = window.matchMedia("(orientation: portrait)");
+			document.querySelector("#orientation").innerHTML = match.matches
+				? "直"
+				: "橫";
+
+			const userAgent = navigator.userAgent;
+			document.querySelector("#userAgent").innerHTML = userAgent;
+		};
+		
+		
+		// window resize event
+		window.addEventListener("resize", () => {
+			setInfo();
+		});
+
+		setInfo();
+	</script>
+</body>
+
+</html>
