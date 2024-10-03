@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>限制行數字數</title>
+
+	<link rel="stylesheet" href="../css/common.css">
+	
+	<style>
+		
+		*, *::before, *::after {
+			box-sizing: border-box;
+		}
+		
+		a {
+			text-decoration: none;
+		}
+		a:hover {
+			text-decoration: underline;
+		}
+		
+		.content {
+			width: 336px;
+			height: 144px;
+			outline: 3px dashed orange;
+			position: relative;
+			overflow: hidden;
+		}
+		
+		.line-clamp {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 6;
+		}
+		
+		.more {
+			position: absolute;
+			bottom: 0;
+			right: 10px;
+		}
+		.more-linear {
+			padding-left: 30px;
+			/* background-color: rgb(238, 238, 238); */
+			background-image: linear-gradient(to left, rgb(238, 238, 238) 70%, rgb(238, 238, 238, 0.6) 80%, transparent 100%);
+		}
+		
+		.d-none {
+			display: none;
+		}
+		
+	</style>
+</head>
+
+<body>
+	
+	<h1>限制行數字數</h1>
+	
+	<div>參考：</div>
+	<ul>
+		<li><a href="https://github.com/campcc/blog/issues/27" target="_blank">纯 CSS 自定义多行省略：从原理到实现</a></li>
+	</ul>
+	
+	<hr>
+	
+	
+	<!-- -webkit-line-clamp -->
+	<h2>CSS 的 <code>-webkit-line-clamp</code></h2>
+	
+	<p>
+		瀏覽器支援度達 96% 以上。<br>
+		省略符號是固定的，若想要改變會需要透過一些手段。
+	</p>
+	
+	<div class="content line-clamp">
+		一年一度西洋情人節即將到來，我們推出最強「情人節企劃」，為這個甜蜜的節日加溫。偶爾跟另一半來個低調情侶單品，結合彼此喜好、找出合適框型款式，在這個春夏輕鬆搭出屬於你們的甜蜜默契！即日起至2/16為止，不論是熱戀情侶、自由自在一個人或是老夫老妻
+	</div>
+	
+	<hr>
+	
+	
+	<!-- JS 計算字數，截斷並加上省略符號 -->
+	<h2>JS 計算字數，截斷並加上省略符號</h2>
+	
+	<div>會有以下問題：</div>
+	<ul>
+		<li>
+			遇到有全半型混雜的文字時，無法控制到精準貼合，「⋯⋯」可能會和「more」字樣中間有一點點小間隔。<br>
+			因為計算的字數是固定的，若摻雜的半形字愈多，這種情形就會愈明顯。
+		</li>
+		<li>無法隨著框框的縮放而減少／增加字數。</li>
+	</ul>
+	
+	<p>
+		若要解決以上問題，勢必會增加 JS 邏輯處理的複雜度。<br>
+		目前尚未研究如何解決。
+	</p>
+	
+	<br>
+	
+	<div class="content">
+		<div class="content-text">aaaaaaa</div>
+		<div class="more">more</div>
+	</div>
+	
+	<br><br>
+	
+	<div class="content">
+		<div class="content-text">bbbbbbbbbbbb</div>
+		<div class="more">more</div>
+	</div>
+	
+	<hr>
+	
+	
+	<!-- more 直接覆蓋文字 -->
+	<h2>more 直接覆蓋文字</h2>
+	
+	<p>「<code>⋯⋯more</code>」獨立出來，設定 position 定位在右下角，並使用漸層透明背景來修飾字可能被蓋掉一半的突兀。</p>
+	<p>個人還滿喜歡這種效果的。</p>
+	
+	<br>
+	
+	<div class="content">
+		一年一度西洋情人節即將到來，我們推出最強「情人節企劃」，為這個甜蜜的節日加溫。偶爾跟另一半來個低調情侶單品，結合彼此喜好、找出合適框型款式，在這個春夏輕鬆搭出屬於你們的甜蜜默契！即日起至2/16為止，不論是熱戀情侶、自由自在一個人或是老夫老妻
+		<div class="more more-linear">⋯⋯more</div>
+	</div>
+	
+	<br><br>
+	
+	<div class="content">
+		炎熱的夏季裡，衣著選擇經常希望以簡潔的風格為主，但有時單純只穿搭 T 恤或短袖開襟襯衫，又覺得整體造型度有點不足嗎？那麼不妨可以透過「配件」，為穿搭點綴出與眾不同的視覺層次，而本季有哪些必備的配件系列呢？一起從以下推薦的 3 款單品，讓你瞬間帥氣
+		<div class="more more-linear">⋯⋯more</div>
+	</div>
+	
+	<br><br>
+	
+	
+	<!-- 判斷內容若有超過再加上 more -->
+	<h3>判斷內容若有超過再加上 more</h3>
+	<p>點擊 more 可展開完整內容</p>
+	
+	<div class="content content-more" data-content="1">
+		一年一度西洋情人節即將到來，我們推出最強「情人節企劃」，為這個甜蜜的節日加溫。偶爾跟另一半來個低調情侶單品，結合彼此喜好、找出合適框型款式，在這個春夏輕鬆搭出屬於你們的甜蜜默契！即日起至2/16為止，不論是熱戀情侶、自由自在一個人或是老夫老妻
+		<div class="more more-linear d-none">
+			<a href="javascript:void(0);" onclick="expand(1);">⋯⋯more</a>
+		</div>
+	</div>
+	
+	<br>
+	
+	<div class="content content-more" data-content="2">
+		床前明月光，疑是地上霜。<br>
+		舉頭望明月，低頭吃便當。
+		<div class="more more-linear d-none">
+			<a href="javascript:void(0);">⋯⋯more</a>
+		</div>
+	</div>
+	
+	<br>
+	
+	<div class="content content-more" data-content="3">
+		2020 年春季的光學眼鏡跳脫前幾季流行的復古框型，比起圓框與小方框等文青風格，偏向個性款式的眉框眼鏡成為這一季的耀眼之星。除了經典款式如黑色眉框落在長方形鏡面上，眉宇之間露出專業莊重的特殊氣質，包覆在圓形鏡框上的貓眼型眉框則是強調出特殊設計感，俐落時髦的造型搭配一件簡單的白襯衫就相當有型，是喜愛時尚質感人士絕不能錯過的必備款式
+		<div class="more more-linear d-none">
+			<a href="javascript:void(0);" onclick="expand(3);">⋯⋯more</a>
+		</div>
+	</div>
+	
+	<br>
+	
+	<div class="content content-more" data-content="4">
+		2020 年春季的光學眼鏡跳脫前幾季流行的復古框型，比起圓框與小方框等文青風格，偏向個性款式的眉框眼鏡成為這一季的耀眼之星。除了經典款式如黑色眉框落在長方形鏡面上，眉宇之間露出專業莊重的特殊氣質，包覆在圓形鏡框上的貓眼型
+		<!-- 眉框則是強調出特殊設計感，俐落時髦的造型搭配一件簡單的白襯衫就相當有型，是喜愛時尚質感人士絕不能錯過的必備款式 -->
+		<div class="more more-linear d-none">
+			<a href="javascript:void(0);">⋯⋯more</a>
+		</div>
+	</div>
+	
+	<script>
+		
+		/* JS 計算字數，截斷並加上省略符號 */
+		const limit = 106;
+		
+		const content = [
+			"一年一度西洋情人節即將到來，我們推出最強「情人節企劃」，為這個甜蜜的節日加溫。偶爾跟另一半來個低調情侶單品，結合彼此喜好、找出合適框型款式，在這個春夏輕鬆搭出屬於你們的甜蜜默契！即日起至2/16為止，不論是熱戀情侶、自由自在一個人或是老夫老妻",
+			"炎熱的夏季裡，衣著選擇經常希望以簡潔的風格為主，但有時單純只穿搭 T 恤或短袖開襟襯衫，又覺得整體造型度有點不足嗎？那麼不妨可以透過「配件」，為穿搭點綴出與眾不同的視覺層次，而本季有哪些必備的配件系列呢？一起從以下推薦的 3 款單品，讓你瞬間帥氣",
+			"一年一度西洋情人節即將到來，我們推出最強「情人節企劃」，為這個甜蜜的節日加溫。偶爾跟另一半來個低調情侶單品，結合彼此喜好、找出合適框型款式，在這個春夏輕鬆搭出屬於你們的甜蜜默契！即日起至2/16為止，不論是熱戀情侶、自由自在一個人或是老夫老妻",
+		];
+		
+		const elemContentAry = document.querySelectorAll(".content-text");
+		elemContentAry.forEach((item, index) => {
+			let text = content[index];
+			if (text.length > limit) {
+				text = text.substring(0, limit) + "⋯⋯";
+			}
+			item.textContent = text;
+		});
+		
+		
+		/* more 直接覆蓋文字 - 判斷內容動態加上 more */
+		const elemContentMoreAry = document.querySelectorAll(".content-more");
+		elemContentMoreAry.forEach(item => {
+			console.log(item.clientHeight, item.scrollHeight);
+			if (item.scrollHeight > item.clientHeight) {
+				const elemMore = item.querySelector(".more");
+				console.log(elemMore);
+				elemMore.classList.remove("d-none");
+			}
+		});
+		
+		
+		function expand(param) {
+			const elem = document.querySelector(`[data-content='${param}']`);
+			console.log(elem, elem.clientHeight, elem.scrollHeight);
+			
+			elem.style = `color: red; height: ${elem.scrollHeight}px;`;
+			elem.querySelector(".more").classList.add("d-none");
+		}
+		
+		
+	</script>
+	
+</body>
+
+</html>
