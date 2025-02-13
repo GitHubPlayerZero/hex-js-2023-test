@@ -25,23 +25,6 @@
 		<span id="result"></span>
 	</div>
 	
-	<form class="form" action="javascript:void(0);">
-		
-		<div class="mb-5">
-			<input type="radio" name="dataType" id="高雄市現任里長名冊" value="高雄市現任里長名冊" class="grid" checked>
-			<label for="高雄市現任里長名冊">高雄市現任里長名冊</label>&nbsp;
-			<a href="https://data.kcg.gov.tw/dataset/kcgoa-00001028-8a0/resource/ffcb9f1c-efae-4260-a7ff-26cc468543b6" target="_blank">來源</a>
-				
-			<br>
-			
-			<input type="radio" name="dataType" id="訓練就業中心各就服站台據點JSON格式" value="訓練就業中心各就服站台據點JSON格式">
-			<label for="訓練就業中心各就服站台據點JSON格式">訓練就業中心各就服站台據點 JSON 格式 (502 Bad Gateway)</label>&nbsp;
-			<a href="https://data.kcg.gov.tw/dataset/information-desk/resource/98173afe-1318-4243-9397-515dc28158e1" target="_blank">來源</a>
-		</div>
-		
-		<input type="button" value="取得開放資料平台 JSON 資料" onclick="getOpenDataJson();">
-	</form>
-	
 	<hr>
 	
 	<h2>基本 POST 測試</h2>
@@ -64,12 +47,60 @@
 		<span class="highlight"></span>
 	</form>
 	
-	<!-- 使用 CDN -->
-	<!-- <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script> -->
+	<hr>
 	
-	<!-- 使用 NPM 下載的 source -->
+	<h2>同步（async、await）</h2>
+	
+	<form class="form" action="javascript:void(0);">
+		
+		<div class="grid">
+			<label>
+				<input type="radio" name="asyncDataType" value="高雄市現任里長名冊" checked>&nbsp;
+				高雄市現任里長名冊&nbsp;
+				<a href="https://data.kcg.gov.tw/dataset/kcgoa-00001028-8a0/resource/ffcb9f1c-efae-4260-a7ff-26cc468543b6" target="_blank">來源</a>
+			</label>
+		</div>
+		
+		<div class="mb-5">
+			<label>
+				<input type="radio" name="asyncDataType" value="訓練就業中心各就服站台據點JSON格式">
+				訓練就業中心各就服站台據點 JSON 格式 (502 Bad Gateway)&nbsp;
+				<a href="https://data.kcg.gov.tw/dataset/information-desk/resource/98173afe-1318-4243-9397-515dc28158e1" target="_blank">來源</a>
+			</label>
+		</div>
+		
+		<input type="button" value="取得開放資料平台 JSON 資料" onclick="getOpenData();">
+		<input type="button" value="取得開放資料平台 JSON 資料 (同步)" onclick="getOpenDataAsync();">
+	</form>
+	
+	<h3>多個依序同步</h3>
+	
+	<div class="form">
+		<input type="button" value="寫法 1 (完全依序執行)" onclick="testAsyncMultiple1();">
+		<input type="button" value="寫法 2 (無法真正達到需求)" onclick="testAsyncMultiple2();">
+	</div>
+	
+	<hr>
+	
+	<h2>同步（axios.all）</h2>
+	
+	<div class="form">
+		<input type="button" value="寫法 1" onclick="testAxiosAll1();">
+		<input type="button" value="寫法 2" onclick="testAxiosAll2();">
+		<input type="button" value="寫法 3" onclick="testAxiosAll3();">
+	</div>
+	
+	
+	<!--
+		使用 NPM 下載的 source
+		以下兩種路徑 local 都可以執行，但上到 GitHub 後均無法執行...
+		可能 NPM 就是必須搭配打包工具，如 webpack、vite 等
+	-->
 	<!-- <script src="/node_modules/axios/dist/axios.min.js"></script> -->
-	<script src="../../node_modules/axios/dist/axios.min.js"></script>
+	<!-- <script src="../../node_modules/axios/dist/axios.min.js"></script> -->
+	
+	<!-- 使用 CDN -->
+	<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
 	
 	<script src="./axios.js"></script>
 </body>
