@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>作用域與變數</title>
+  <link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+  <h1>作用域與變數</h1>
+
+  <div class="flex-btn-group">
+    <input type="button" value="在函式裡宣告變數" onclick="testFun();">
+    <input type="button" value="在函式裡的區塊宣告變數" onclick="testFun2();">
+    <input type="button" value="測試作用域鏈（Scope Chain）" onclick="testScopeChain1();">
+  </div>
+
+  <script src="./作用域與變數.js"></script>
+  <script type="module" src="./作用域與變數模組.js"></script>
+  <script>
+    console.log(`====== 在 HTML <script> 全域宣告變數 ======`);
+    var aScriptGlobalVar = "我是 <script> 全域的 var";
+    let scriptGlobalLet = "我是 <script> 全域的 let";
+    const scriptGlobalConst = "我是 <script> 全域的 const";
+    console.log(`aScriptGlobalVar ==>`, aScriptGlobalVar, `| window.aScriptGlobalVar ==>`, window.aScriptGlobalVar);  // aScriptGlobalVar ==> 我是 <script> 全域的 var | window.aScriptGlobalVar ==> 我是 <script> 全域的 var
+    console.log(`scriptGlobalLet ==>`, scriptGlobalLet, `| window.scriptGlobalLet ==>`, window.scriptGlobalLet);  // scriptGlobalLet ==> 我是 <script> 全域的 let | window.scriptGlobalLet ==> undefined
+    console.log(`scriptGlobalConst ==>`, scriptGlobalConst, `| window.scriptGlobalConst ==>`, window.scriptGlobalConst);  // scriptGlobalConst ==> 我是 <script> 全域的 const | window.scriptGlobalConst ==> undefined
+    // debugger;
+
+    console.log(``);
+
+    let name = '小明';
+    let age = 18;
+    let height = 180;
+
+    // 作用域鏈，會先在自己當前的作用域中尋找變數，若找不到會往上層找。
+    function testScopeChain1 () {
+      console.log(`====== 測試作用域鏈（Scope Chain） ======`);
+      let name = '阿華';
+      let age = 20;
+
+      function test () {
+        let age = 22;
+        console.log(`[testScopeChain1] name = ${name}, age = ${age}, height = ${height}`);  // name = 阿華, age = 22, height = 180
+        // console.log(`gender = ${gender}`);  // ReferenceError: gender is not defined
+        // debugger;
+      }
+      test();
+
+      // debugger;
+      testScopeChain2();
+      // debugger;
+    }
+
+    // testScopeChain2 雖是被 testScopeChain1 呼叫，但其實際上的物理位置是在全域之下，因此其上層為全域而非 testScopeChain2，此為「詞彙環境（Lexical Environment）」的概念。
+    function testScopeChain2 () {
+      console.log(`[testScopeChain2] name = ${name}, age = ${age}, height = ${height}`);  // [testScopeChain2] name = 小明, age = 18, height = 180
+      // debugger;
+    }
+  </script>
+</body>
+
+</html>
