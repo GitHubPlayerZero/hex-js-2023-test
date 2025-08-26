@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>loading test</title>
+
+	<link rel="stylesheet" href="../../css/common.css">
+	
+	<style>
+		.loading {
+			background-color: rgb(238, 238, 238, 0.4);
+			position: fixed;
+			top: 0;
+			width: 100dvw;
+			height: 100dvh;
+			z-index: 1000;
+			
+			/* display: flex; */
+			justify-content: center;
+			align-items: center;
+			
+			display: none;
+		}
+		.active {
+			display: flex;
+		}
+		.loader {
+			border: 12px solid #f3f3f3; /* Light grey */
+			border-top-color: #3498db; /* Blue */
+			border-bottom-color: #3498db; /* Blue */
+			border-radius: 50%;
+			width: 100px;
+			height: 100px;
+			animation: spin 2s linear infinite;
+		}
+
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+	</style>
+</head>
+
+<body>
+	
+	<h1>form 與 loading</h1>
+	
+	<form id="testForm" class="form">
+		<input type="text">
+		<input type="submit">
+	</form>
+	
+	
+	<div class="loading">
+		<div class="loader"></div>
+	</div>
+	
+	<script src="./loading_test.js"></script>
+</body>
+
+</html>

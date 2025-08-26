@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>箭頭函式 - arguments</title>
+  <link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+  <h1>箭頭函式 - arguments</h1>
+
+  <p>箭頭函式沒有自己的 <code>arguments</code>，其只能往外層尋找最靠近的 <code>arguments</code>。</p>
+  <p>請直接開啟 console 對照程式碼觀看。</p>
+
+
+  <script>
+    // 全域下的箭頭函式
+    // 說明：由於全域中沒有叫做 arguments 的變數，或是全域物件裡沒有叫做 arguments 的屬性，因此會報錯。
+    console.log(`===== 全域下的箭頭函式 =====`);
+    // 以下任一種設定均可避免 arguments is not defined 的錯誤
+    // window.arguments = "我是全域 window arguments 屬性";
+    // const arguments = "我是全域 arguments 變數";
+
+    const globalArrowFn = () => {
+      console.log(`[globalArrowFn] arguments ==>`, arguments);
+    };
+    try { globalArrowFn(); } catch (error) { console.error('[globalArrowFn] Error ==>', error); }
+    // 結果 1：[globalArrowFn] Error ==> ReferenceError: arguments is not defined
+    // 結果 2：[globalArrowFn] arguments ==> 我是全域 window arguments 屬性
+    // 結果 3：[globalArrowFn] arguments ==> 我是全域 arguments 變數
+
+    console.log(``);
+
+    // 區塊中的箭頭函式及 arguments 變數
+    // 說明：由於區塊中有 arguments 變數，因此箭頭函式可以找到。
+    console.log(`===== 區塊中的箭頭函式及 arguments 變數 =====`);
+    {
+      const arguments = '我是區塊中的 arguments 變數';
+      const blockArrrowFn = () => {
+        console.log(`[blockArrrowFn] arguments ==>`, arguments);  // [blockArrrowFn] arguments ==> 我是區塊中的 arguments 變數
+      };
+      blockArrrowFn();
+    }
+
+    // 區塊中沒有 arguments 變數
+    // 說明：由於區塊中沒有 arguments 變數，因此箭頭函式會依據作用域鏈繼續往外層尋找，直到全域。
+    {
+      const blockArrrowFn = () => {
+        try { console.log(`[blockArrrowFn] arguments ==>`, arguments); } catch (error) { console.error(`[blockArrrowFn] Error ==>`, error); }
+        // 結果 1：ReferenceError: arguments is not defined
+        // 結果 2：[blockArrrowFn] arguments ==> 我是全域 window arguments 屬性
+        // 結果 3：[blockArrrowFn] arguments ==> 我是全域 arguments 變數
+      };
+      blockArrrowFn();
+    }
+
+    console.log(``);
+
+    // 傳統函式中的箭頭函式
+    // 說明：由於傳統函式本身自帶 arguments 變數，因此箭頭函式可以直接使用。
+    console.log(`===== 傳統函式中的箭頭函式 =====`);
+    function fn1 () {
+      console.log(`[fn1] arguments ==>`, arguments);  // [fn1] arguments ==> Arguments [callee: ƒ, Symbol(Symbol.iterator): ƒ]
+      const arrowFn = () => {
+        console.log(`[fn1 -> arrowFn] arguments ==>`, arguments); // [fn1 -> arrowFn] arguments ==> Arguments [callee: ƒ, Symbol(Symbol.iterator): ƒ]
+      };
+      arrowFn();
+    }
+    fn1();
+
+    console.log(``);
+
+    // 傳統函式中的區塊中的箭頭函式
+    console.log(`===== 傳統函式中的區塊中的箭頭函式 =====`);
+    function fn2 () {
+      console.log(`[fn2] arguments ==>`, arguments);  // [fn2] arguments ==> Arguments ['a', callee: ƒ, Symbol(Symbol.iterator): ƒ]
+      {
+        const arguments = '我是區塊中的 arguments';
+        const arrowFn = () => {
+          console.log(`[fn2 -> arrowFn] arguments ==>`, arguments);
+          // 沒有另外宣告 arguments 變數時：[fn2 -> arrowFn] arguments ==> Arguments ['a', callee: ƒ, Symbol(Symbol.iterator): ƒ]
+          // 有另外宣告 arguments 變數時：[fn2 -> arrowFn] arguments ==> 我是區塊中的 arguments
+        };
+        arrowFn();
+      }
+    }
+    fn2('a');
+
+    console.log(``);
+
+  </script>
+</body>
+
+</html>

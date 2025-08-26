@@ -1,10 +1,12 @@
+<!-- https://codepen.io/codepenplayer/pen/poMyjYm -->
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>限制行數字數</title>
+	<title>多行省略符號</title>
 
 	<link rel="stylesheet" href="../css/common.css">
 	
@@ -55,7 +57,7 @@
 
 <body>
 	
-	<h1>限制行數字數</h1>
+	<h1>多行省略符號</h1>
 	
 	<div>參考：</div>
 	<ul>
@@ -209,7 +211,7 @@
 			}
 		});
 		
-		
+		// 展開 more
 		function expand(param) {
 			const elem = document.querySelector(`[data-content='${param}']`);
 			console.log(elem, elem.clientHeight, elem.scrollHeight);
@@ -217,7 +219,6 @@
 			elem.style = `color: red; height: ${elem.scrollHeight}px;`;
 			elem.querySelector(".more").classList.add("d-none");
 		}
-		
 		
 	</script>
 	

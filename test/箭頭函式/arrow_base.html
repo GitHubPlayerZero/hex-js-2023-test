@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>箭頭函式 - 各種基本寫法</title>
+  <link rel="stylesheet" href="../../css/common.css">
+</head>
+
+<body>
+  <h1>箭頭函式 - 各種基本寫法</h1>
+  <p>請直接開啟 console 對照程式碼觀看。</p>
+
+  <script>
+    console.clear();
+
+    console.log(`===== 箭頭函式各種基本寫法 =====`);
+
+    // 參數：沒有參數時必須加上小括號
+    // 函式內容：沒有使用大括號包起來代表直接回傳值
+    const af1 = () => 'a';
+    console.log(`af1 ==>`, af1());  // af1 ==> a
+
+    // 函式內容：有大括號就不會自動回傳值
+    const af2 = () => {
+      console.log('[af2] c'); // [af2] c
+    };
+    console.log(`af2 ==>`, af2());  // af2 ==> undefined
+    // 函式沒有 return 值，但因為執行函式為「表達式」，因此仍會回傳 undefined
+
+    // 函式內容：大括號要回傳值必須自己加上 return
+    const af3 = () => {
+      return 'b';
+    };
+    console.log(`af3 ==>`, af3());  // af3 ==> b
+
+    // 參數：若只有一個參數時可以省略小括號
+    const af4 = str => str;
+    console.log(`af4('abc') ==>`, af4('abc'));  // af4('abc') ==> abc
+
+    // 參數：有多個參數時必須加上小括號
+    const af5 = (num1, num2) => num1 + num2;
+    console.log(`af5(1, 2) ==>`, af5(1, 2));  // af5(1, 2) ==> 3
+
+    // 猜猜看結果是什麼？
+    const af6 = () => { name: '小明' }; // 這大括號究竟是代表物件還是函式範圍？
+    console.log(`af6 ==>`, af6());  // af6 ==> undefined
+    // 函式回傳 undefined，代表那個大括號是被當成函式的一部份，而非物件
+
+    // 要回傳物件可以使用完整的寫法
+    const af7 = () => {
+      return { name: '小明' };
+    };
+    console.log(`af7 ==>`, af7());  // af7 ==> {name: '小明'}
+
+    // 或是可以使用小括號將物件包起來，即代表回傳的意思
+    const af8 = () => ({ name: '小明' });
+    console.log(`af8 ==>`, af8());  // af8 ==> {name: '小明'}
+
+    console.log(``);
+
+    console.log(`===== 箭頭函式不能作為構造函式 =====`);
+    console.log(`---- 傳統函式可以作為構造函式 ----`);
+    // 傳統函式可以作為構造函式
+    const ConstructorFn = function () {
+      return 'a';
+    };
+    const cf = new ConstructorFn();
+    console.log(`cf ==>`, cf);  // cf ==> ConstructorFn {}
+
+    console.log(``);
+
+    console.log(`---- 箭頭函式不可作為構造函式 ----`);
+    // 箭頭函式不可作為構造函式
+    const ConstructorArrowFn = () => 'a';
+    const caf = new ConstructorArrowFn(); // TypeError: ConstructorArrowFn is not a constructor
+
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>一生只能改三次名字</title>
+	
+	<link rel="stylesheet" href="../css/common.css">
+</head>
+
+<body>
+	
+	<p>名字：<span id="oldName">小明</span></p>
+	
+	<!--
+		不使用 form：
+		1. 提交 button 需要自己綁定事件。
+		2. 若想要在輸入框按 Enter 時即觸發提交動作，需要自己另外綁定 keyboard 監聽事件。
+	-->
+	<label>
+		新的名字：
+		<input type="text" id="newName">&nbsp;
+		<input type="button" id="btnNewName" value="提交">
+	</label>
+	
+	<!--
+		使用 form：
+		1. 事件動作綁在 form submit，但要記得對 form 做 preventDefault 以禁止原生預設的 sbumit 動作。
+		2. 提交 button 可直接使用 submit type，不需再自己綁事件。
+		3. 在輸入框按 Enter 即可直接觸發 submit。
+	-->
+	<!-- <form class="form">
+		<label>
+			新的名字：
+			<input type="text" id="newName">&nbsp;
+			<input type="submit" value="提交">
+		</label>
+	</form> -->
+	
+	<p>修改次數：<span id="changeCount"></span></p>
+	<p>剩餘修改次數：<span id="changeRemaining"></span></p>
+	
+	
+	<script>
+		
+		const elmtOldName = document.querySelector("#oldName");
+		const elmtNewName = document.querySelector("#newName");
+		const elmtChangeCount = document.querySelector("#changeCount");
+		const elmtChangeRemaining = document.querySelector("#changeRemaining");
+		
+		const changeLimit = 3;	// 將上限次數定義為有語意的常數來使用，避免 magic number。
+		let changeCount = 0;
+		
+		let changeRemaining = 3;
+		
+		function changeName()
+		{
+			// 檢查是否已達三次
+			/*
+				一般寫法可能會使用 if (changeCount >= 3) 來判斷，但這樣會造成 magic number 問題，即別人在看代碼時無法清楚得知這個數字是什麼意思，得全部看完程式後再推敲出其意義。
+				因此良好的開發實務上，通常會將這些有特殊作用的數字定義為常數，常數的名稱即代表了此數字的意義。
+				好處是：
+				1. 使程式更易於閱讀理解。
+				2. 當有多個地方使用到時、當需要修改時，只要改一個常數即可。
+			*/
+			if (changeCount >= changeLimit) {
+			// if (changeRemaining <= 0) {	// 也可以由 changeRemaining 判斷
+				alert('改名次數已達標，無法再改！');
+				return;
+			}
+			
+			// 檢查是否有輸入
+			const newName = elmtNewName.value;
+			if (!newName) {
+				alert('請輸入新的名字！');
+				return;
+			}
+			
+			elmtOldName.textContent = newName;
+			
+			changeCount ++;
+			elmtChangeCount.textContent = changeCount;
+			
+			changeRemaining --;
+			elmtChangeRemaining.textContent = changeRemaining;
+			
+			// 清空 並 focus 以便下一次輸入
+			elmtNewName.value = "";
+			elmtNewName.focus();
+		}
+		
+		
+		function init()
+		{
+			elmtNewName.focus();
+			elmtChangeCount.textContent = changeCount;
+			elmtChangeRemaining.textContent = changeRemaining;
+			
+			// 非 submit 的 button 要自己綁定事件
+			document.querySelector("#btnNewName").addEventListener("click", changeName);
+			
+			// 使用 form 時要做 preventDefault 以避免真的 submit 出去
+			// document.querySelector(".form").addEventListener("submit", function (event) {
+			// 	event.preventDefault();
+			// 	changeName();
+			// });
+		}
+		init();
+		
+	</script>
+	
+</body>
+
+</html>
